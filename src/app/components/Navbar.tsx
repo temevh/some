@@ -9,13 +9,16 @@ const Navbar = () => {
   ];
 
   return (
-    <div className="w-full h-30 bg-red-500 flex flex-row justify-center">
-      <p>Navbar and shieeett</p>
+    <div className="w-full h-10 bg-red-400 flex flex-row justify-center mx-auto gap-8">
       {links.map((link) => {
         return (
-          <p key={link.title} onClick={() => router.push(link.src)}>
-            {link.title}
-          </p>
+          <div
+            key={link.title}
+            onClick={() => router.push(link.src)}
+            className="px-10 hover:cursor-pointer hover:bg-gray-500 my-auto rounded-md hover:text-black"
+          >
+            <p className="text-xl">{link.title}</p>
+          </div>
         );
       })}
     </div>
