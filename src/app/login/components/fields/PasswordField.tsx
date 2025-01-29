@@ -3,7 +3,7 @@ const PasswordField = () => {
     <div>
       <input
         type="password"
-        placeholder="password"
+        placeholder="Password"
         className="custom-input-field"
       ></input>
     </div>

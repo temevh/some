@@ -5,7 +5,7 @@ const UserName = () => {
     <div>
       <input
         type="text"
-        placeholder="username"
+        placeholder="Username"
         className="custom-input-field"
       ></input>
     </div>

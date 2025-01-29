@@ -5,7 +5,7 @@ const Fields = () => {
   return (
     <div className="text-center bg-contentDiv rounded-lg p-10">
       <p className="text-3xl pb-6">Log in</p>
-      <p className="text-xl pb-10">
+      <p className="text-xl pb-10 text-gray-400">
         Don't have an account?{" "}
         <span className="text-blue-700 hover:cursor-pointer">Sign up</span>
       </p>
@@ -18,6 +18,7 @@ const Fields = () => {
           <LogInButton />
         </div>
       </div>
+      <p className="text-gray-400">Or log in with</p>
     </div>
   );
 };
