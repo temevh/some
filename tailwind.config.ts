@@ -13,6 +13,8 @@ export default {
         foreground: "var(--foreground)",
         contentDiv: "#2c2638",
         fieldInactive: "#3c364c",
+        buttonPrimary: "#6d54b5",
+        buttonSecondary: "#9976ff",
       },
     },
   },
