@@ -2,7 +2,7 @@ interface UsernameFieldProps {
   usernameUpdated: (name: string) => void;
 }
 
-const UserNameField: React.FC<UsernameFieldProps> = ({ usernameUpdated }) => {
+const UsernameField: React.FC<UsernameFieldProps> = ({ usernameUpdated }) => {
   return (
     <div>
       <input
@@ -15,4 +15,4 @@ const UserNameField: React.FC<UsernameFieldProps> = ({ usernameUpdated }) => {
   );
 };
 
-export default UserNameField;
+export default UsernameField;
