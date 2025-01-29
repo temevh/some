@@ -1,7 +1,20 @@
+"use client";
 import { UserNameField, PasswordField } from "./fields/index";
 import { LogInButton, GoogleButton, AppleButton } from "./buttons/";
+import { useEffect, useState } from "react";
 
 const Fields = () => {
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+
+  const passwordUpdated = (pass: string) => {
+    setPassword(pass);
+  };
+
+  const usernameUpdated = (name: string) => {
+    setUsername(name);
+  };
+
   return (
     <div className="text-center bg-contentDiv rounded-lg p-20">
       <p className="text-4xl pb-6">Log in</p>
@@ -14,8 +27,8 @@ const Fields = () => {
       <div className="flex flex-col items-center w-full">
         <div className="flex flex-col items-center w-96">
           <div className="flex flex-col justify-center gap-4 w-full mb-8">
-            <UserNameField />
-            <PasswordField />
+            <UserNameField usernameUpdated={usernameUpdated} />
+            <PasswordField passwordUpdated={passwordUpdated} />
           </div>
           <LogInButton />
         </div>
