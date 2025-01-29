@@ -19,3 +19,7 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.custom-input-field {
+  @apply bg-fieldInactive text-white p-4 rounded-lg active:border-white;
+}

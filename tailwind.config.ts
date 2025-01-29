@@ -11,6 +11,8 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        contentDiv: "#2c2638",
+        fieldInactive: "#3c364c",
       },
     },
   },
