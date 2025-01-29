@@ -1,10 +1,19 @@
 "use client";
-import { UsernameField, PasswordField } from "../../components/fields/index";
+import {
+  UsernameField,
+  PasswordField,
+  PasswordAgainField,
+  EmailField,
+} from "../../components/fields/index";
+import { SignUpButton } from "@/app/components/buttons";
 import { useState } from "react";
+import PasswordChecklist from "react-password-checklist";
 
 const Fields = () => {
-  const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordAgain, setPasswordAgain] = useState("");
 
   const passwordUpdated = (pass: string) => {
     setPassword(pass);
@@ -14,6 +23,14 @@ const Fields = () => {
     setUsername(name);
   };
 
+  const emailUpdated = (name: string) => {
+    setEmail(name);
+  };
+
+  const passwordAgainUpdated = (passAgain: string) => {
+    setPasswordAgain(passAgain);
+  };
+
   return (
     <div className="text-center bg-contentDiv rounded-lg p-20">
       <p className="text-4xl pb-6">Create account</p>
@@ -21,14 +38,21 @@ const Fields = () => {
         <div className="flex flex-col items-center w-96">
           <div className="flex flex-col justify-center gap-4 w-full mb-8">
             <UsernameField usernameUpdated={usernameUpdated} />
-            <PasswordField passwordUpdated={passwordUpdated} />
+            <EmailField emailUpdated={emailUpdated} />
+            <div className="flex flex-row gap-6">
+              <PasswordField passwordUpdated={passwordUpdated} />
+              <PasswordAgainField passwordAgainUpdated={passwordAgainUpdated} />
+            </div>
+            <PasswordChecklist
+              rules={["minLength", "specialChar", "number", "capital", "match"]}
+              minLength={8}
+              value={password}
+              valueAgain={passwordAgain}
+              onChange={(isValid) => {}}
+            />
           </div>
         </div>
-      </div>
-      <div className="flex flex-row items-center w-full mt-10">
-        <hr className="flex-grow border-gray-300" />
-        <p className="text-gray-400 mx-4">Or log in with</p>
-        <hr className="flex-grow border-gray-300" />
+        <SignUpButton />
       </div>
     </div>
   );
