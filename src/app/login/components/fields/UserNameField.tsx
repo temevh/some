@@ -1,5 +1,3 @@
-import "../../../globals.css";
-
 const UserName = () => {
   return (
     <div>
