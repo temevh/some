@@ -24,6 +24,7 @@ const Fields = () => {
   const [isValid, setIsValid] = useState(false);
   const [emailValid, setEmailValid] = useState(false);
   const [checkbox, setCheckbox] = useState(false);
+  const [fieldsValid, setFieldsValid] = useState(false);
 
   const passwordUpdated = (pass: string) => {
     setPassword(pass);
@@ -54,15 +55,13 @@ const Fields = () => {
   };
 
   useEffect(() => {
-    console.log(emailValid);
-  }, [emailValid]);
-
-  const signUpClicked = () => {
-    //Check if email and username are valid
     const emailValid = validateEmail();
     setEmailValid(emailValid);
-    let userNameValid = true;
-    if (emailValid && userNameValid && isValid && checkbox) {
+    setFieldsValid(emailValid && username !== "" && isValid && checkbox);
+  }, [email, username, isValid, checkbox]);
+
+  const signUpClicked = () => {
+    if (fieldsValid) {
       router.push("/");
     } else {
       alert("Error");
@@ -94,7 +93,10 @@ const Fields = () => {
           <CheckboxField checkboxClicked={checkboxClicked} />
         </div>
 
-        <SignUpButton signUpClicked={signUpClicked} />
+        <SignUpButton
+          signUpClicked={signUpClicked}
+          fieldsValid={!fieldsValid}
+        />
         <div className="flex flex-row items-center w-full mt-10">
           <hr className="flex-grow border-gray-300" />
           <p className="text-gray-400 mx-4">Or sign up with</p>
