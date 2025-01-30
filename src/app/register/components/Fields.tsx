@@ -60,7 +60,7 @@ const Fields = () => {
       <p className="text-4xl pb-6">Sign up</p>
       <div className="flex flex-col items-center w-full">
         <div className="flex flex-col items-center w-96">
-          <div className="flex flex-col justify-center gap-4 w-full mb-2">
+          <div className="flex flex-col justify-center gap-4 w-full mb-4">
             <UsernameField usernameUpdated={usernameUpdated} />
             <EmailField emailUpdated={emailUpdated} />
             <div className="flex flex-row gap-6">
@@ -77,7 +77,7 @@ const Fields = () => {
               }}
             />
           </div>
-          <CheckboxField />
+          <CheckboxField checkboxClicked={checkboxClicked} />
         </div>
 
         <SignUpButton signUpClicked={signUpClicked} />
