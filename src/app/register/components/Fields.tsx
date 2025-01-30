@@ -5,15 +5,22 @@ import {
   PasswordAgainField,
   EmailField,
 } from "../../components/fields/index";
-import { SignUpButton } from "@/app/components/buttons";
+import {
+  SignUpButton,
+  GoogleButton,
+  AppleButton,
+} from "@/app/components/buttons";
 import { useState } from "react";
 import PasswordChecklist from "react-password-checklist";
+import { useRouter } from "next/navigation";
 
 const Fields = () => {
+  const router = useRouter();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordAgain, setPasswordAgain] = useState("");
+  const [isValid, setIsValid] = useState(false);
 
   const passwordUpdated = (pass: string) => {
     setPassword(pass);
@@ -31,9 +38,20 @@ const Fields = () => {
     setPasswordAgain(passAgain);
   };
 
+  const signUpClicked = () => {
+    //Check if email and username are valid
+    let emailValid = true;
+    let userNameValid = true;
+    if (emailValid && userNameValid && isValid) {
+      router.push("/");
+    } else {
+      alert("Error");
+    }
+  };
+
   return (
-    <div className="text-center bg-contentDiv rounded-lg p-20">
-      <p className="text-4xl pb-6">Create account</p>
+    <div className="text-center bg-contentDiv rounded-lg px-20 py-10">
+      <p className="text-4xl pb-6">Sign up</p>
       <div className="flex flex-col items-center w-full">
         <div className="flex flex-col items-center w-96">
           <div className="flex flex-col justify-center gap-4 w-full mb-8">
@@ -48,11 +66,23 @@ const Fields = () => {
               minLength={8}
               value={password}
               valueAgain={passwordAgain}
-              onChange={(isValid) => {}}
+              onChange={(isValid) => {
+                setIsValid(isValid);
+              }}
             />
           </div>
         </div>
-        <SignUpButton />
+
+        <SignUpButton signUpClicked={signUpClicked} />
+        <div className="flex flex-row items-center w-full mt-10">
+          <hr className="flex-grow border-gray-300" />
+          <p className="text-gray-400 mx-4">Or sign up with</p>
+          <hr className="flex-grow border-gray-300" />
+        </div>
+        <div className="flex flex-row justify-between gap-6 mt-4">
+          <GoogleButton />
+          <AppleButton />
+        </div>
       </div>
     </div>
   );

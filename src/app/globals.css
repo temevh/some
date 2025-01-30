@@ -25,5 +25,5 @@ body {
 }
 
 .custom-socials-button {
-  @apply w-full flex items-center justify-center gap-2 py-4 px-6 rounded-lg hover:cursor-pointer border-white border hover:bg-gray-500;
+  @apply w-full flex items-center justify-center gap-2 py-4 px-6 rounded-lg hover:cursor-pointer border-white border hover:bg-gray-500 shadow-2xl;
 }
