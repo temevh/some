@@ -4,6 +4,7 @@ import {
   PasswordField,
   PasswordAgainField,
   EmailField,
+  CheckboxField,
 } from "../../components/fields/index";
 import {
   SignUpButton,
@@ -21,6 +22,7 @@ const Fields = () => {
   const [password, setPassword] = useState("");
   const [passwordAgain, setPasswordAgain] = useState("");
   const [isValid, setIsValid] = useState(false);
+  const [checkbox, setCheckbox] = useState(false);
 
   const passwordUpdated = (pass: string) => {
     setPassword(pass);
@@ -38,11 +40,15 @@ const Fields = () => {
     setPasswordAgain(passAgain);
   };
 
+  const checkboxClicked = (click: boolean) => {
+    setCheckbox(click);
+  };
+
   const signUpClicked = () => {
     //Check if email and username are valid
     let emailValid = true;
     let userNameValid = true;
-    if (emailValid && userNameValid && isValid) {
+    if (emailValid && userNameValid && isValid && checkbox) {
       router.push("/");
     } else {
       alert("Error");
@@ -54,7 +60,7 @@ const Fields = () => {
       <p className="text-4xl pb-6">Sign up</p>
       <div className="flex flex-col items-center w-full">
         <div className="flex flex-col items-center w-96">
-          <div className="flex flex-col justify-center gap-4 w-full mb-8">
+          <div className="flex flex-col justify-center gap-4 w-full mb-2">
             <UsernameField usernameUpdated={usernameUpdated} />
             <EmailField emailUpdated={emailUpdated} />
             <div className="flex flex-row gap-6">
@@ -71,6 +77,7 @@ const Fields = () => {
               }}
             />
           </div>
+          <CheckboxField />
         </div>
 
         <SignUpButton signUpClicked={signUpClicked} />

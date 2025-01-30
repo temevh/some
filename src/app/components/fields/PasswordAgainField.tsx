@@ -11,7 +11,7 @@ const PasswordAgainField: React.FC<PasswordAgainFieldProps> = ({
     <div>
       <input
         type="password"
-        placeholder="Password"
+        placeholder="Retype password"
         className="custom-input-field"
         onChange={(event) => passwordAgainUpdated(event.target.value)}
       />
