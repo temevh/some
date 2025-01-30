@@ -11,7 +11,7 @@ import {
   GoogleButton,
   AppleButton,
 } from "@/app/components/buttons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PasswordChecklist from "react-password-checklist";
 import { useRouter } from "next/navigation";
 
@@ -22,6 +22,7 @@ const Fields = () => {
   const [password, setPassword] = useState("");
   const [passwordAgain, setPasswordAgain] = useState("");
   const [isValid, setIsValid] = useState(false);
+  const [emailValid, setEmailValid] = useState(false);
   const [checkbox, setCheckbox] = useState(false);
 
   const passwordUpdated = (pass: string) => {
@@ -44,9 +45,22 @@ const Fields = () => {
     setCheckbox(click);
   };
 
+  const validateEmail = () => {
+    return !!String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+
+  useEffect(() => {
+    console.log(emailValid);
+  }, [emailValid]);
+
   const signUpClicked = () => {
     //Check if email and username are valid
-    let emailValid = true;
+    const emailValid = validateEmail();
+    setEmailValid(emailValid);
     let userNameValid = true;
     if (emailValid && userNameValid && isValid && checkbox) {
       router.push("/");
