@@ -11,42 +11,46 @@ import {
   GoogleButton,
   AppleButton,
 } from "@/app/components/buttons";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import PasswordChecklist from "react-password-checklist";
 import { useRouter } from "next/navigation";
 
-const Fields = () => {
+interface FieldsProps {
+  user: {
+    username: string;
+    email: string;
+    password: string;
+  };
+  updateUser: (field: string, value: any) => void;
+  passwordAgain: string;
+  setPasswordAgain: (passwordAgain: string) => void;
+  isValid: boolean;
+  setIsValid: (isValid: boolean) => void;
+  emailValid: boolean;
+  setEmailValid: (emailValid: boolean) => void;
+  checkbox: boolean;
+  setCheckbox: (checkbox: boolean) => void;
+  fieldsValid: boolean;
+  setFieldsValid: (fieldsValid: boolean) => void;
+}
+
+const Fields: React.FC<FieldsProps> = ({
+  user,
+  updateUser,
+  passwordAgain,
+  setPasswordAgain,
+  isValid,
+  setIsValid,
+  emailValid,
+  setEmailValid,
+  checkbox,
+  setCheckbox,
+  fieldsValid,
+  setFieldsValid,
+}) => {
   const router = useRouter();
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordAgain, setPasswordAgain] = useState("");
-  const [isValid, setIsValid] = useState(false);
-  const [emailValid, setEmailValid] = useState(false);
-  const [checkbox, setCheckbox] = useState(false);
-  const [fieldsValid, setFieldsValid] = useState(false);
 
-  const passwordUpdated = (pass: string) => {
-    setPassword(pass);
-  };
-
-  const usernameUpdated = (name: string) => {
-    setUsername(name);
-  };
-
-  const emailUpdated = (name: string) => {
-    setEmail(name);
-  };
-
-  const passwordAgainUpdated = (passAgain: string) => {
-    setPasswordAgain(passAgain);
-  };
-
-  const checkboxClicked = (click: boolean) => {
-    setCheckbox(click);
-  };
-
-  const validateEmail = () => {
+  const validateEmail = (email: string) => {
     return !!String(email)
       .toLowerCase()
       .match(
@@ -55,10 +59,16 @@ const Fields = () => {
   };
 
   useEffect(() => {
-    const emailValid = validateEmail();
-    setEmailValid(emailValid);
-    setFieldsValid(emailValid && username !== "" && isValid && checkbox);
-  }, [email, username, isValid, checkbox]);
+    const emailIsValid = validateEmail(user.email);
+    if (emailValid !== emailIsValid) {
+      setEmailValid(emailIsValid);
+    }
+    const fieldsAreValid =
+      emailIsValid && user.username !== "" && isValid && checkbox;
+    if (fieldsValid !== fieldsAreValid) {
+      setFieldsValid(fieldsAreValid);
+    }
+  }, [user.email, user.username, isValid, checkbox]);
 
   const signUpClicked = () => {
     if (fieldsValid) {
@@ -69,28 +79,34 @@ const Fields = () => {
   };
 
   return (
-    <div className="text-center bg-contentDiv rounded-lg px-20 py-10">
+    <div className="custom-content-div">
       <p className="text-4xl pb-6">Sign up</p>
       <div className="flex flex-col items-center w-full">
         <div className="flex flex-col items-center w-96">
           <div className="flex flex-col justify-center gap-4 w-full mb-4">
-            <UsernameField usernameUpdated={usernameUpdated} />
-            <EmailField emailUpdated={emailUpdated} />
+            <UsernameField
+              usernameUpdated={(value) => updateUser("username", value)}
+            />
+            <EmailField
+              emailUpdated={(value) => updateUser("email", value)}
+              emailValid={emailValid}
+            />
             <div className="flex flex-row gap-6">
-              <PasswordField passwordUpdated={passwordUpdated} />
-              <PasswordAgainField passwordAgainUpdated={passwordAgainUpdated} />
+              <PasswordField
+                passwordUpdated={(value) => updateUser("password", value)}
+              />
+              <PasswordAgainField passwordAgainUpdated={setPasswordAgain} />
             </div>
             <PasswordChecklist
-              rules={["minLength", "specialChar", "number", "capital", "match"]}
+              rules={["minLength", "specialChar", "number", "match"]}
               minLength={8}
-              value={password}
+              value={user.password}
               valueAgain={passwordAgain}
-              onChange={(isValid) => {
-                setIsValid(isValid);
-              }}
+              onChange={setIsValid}
+              validTextColor="white"
             />
           </div>
-          <CheckboxField checkboxClicked={checkboxClicked} />
+          <CheckboxField checkboxClicked={setCheckbox} />
         </div>
 
         <SignUpButton

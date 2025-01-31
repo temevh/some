@@ -11,6 +11,7 @@ const Navbar = () => {
     { title: "Feed", src: "/feed" },
   ]);
 
+  /* 
   useEffect(() => {
     if (user !== undefined) {
       setLinks((prevLinks) => [
@@ -19,6 +20,7 @@ const Navbar = () => {
       ]);
     }
   }, [user]);
+  */
 
   return (
     <div className="w-full h-14 flex flex-row justify-center items-center m-auto gap-8">

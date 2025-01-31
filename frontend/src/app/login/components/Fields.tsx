@@ -21,7 +21,7 @@ const Fields = () => {
   };
 
   return (
-    <div className="text-center bg-contentDiv rounded-lg p-20">
+    <div className="custom-content-div">
       <p className="text-4xl pb-6">Log in</p>
       <p className="text-xl pb-10 text-gray-400">
         Don't have an account?{" "}
