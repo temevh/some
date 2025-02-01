@@ -1,8 +1,11 @@
 "use client";
 import { useState } from "react";
 import Fields from "./components/Fields";
+import { useRouter } from "next/navigation";
 
 const RegisterPage = () => {
+  const router = useRouter();
+
   const [user, setUser] = useState({
     username: "",
     email: "",
@@ -21,6 +24,15 @@ const RegisterPage = () => {
     }));
   };
 
+  const signUpClicked = () => {
+    console.log(user);
+    if (fieldsValid) {
+      router.push("/");
+    } else {
+      alert("Error");
+    }
+  };
+
   return (
     <div className="flex justify-center items-center min-h-screen">
       <Fields
@@ -36,6 +48,7 @@ const RegisterPage = () => {
         setCheckbox={setCheckbox}
         fieldsValid={fieldsValid}
         setFieldsValid={setFieldsValid}
+        signUpClicked={signUpClicked}
       />
     </div>
   );

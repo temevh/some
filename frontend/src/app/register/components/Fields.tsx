@@ -13,7 +13,6 @@ import {
 } from "@/app/components/buttons";
 import { useEffect } from "react";
 import PasswordChecklist from "react-password-checklist";
-import { useRouter } from "next/navigation";
 
 interface FieldsProps {
   user: {
@@ -32,6 +31,7 @@ interface FieldsProps {
   setCheckbox: (checkbox: boolean) => void;
   fieldsValid: boolean;
   setFieldsValid: (fieldsValid: boolean) => void;
+  signUpClicked: () => void;
 }
 
 const Fields: React.FC<FieldsProps> = ({
@@ -47,9 +47,8 @@ const Fields: React.FC<FieldsProps> = ({
   setCheckbox,
   fieldsValid,
   setFieldsValid,
+  signUpClicked,
 }) => {
-  const router = useRouter();
-
   const validateEmail = (email: string) => {
     return !!String(email)
       .toLowerCase()
@@ -69,14 +68,6 @@ const Fields: React.FC<FieldsProps> = ({
       setFieldsValid(fieldsAreValid);
     }
   }, [user.email, user.username, isValid, checkbox]);
-
-  const signUpClicked = () => {
-    if (fieldsValid) {
-      router.push("/");
-    } else {
-      alert("Error");
-    }
-  };
 
   return (
     <div className="custom-content-div">
