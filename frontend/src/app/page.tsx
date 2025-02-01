@@ -8,7 +8,11 @@ export default async function Home() {
     <div className="w-full bg-white">
       {users.map((user) => {
         return (
-          <Link href={`/users/${user.id}`} className="text-black">
+          <Link
+            href={`/users/${user.username}`}
+            className="text-black"
+            key={user.id}
+          >
             {user.username}
           </Link>
         );
