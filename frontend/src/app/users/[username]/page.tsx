@@ -15,7 +15,6 @@ export default async function UserPage({ params }: { params: Params }) {
     <div className="w-full bg-white">
       <p className="text-black">{user?.username}</p>
       <p className="text-black">{user?.email}</p>
-      <p className="text-black">{user?.createdAt.toString() || "404"}</p>
     </div>
   );
 }
