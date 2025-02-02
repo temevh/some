@@ -1,11 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { SchoolDropdown } from "./components/filters";
 
 export default function Home() {
   const [courses, setCourses] = useState<
     { id: string; code: string; name: string }[]
   >([]);
+  const [school, setSchool] = useState("");
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -27,6 +29,7 @@ export default function Home() {
       <p className="text-black text-2xl">
         Näytetään ({courses.length}) kurssia
       </p>
+      <SchoolDropdown />
       <ul>
         {courses.map((course) => (
           <li key={course.id}>
