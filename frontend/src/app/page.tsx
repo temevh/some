@@ -3,13 +3,15 @@ import { useState } from "react";
 import Link from "next/link";
 
 export default function Home() {
-  const [users, setUsers] = useState<{ username: string }[]>([]);
+  const [courses, setCourses] = useState<
+    { id: string; code: string; name: string }[]
+  >([]);
 
   const fetchUsers = async () => {
     try {
       const response = await fetch("http://localhost:5000/api/get");
       const data = await response.json();
-      setUsers(data);
+      setCourses(data);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -25,10 +27,10 @@ export default function Home() {
       </button>
 
       <ul>
-        {users.map((user) => (
-          <li key={user.username}>
-            <Link href={`/users/${user.username}`} className="text-black">
-              {user.username}
+        {courses.map((course) => (
+          <li key={course.id}>
+            <Link href={`/users/${course.code}`} className="text-black">
+              {course.name}
             </Link>
           </li>
         ))}

@@ -17,3 +17,12 @@ model User {
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
 }
+
+model Course {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  name      String
+  school    String
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
