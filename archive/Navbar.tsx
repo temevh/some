@@ -3,24 +3,12 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const Navbar = () => {
-  let user = "John";
   const router = useRouter();
 
   const [links, setLinks] = useState([
     { title: "Home", src: "/" },
     { title: "Feed", src: "/feed" },
   ]);
-
-  /* 
-  useEffect(() => {
-    if (user !== undefined) {
-      setLinks((prevLinks) => [
-        ...prevLinks,
-        { title: "Profile", src: "/profile" },
-      ]);
-    }
-  }, [user]);
-  */
 
   return (
     <div className="w-full h-14 flex flex-row justify-center items-center m-auto gap-8">
@@ -35,13 +23,6 @@ const Navbar = () => {
           </div>
         );
       })}
-      {/* 
-      {user && (
-        <div className=" right-10 bg-blue-300 p-1 rounded-md">
-          <p className="text-2xl text-black">Hello {user}!</p>
-        </div>
-      )}
-          */}
     </div>
   );
 };

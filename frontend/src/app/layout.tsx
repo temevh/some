@@ -1,7 +1,6 @@
 "use client";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { NavWrapper } from "./components/";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,7 +22,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased w-1/3 mx-auto bg-background`}
       >
-        <NavWrapper />
         {children}
       </body>
     </html>
