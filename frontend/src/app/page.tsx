@@ -4,13 +4,15 @@ import { useEffect, useState } from "react";
 import { SchoolDropdown } from "./components/filters";
 import { Coursetable } from "./components";
 import { Input } from "./components/ui";
-import { FindCourseButton } from "./components/buttons";
+import { FindCourseButton, AddCourseButton } from "./components/buttons";
+import { AddCourseModal } from "./components/modals";
 
 export default function Home() {
   const [courses, setCourses] = useState<
     { id: string; code: string; name: string }[]
   >([]);
   const [school, setSchool] = useState<string | null>(null);
+  const [addNewOpen, setAddNewOpen] = useState(false);
 
   useEffect(() => {
     const fetchCoursesInitial = async () => {
@@ -28,7 +30,6 @@ export default function Home() {
   }, []);
 
   const fetchCourses = async () => {
-    console.log("school:", school);
     try {
       const response = await axios.get(
         "http://localhost:5000/api/courses/filtered",
@@ -41,6 +42,10 @@ export default function Home() {
       console.log("Error fetching courses:", err);
     }
   };
+  const addCourseClicked = () => {
+    console.log("aaa");
+    setAddNewOpen(true);
+  };
 
   return (
     <div className="w-full bg-white p-4 flex flex-col gap-4">
@@ -48,7 +53,9 @@ export default function Home() {
         <SchoolDropdown selectedSchool={school} setSchool={setSchool} />
         <Input className="w-[200px]" type="text" placeholder="Kurssi" />
         <FindCourseButton fetchCourses={fetchCourses} />
+        <AddCourseButton addCourseClicked={addCourseClicked} />
       </div>
+      {addNewOpen && <AddCourseModal />}
       {courses.length ? <Coursetable courses={courses} /> : <p>Ei kursseja</p>}
     </div>
   );
