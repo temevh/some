@@ -1,11 +1,17 @@
-import { Search } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Button } from "../ui/button";
 
-const AddCourseButton = ({ addCourseClicked }) => {
+const AddCourseButton = ({
+  addCourseClicked,
+}: {
+  addCourseClicked: () => void;
+}) => {
   return (
-    <Button onClick={addCourseClicked}>
-      <Search /> Lisää kurssi
-    </Button>
+    <div className="">
+      <Button onClick={addCourseClicked}>
+        <Plus /> Lisää kurssi
+      </Button>
+    </div>
   );
 };
 

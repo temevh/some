@@ -1,10 +1,10 @@
 import { Search } from "lucide-react";
 import { Button } from "../ui/button";
 
-const FindCourseButton = ({ fetchCourses }) => {
+const FindCourseButton = ({ fetchCourses }: { fetchCourses: () => void }) => {
   return (
     <Button onClick={fetchCourses}>
-      <Search /> Hae
+      <Search /> Hae kursseja
     </Button>
   );
 };
