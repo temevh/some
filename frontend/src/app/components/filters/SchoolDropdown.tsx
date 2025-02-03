@@ -15,7 +15,7 @@ import {
 } from "../ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
-const frameworks = [
+const schools = [
   {
     value: "TUNI",
     label: "TUNI",
@@ -30,9 +30,8 @@ const frameworks = [
   },
 ];
 
-const SchoolDropdown = ({ setSchool }) => {
+const SchoolDropdown = ({ setSchool, selectedSchool }) => {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -43,8 +42,8 @@ const SchoolDropdown = ({ setSchool }) => {
           aria-expanded={open}
           className="w-[200px] justify-between"
         >
-          {value
-            ? frameworks.find((framework) => framework.value === value)?.label
+          {selectedSchool
+            ? schools.find((school) => school.value === selectedSchool)?.label
             : "Valite oppilaitos"}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -55,22 +54,26 @@ const SchoolDropdown = ({ setSchool }) => {
           <CommandList>
             <CommandEmpty>Oppilaitosta ei löytynyt</CommandEmpty>
             <CommandGroup>
-              {frameworks.map((framework) => (
+              {schools.map((school) => (
                 <CommandItem
-                  key={framework.value}
-                  value={framework.value}
+                  key={school.value}
+                  value={school.value}
                   onSelect={(currentValue) => {
-                    setSchool(currentValue === value ? "" : currentValue);
+                    setSchool(
+                      currentValue === selectedSchool ? "" : currentValue
+                    );
                     setOpen(false);
                   }}
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === framework.value ? "opacity-100" : "opacity-0"
+                      selectedSchool === school.value
+                        ? "opacity-100"
+                        : "opacity-0"
                     )}
                   />
-                  {framework.label}
+                  {school.label}
                 </CommandItem>
               ))}
             </CommandGroup>

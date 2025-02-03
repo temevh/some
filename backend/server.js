@@ -8,7 +8,7 @@ const port = 5000;
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/coursesInitial", courseRoutes);
+app.use("/api/courses", courseRoutes);
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
