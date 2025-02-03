@@ -30,7 +30,7 @@ const frameworks = [
   },
 ];
 
-const SchoolDropdown = () => {
+const SchoolDropdown = ({ setSchool }) => {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
 
@@ -45,7 +45,7 @@ const SchoolDropdown = () => {
         >
           {value
             ? frameworks.find((framework) => framework.value === value)?.label
-            : "Select framework..."}
+            : "Valite oppilaitos"}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -53,14 +53,14 @@ const SchoolDropdown = () => {
         <Command>
           <CommandInput placeholder="Valite oppilaitos" />
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>Oppilaitosta ei löytynyt</CommandEmpty>
             <CommandGroup>
               {frameworks.map((framework) => (
                 <CommandItem
                   key={framework.value}
                   value={framework.value}
                   onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
+                    setSchool(currentValue === value ? "" : currentValue);
                     setOpen(false);
                   }}
                 >

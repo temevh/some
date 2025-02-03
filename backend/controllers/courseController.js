@@ -1,8 +1,13 @@
 const prisma = require("../prismaClient");
 
-const getCourses = async (req, res) => {
+const getInitialCourses = async (req, res) => {
   try {
-    const courses = await prisma.course.findMany({ take: 10 });
+    const courses = await prisma.course.findMany({
+      take: 10,
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
     res.status(200).json(courses);
   } catch (error) {
     console.error("Error fetching courses:", error);
@@ -10,4 +15,4 @@ const getCourses = async (req, res) => {
   }
 };
 
-module.exports = { getCourses };
+module.exports = { getInitialCourses };

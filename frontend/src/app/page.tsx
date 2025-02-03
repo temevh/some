@@ -1,13 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { SchoolDropdown } from "./components/filters";
+import { Coursetable } from "./components";
+import { Input } from "./components/ui";
+import { FindCourseButton } from "./components/buttons";
 
 export default function Home() {
   const [courses, setCourses] = useState<
     { id: string; code: string; name: string }[]
   >([]);
-  const [school, setSchool] = useState("");
+  const [school, setSchool] = useState(null);
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -25,20 +27,13 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="w-full bg-white p-4">
-      <p className="text-black text-2xl">
-        Näytetään ({courses.length}) kurssia
-      </p>
-      <SchoolDropdown />
-      <ul>
-        {courses.map((course) => (
-          <li key={course.id}>
-            <Link href={`/courses/${course.code}`} className="text-black">
-              {course.name}
-            </Link>
-          </li>
-        ))}
-      </ul>
+    <div className="w-full bg-white p-4 flex flex-col gap-4">
+      <div className="flex flex-row gap-6">
+        <SchoolDropdown setSchool={setSchool} />
+        <Input className="w-[200px]" type="text" placeholder="Kurssi" />
+        <FindCourseButton />
+      </div>
+      <Coursetable courses={courses} />
     </div>
   );
 }
