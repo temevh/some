@@ -37,6 +37,7 @@ const getCourses = async (req, res) => {
   }
 };
 
+//Add course (if not already in db)
 const addCourse = async (req, res) => {
   const { course } = req.query;
   try {
@@ -59,7 +60,7 @@ const addCourse = async (req, res) => {
       await prisma.course.create({
         data: { name: course.name, code: course.code, school: course.school },
       });
-      res.status(200).json({ message: "Kurssi lisätty onnistuneesti" });
+      res.status(200).json({ message: "Kurssi lisätty onnistuneesti!" });
     }
   } catch (err) {
     console.log("error");

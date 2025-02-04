@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 
 import { Button } from "../ui/button";
 import {
@@ -16,32 +16,40 @@ import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
 
 const AddCourseModal = ({ setAddNewOpen }) => {
-  const [course, setCourse] = React.useState({
+  const [course, setCourse] = useState({
     name: "",
     code: "",
     school: "",
   });
+  const [failed, setFailed] = useState(false);
   const { toast } = useToast();
 
   const addClicked = async () => {
-    console.log("adding course", course.name);
-    const response = await axios.post(
-      "http://localhost:5000/api/courses/addcourse",
-      null,
-      {
-        params: {
-          course: course,
-        },
-      }
-    );
-    console.log(response);
-    if (response.status === 200) {
+    try {
+      console.log("Adding course", course.name);
+
+      const response = await axios.post(
+        "http://localhost:5000/api/courses/addcourse",
+        { course }
+      );
+
+      console.log(response);
+
       toast({
         variant: "destructive",
-        title: response.data.message,
+        title: response.data.message || "Kurssi lisätty onnistuneesti!",
         description: "Kiitos :)",
       });
+
       setAddNewOpen(false);
+    } catch (error) {
+      console.error("Error adding course:", error);
+
+      if (axios.isAxiosError(error) && error.response) {
+        if (error.response.status === 500) {
+          setFailed(true);
+        }
+      }
     }
   };
 
@@ -87,8 +95,15 @@ const AddCourseModal = ({ setAddNewOpen }) => {
             </div>
           </div>
         </CardContent>
+        {failed && (
+          <p className=" text-center text-red-600">
+            Virhe kurssin lisäämisessä
+          </p>
+        )}
         <CardFooter className="flex justify-between">
-          <Button variant="reverse">Eiku</Button>
+          <Button variant="reverse" onClick={() => setAddNewOpen(false)}>
+            Eiku
+          </Button>
           <Button onClick={addClicked}>Lisää kurssi</Button>
         </CardFooter>
       </Card>
