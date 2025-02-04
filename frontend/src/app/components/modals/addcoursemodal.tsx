@@ -11,15 +11,27 @@ import {
 } from "../ui/card";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
+import { SchoolSelect } from "../inputs";
 
 const AddCourseModal = () => {
+  const [course, setCourse] = React.useState({
+    name: "",
+    code: "",
+    school: "",
+  });
+
+  const addClicked = () => {};
+
+  const updateName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newName = event.target.value;
+    setCourse((prev) => ({ ...prev, name: newName }));
+  };
+
+  const updateCode = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newCode = event.target.value;
+    setCourse((prev) => ({ ...prev, code: newCode }));
+  };
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <Card className="w-[350px]">
@@ -30,27 +42,23 @@ const AddCourseModal = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
-            <div className="grid w-full items-center gap-4">
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="name">Nimi</Label>
-                <Input id="name" placeholder="Kurssin nimi" />
-              </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="framework">Oppilaitos</Label>
-                <Select>
-                  <SelectTrigger id="framework">
-                    <SelectValue placeholder="Valitse" />
-                  </SelectTrigger>
-                  <SelectContent position="popper">
-                    <SelectItem value="next">TUNI</SelectItem>
-                    <SelectItem value="sveltekit">LUT</SelectItem>
-                    <SelectItem value="astro">JYU</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+          <div className="grid w-full items-center gap-4">
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="name">Kurssin nimi</Label>
+              <Input id="name" placeholder="Syötä nimi" onChange={updateName} />
             </div>
-          </form>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="name">Kurssin koodi</Label>
+              <Input
+                id="code"
+                placeholder="Syötä koodi"
+                onChange={updateCode}
+              />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <SchoolSelect />
+            </div>
+          </div>
         </CardContent>
         <CardFooter className="flex justify-between">
           <Button variant="outline">Eiku</Button>
