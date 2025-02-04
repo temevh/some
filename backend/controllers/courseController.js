@@ -37,4 +37,34 @@ const getCourses = async (req, res) => {
   }
 };
 
-module.exports = { getInitialCourses, getCourses };
+const addCourse = async (req, res) => {
+  const { course } = req.query;
+  try {
+    console.log("adding course:", course);
+    const exists = await prisma.course.findFirst({
+      where: {
+        OR: [
+          {
+            name: course.name,
+          },
+          { code: course.code },
+        ],
+      },
+    });
+    if (exists) {
+      res
+        .status(400)
+        .json({ message: "Kurssi näyttäisi jo löytyvän tietokannasta!" });
+    } else {
+      await prisma.course.create({
+        data: { name: course.name, code: course.code, school: course.school },
+      });
+      res.status(200).json({ message: "Kurssi lisätty onnistuneesti" });
+    }
+  } catch (err) {
+    console.log("error");
+    res.status(500).json({ message: "Virhe kurssin lisäämisessä :(" });
+  }
+};
+
+module.exports = { getInitialCourses, getCourses, addCourse };

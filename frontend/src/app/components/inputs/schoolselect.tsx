@@ -8,9 +8,13 @@ import {
 } from "../ui/select";
 import { schools } from "@/assets/data";
 
-const SchoolSelect = () => {
+const SchoolSelect = ({
+  updateSchool,
+}: {
+  updateSchool: (value: string) => void;
+}) => {
   return (
-    <Select>
+    <Select onValueChange={updateSchool}>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Valitse oppilaitos" />
       </SelectTrigger>

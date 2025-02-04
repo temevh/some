@@ -12,6 +12,7 @@ import {
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { SchoolSelect } from "../inputs";
+import axios from "axios";
 
 const AddCourseModal = () => {
   const [course, setCourse] = React.useState({
@@ -20,7 +21,14 @@ const AddCourseModal = () => {
     school: "",
   });
 
-  const addClicked = () => {};
+  const addClicked = async () => {
+    console.log("adding course", course.name);
+    axios.post("http://localhost:5000/api/courses/addcourse", null, {
+      params: {
+        course: course,
+      },
+    });
+  };
 
   const updateName = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newName = event.target.value;
@@ -30,6 +38,10 @@ const AddCourseModal = () => {
   const updateCode = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newCode = event.target.value;
     setCourse((prev) => ({ ...prev, code: newCode }));
+  };
+
+  const updateSchool = (school: string) => {
+    setCourse((prev) => ({ ...prev, school: school }));
   };
 
   return (
@@ -56,13 +68,13 @@ const AddCourseModal = () => {
               />
             </div>
             <div className="flex flex-col space-y-1.5">
-              <SchoolSelect />
+              <SchoolSelect updateSchool={updateSchool} />
             </div>
           </div>
         </CardContent>
         <CardFooter className="flex justify-between">
-          <Button variant="outline">Eiku</Button>
-          <Button>Lisää kurssi</Button>
+          <Button variant="reverse">Eiku</Button>
+          <Button onClick={addClicked}>Lisää kurssi</Button>
         </CardFooter>
       </Card>
     </div>
