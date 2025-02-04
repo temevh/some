@@ -12,22 +12,37 @@ import {
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { SchoolSelect } from "../inputs";
+import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
 
-const AddCourseModal = () => {
+const AddCourseModal = ({ setAddNewOpen }) => {
   const [course, setCourse] = React.useState({
     name: "",
     code: "",
     school: "",
   });
+  const { toast } = useToast();
 
   const addClicked = async () => {
     console.log("adding course", course.name);
-    axios.post("http://localhost:5000/api/courses/addcourse", null, {
-      params: {
-        course: course,
-      },
-    });
+    const response = await axios.post(
+      "http://localhost:5000/api/courses/addcourse",
+      null,
+      {
+        params: {
+          course: course,
+        },
+      }
+    );
+    console.log(response);
+    if (response.status === 200) {
+      toast({
+        variant: "destructive",
+        title: response.data.message,
+        description: "Kiitos :)",
+      });
+      setAddNewOpen(false);
+    }
   };
 
   const updateName = (event: React.ChangeEvent<HTMLInputElement>) => {

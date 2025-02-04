@@ -47,6 +47,7 @@ export default function Home() {
       console.log("Error fetching courses:", err);
     }
   };
+
   const addCourseClicked = () => {
     console.log("aaa");
     setAddNewOpen(!addNewOpen);
@@ -54,7 +55,7 @@ export default function Home() {
 
   return (
     <div className="w-full flex flex-col gap-4 relative">
-      {addNewOpen && <AddCourseModal />}
+      {addNewOpen && <AddCourseModal setAddNewOpen={setAddNewOpen} />}
       <div className="flex flex-row gap-4">
         <SchoolDropdown selectedSchool={school} setSchool={setSchool} />
         <Input type="text" placeholder="Kurssi" />
