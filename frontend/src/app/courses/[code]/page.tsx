@@ -12,6 +12,7 @@ interface Course {
   teaching: string;
   difficulty: string;
   workload: string;
+  comments: string[];
 }
 
 const CoursePage = () => {
@@ -50,12 +51,15 @@ const CoursePage = () => {
 
   return (
     <div className="w-full bg-white p-4">
-      <p className="text-black">Course Name: {course.name}</p>
+      <p className="text-black">{course.name}</p>
       <p className="text-black">School: {course.school}</p>
       <p className="text-black">Rating: {course.rating}</p>
       <p className="text-black">Teaching: {course.teaching}</p>
       <p className="text-black">Difficulty: {course.difficulty}</p>
       <p className="text-black">Workload: {course.workload}</p>
+      {course.comments.map((comment) => {
+        return <p key={comment}>{comment.content}</p>;
+      })}
     </div>
   );
 };

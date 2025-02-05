@@ -34,7 +34,7 @@ const Coursetable: React.FC<CoursetableProps> = ({ courses }) => {
       <TableBody>
         {courses.map((course) => (
           <TableRow
-            key={course.id}
+            key={course.code}
             onClick={() => router.push(`/courses/${course.code}`)}
             className="cursor-pointer hover:bg-gray-100 transition-colors"
           >

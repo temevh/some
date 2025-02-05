@@ -43,7 +43,7 @@ const getCourse = async (req, res) => {
   try {
     const courseInfo = await prisma.course.findUnique({
       where: { code: code },
-      include: { ratings: true },
+      include: { ratings: true, comments: true },
     });
 
     if (!courseInfo) {
@@ -78,6 +78,7 @@ const getCourse = async (req, res) => {
       teaching: averageTeaching?.toFixed(1) || "No ratings yet",
       difficulty: averageDifficulty?.toFixed(1) || "No ratings yet",
       workload: averageWorkload?.toFixed(1) || "No ratings yet",
+      comments: courseInfo.comments,
     };
 
     res.status(200).json(course);
