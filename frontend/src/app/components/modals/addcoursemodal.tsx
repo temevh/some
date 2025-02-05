@@ -46,7 +46,7 @@ const AddCourseModal = ({ setAddNewOpen }) => {
       console.error("Error adding course:", error);
 
       if (axios.isAxiosError(error) && error.response) {
-        if (error.response.status === 500) {
+        if (error.response.status === 505) {
           setFailed(true);
         }
       }
@@ -96,8 +96,9 @@ const AddCourseModal = ({ setAddNewOpen }) => {
           </div>
         </CardContent>
         {failed && (
-          <p className=" text-center text-red-600">
-            Virhe kurssin lisäämisessä
+          <p className="text-center text-red-600 p-2">
+            Virhe kurssin lisäämisessä. Tarkistithan että sitä ei ole vielä
+            lisätty?
           </p>
         )}
         <CardFooter className="flex justify-between">

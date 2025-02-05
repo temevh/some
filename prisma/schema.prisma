@@ -10,10 +10,37 @@ datasource db {
 }
 
 model Course {
-  id        String   @id @default(cuid())
-  code      String   @unique
-  name      String
-  school    String   @default("TUNI")
+  id     String @id @default(cuid())
+  code   String @unique
+  name   String
+  school String @default("TUNI")
+
   updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  totalVotes Int       @default(0)
+  comments   Comment[]
+  ratings    Rating[]
+}
+
+model Rating {
+  id       String @id @default(cuid())
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  rating     Float @default(0)
+  teaching   Float @default(0)
+  difficulty Float @default(0)
+  workload   Float @default(0)
+
+  createdAt DateTime @default(now())
+}
+
+model Comment {
+  id       String @id @default(cuid())
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  content  String
+
   createdAt DateTime @default(now())
 }

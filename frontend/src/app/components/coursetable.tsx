@@ -1,9 +1,8 @@
+import { useRouter } from "next/navigation";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -21,6 +20,8 @@ interface CoursetableProps {
 }
 
 const Coursetable: React.FC<CoursetableProps> = ({ courses }) => {
+  const router = useRouter();
+
   return (
     <Table>
       <TableHeader>
@@ -32,7 +33,11 @@ const Coursetable: React.FC<CoursetableProps> = ({ courses }) => {
       </TableHeader>
       <TableBody>
         {courses.map((course) => (
-          <TableRow key={course.id}>
+          <TableRow
+            key={course.id}
+            onClick={() => router.push(`/courses/${course.code}`)}
+            className="cursor-pointer hover:bg-gray-100 transition-colors"
+          >
             <TableCell className="font-base">{course.code}</TableCell>
             <TableCell>{course.name}</TableCell>
             <TableCell>{course.school}</TableCell>

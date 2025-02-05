@@ -37,6 +37,22 @@ const getCourses = async (req, res) => {
   }
 };
 
+const getCourse = async (req, res) => {
+  const { code } = req.query;
+  try {
+    const course = await prisma.course.findUnique({
+      where: {
+        code: code,
+      },
+    });
+
+    res.status(200).json(course);
+  } catch (error) {
+    console.error("Error fetching courses:", error);
+    res.status(500).json({ error: "Failed to fetch courses" });
+  }
+};
+
 //Add course (if not already in db)
 const addCourse = async (req, res) => {
   const { course } = req.query;
@@ -64,8 +80,8 @@ const addCourse = async (req, res) => {
     }
   } catch (err) {
     console.log("error");
-    res.status(500).json({ message: "Virhe kurssin lisäämisessä :(" });
+    res.status(505).json({ message: "Virhe kurssin lisäämisessä :(" });
   }
 };
 
-module.exports = { getInitialCourses, getCourses, addCourse };
+module.exports = { getInitialCourses, getCourses, addCourse, getCourse };
