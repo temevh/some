@@ -2,18 +2,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "next/navigation";
-
-interface Course {
-  code: string;
-  name: string;
-  school: string;
-  lastUpdate: string;
-  rating: string;
-  teaching: string;
-  difficulty: string;
-  workload: string;
-  comments: string[];
-}
+import { CourseInfo } from "./components";
+import { Course } from "./interfaces";
 
 const CoursePage = () => {
   const params = useParams();
@@ -42,24 +32,16 @@ const CoursePage = () => {
   }, [params?.code]);
 
   if (loading) {
-    return <p className="text-black">Loading...</p>;
+    return <p className="text-black">Ladataan...</p>;
   }
 
   if (!course) {
-    return <p className="text-black">Course not found</p>;
+    return <p className="text-black">Kurssia ei löytynyt</p>;
   }
 
   return (
-    <div className="w-full bg-white p-4">
-      <p className="text-black">{course.name}</p>
-      <p className="text-black">School: {course.school}</p>
-      <p className="text-black">Rating: {course.rating}</p>
-      <p className="text-black">Teaching: {course.teaching}</p>
-      <p className="text-black">Difficulty: {course.difficulty}</p>
-      <p className="text-black">Workload: {course.workload}</p>
-      {course.comments.map((comment) => {
-        return <p key={comment}>{comment.content}</p>;
-      })}
+    <div>
+      <CourseInfo course={course} />
     </div>
   );
 };
