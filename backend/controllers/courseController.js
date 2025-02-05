@@ -19,7 +19,6 @@ const getCourses = async (req, res) => {
   const { school } = req.query;
   let courses;
   try {
-    console.log("Getting courses for school:", school);
     if (school === "") {
       courses = await prisma.course.findMany({});
     } else {
@@ -39,17 +38,52 @@ const getCourses = async (req, res) => {
 
 const getCourse = async (req, res) => {
   const { code } = req.query;
+  console.log("Getting course:", code);
+
   try {
-    const course = await prisma.course.findUnique({
-      where: {
-        code: code,
-      },
+    const courseInfo = await prisma.course.findUnique({
+      where: { code: code },
+      include: { ratings: true },
     });
+
+    if (!courseInfo) {
+      return res.status(404).json({ error: "Course not found" });
+    }
+
+    const ratings = courseInfo.ratings;
+    const totalRatings = ratings.length;
+
+    const averageRating = totalRatings
+      ? ratings.reduce((acc, r) => acc + r.rating, 0) / totalRatings
+      : null;
+
+    const averageTeaching = totalRatings
+      ? ratings.reduce((acc, r) => acc + r.teaching, 0) / totalRatings
+      : null;
+
+    const averageDifficulty = totalRatings
+      ? ratings.reduce((acc, r) => acc + r.difficulty, 0) / totalRatings
+      : null;
+
+    const averageWorkload = totalRatings
+      ? ratings.reduce((acc, r) => acc + r.workload, 0) / totalRatings
+      : null;
+
+    const course = {
+      name: courseInfo.name,
+      code: courseInfo.code,
+      school: courseInfo.school,
+      lastUpdate: courseInfo.updatedAt,
+      rating: averageRating?.toFixed(1) || "No ratings yet",
+      teaching: averageTeaching?.toFixed(1) || "No ratings yet",
+      difficulty: averageDifficulty?.toFixed(1) || "No ratings yet",
+      workload: averageWorkload?.toFixed(1) || "No ratings yet",
+    };
 
     res.status(200).json(course);
   } catch (error) {
-    console.error("Error fetching courses:", error);
-    res.status(500).json({ error: "Failed to fetch courses" });
+    console.error("Error fetching course:", error);
+    res.status(500).json({ error: "Failed to fetch course" });
   }
 };
 
