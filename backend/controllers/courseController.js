@@ -124,4 +124,44 @@ const addCourse = async (req, res) => {
   }
 };
 
-module.exports = { getInitialCourses, getCourses, addCourse, getCourse };
+const addRating = async (req, res) => {
+  try {
+    const { courseCode, ratings } = req.body;
+
+    if (!courseCode || !ratings) {
+      res.status(400).json({ message: "Virhe arvostelun lisäämisessä" });
+    }
+    console.log(courseCode, ratings);
+
+    const course = await prisma.course.findUnique({
+      where: { code: courseCode },
+    });
+
+    if (!course) {
+      res.status(404).json({ message: "Kurssia ei löytynyt" });
+    }
+
+    await prisma.rating.create({
+      data: {
+        courseCode,
+        rating: ratings.rating,
+        teaching: ratings.teaching,
+        difficulty: ratings.difficulty,
+        workload: ratings.workload,
+      },
+    });
+
+    res.status(200).json({ message: "Arvostelu lisätty onnistuneesti!" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Virhe arvostelun lisäämisessä :(" });
+  }
+};
+
+module.exports = {
+  getInitialCourses,
+  getCourses,
+  addCourse,
+  getCourse,
+  addRating,
+};

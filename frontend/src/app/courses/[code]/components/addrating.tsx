@@ -11,7 +11,7 @@ import { useState } from "react";
 import Rating from "@mui/material/Rating";
 import { Textarea } from "@/app/components/ui/textarea";
 
-const AddRating = ({ setAddRatingShow, course }) => {
+const AddRating = ({ setAddRatingShow, course, sendRating }) => {
   const [ratings, setRatings] = useState({
     rating: 0,
     teaching: 0,
@@ -84,9 +84,7 @@ const AddRating = ({ setAddRatingShow, course }) => {
           <Button variant="reverse" onClick={() => setAddRatingShow(false)}>
             Eiku
           </Button>
-          <Button onClick={() => console.log("Submitted ratings:", ratings)}>
-            Tallenna
-          </Button>
+          <Button onClick={() => sendRating(ratings)}>Tallenna</Button>
         </CardFooter>
       </Card>
     </div>

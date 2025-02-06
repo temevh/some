@@ -1,4 +1,5 @@
-import CourseInfo from "./courseinfo";
+import CourseRating from "./courserating";
 import AddRating from "./addrating";
+import CourseComments from "./coursecomments";
 
-export { CourseInfo, AddRating };
+export { CourseRating, AddRating, CourseComments };

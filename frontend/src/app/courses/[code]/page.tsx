@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "next/navigation";
-import { CourseInfo, AddRating } from "./components";
+import { CourseRating, AddRating, CourseComments } from "./components";
 import { Course } from "./interfaces";
 import { Button } from "@/app/components/ui/button";
 
@@ -14,26 +14,43 @@ const CoursePage = () => {
   const [loading, setLoading] = useState(true);
   const [addRatingShow, setAddRatingShow] = useState(false);
 
-  useEffect(() => {
-    const fetchCourseInfo = async () => {
-      if (!params?.code) return;
-      try {
-        const response = await axios.get(
-          "http://localhost:5000/api/courses/course/",
-          {
-            params: { code: params.code },
-          }
-        );
-        setCourse(response.data);
-      } catch (err) {
-        console.error("Error fetching course:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchCourseInfo = async () => {
+    if (!params?.code) return;
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/courses/course/",
+        {
+          params: { code: params.code },
+        }
+      );
+      setCourse(response.data);
+    } catch (err) {
+      console.error("Error fetching course:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchCourseInfo();
   }, [params?.code]);
+
+  const sendRating = async (ratings) => {
+    const courseCode = course?.code;
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/courses/rate",
+        { courseCode, ratings }
+      );
+      console.log(response.data);
+      if (response.status === 200) {
+        fetchCourseInfo();
+        setAddRatingShow(false);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const addClicked = () => {
     setAddRatingShow(!addRatingShow);
@@ -49,10 +66,15 @@ const CoursePage = () => {
 
   return (
     <Card className="w-full bg-bw rounded-lg p-4 text-center gap-4 flex flex-col relative">
-      <CourseInfo course={course} />
+      <CourseRating course={course} />
+      <CourseComments comments={course.comments} />
       <Button onClick={addClicked}>Lisää arvostelu</Button>
       {addRatingShow && (
-        <AddRating setAddRatingShow={setAddRatingShow} course={course} />
+        <AddRating
+          setAddRatingShow={setAddRatingShow}
+          course={course}
+          sendRating={sendRating}
+        />
       )}
     </Card>
   );
