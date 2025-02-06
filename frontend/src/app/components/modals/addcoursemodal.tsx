@@ -25,29 +25,59 @@ const AddCourseModal = ({ setAddNewOpen }) => {
   const { toast } = useToast();
 
   const addClicked = async () => {
+    if (!course?.name || !course?.code || !course?.school) {
+      console.error("Error: Course data is missing or incomplete");
+      toast({
+        variant: "destructive",
+        title: "Virhe lisättäessä kurssia",
+        description: "Tarkista, että kaikki kentät on täytetty oikein.",
+      });
+      return;
+    }
+
     try {
-      console.log("Adding course", course.name);
+      console.log("Adding course:", course.name);
 
       const response = await axios.post(
         "http://localhost:5000/api/courses/addcourse",
-        { course }
+        course
       );
 
-      console.log(response);
+      console.log("Response:", response);
 
       toast({
-        variant: "destructive",
+        variant: "success",
         title: response.data.message || "Kurssi lisätty onnistuneesti!",
-        description: "Kiitos :)",
+        description: "Päivitä sivu tai kurssilistaus nähdäksesi kurssin",
       });
 
       setAddNewOpen(false);
     } catch (error) {
       console.error("Error adding course:", error);
 
-      if (axios.isAxiosError(error) && error.response) {
-        if (error.response.status === 505) {
-          setFailed(true);
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          if (error.response.status === 400) {
+            toast({
+              variant: "destructive",
+              title: "Virhe lisättäessä kurssia",
+              description:
+                error.response.data.message || "Tarkista syöttämäsi tiedot.",
+            });
+          } else if (error.response.status === 500) {
+            setFailed(true);
+            toast({
+              variant: "destructive",
+              title: "Palvelinvirhe",
+              description: "Yritä uudelleen myöhemmin.",
+            });
+          }
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Verkkovirhe",
+            description: "Ei yhteyttä palvelimeen.",
+          });
         }
       }
     }

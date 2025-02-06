@@ -90,32 +90,37 @@ const getCourse = async (req, res) => {
 
 //Add course (if not already in db)
 const addCourse = async (req, res) => {
-  const { course } = req.query;
   try {
-    console.log("adding course:", course);
+    const { name, code, school } = req.body;
+    console.log("adding course:", name, school, code);
+
+    if (!name || !code || !school) {
+      return res
+        .status(400)
+        .json({ message: "Kaikki kentät ovat pakollisia!" });
+    }
+
     const exists = await prisma.course.findFirst({
       where: {
-        OR: [
-          {
-            name: course.name,
-          },
-          { code: course.code },
-        ],
+        OR: [{ name }, { code }],
       },
     });
     if (exists) {
-      res
+      return res
         .status(400)
         .json({ message: "Kurssi näyttäisi jo löytyvän tietokannasta!" });
-    } else {
-      await prisma.course.create({
-        data: { name: course.name, code: course.code, school: course.school },
-      });
-      res.status(200).json({ message: "Kurssi lisätty onnistuneesti!" });
     }
+
+    const newCourse = await prisma.course.create({
+      data: { code, name, school },
+    });
+
+    res
+      .status(200)
+      .json({ message: "Kurssi lisätty onnistuneesti!", newCourse });
   } catch (err) {
-    console.log("error");
-    res.status(505).json({ message: "Virhe kurssin lisäämisessä :(" });
+    console.log("error adding course", err);
+    res.status(500).json({ message: "Virhe kurssin lisäämisessä :(" });
   }
 };
 
