@@ -1,14 +1,7 @@
-import { Course, Comment } from "../interfaces";
+import { Course } from "../interfaces";
 import { FC } from "react";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/app/components/ui/card";
+import { Card } from "@/app/components/ui/card";
 
 interface CourseInfoProps {
   course: Course;
@@ -16,10 +9,7 @@ interface CourseInfoProps {
 
 const CourseInfo: FC<CourseInfoProps> = ({ course }) => {
   return (
-    <Card
-      className="w-full bg-bw rounded-lg p-4 text-center gap-4 flex flex-col"
-      key={course.code}
-    >
+    <div key={course.code}>
       <p className="text-black text-3xl">{course.name}</p>
       <p className="text-black text-xl">{course.school}</p>
       <p className="text-black text-xl">Yleinen arvosana: {course.rating}</p>
@@ -34,7 +24,7 @@ const CourseInfo: FC<CourseInfoProps> = ({ course }) => {
           </Card>
         );
       })}
-    </Card>
+    </div>
   );
 };
 

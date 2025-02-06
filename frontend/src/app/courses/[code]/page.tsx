@@ -2,13 +2,17 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "next/navigation";
-import { CourseInfo } from "./components";
+import { CourseInfo, AddRating } from "./components";
 import { Course } from "./interfaces";
+import { Button } from "@/app/components/ui/button";
+
+import { Card } from "@/app/components/ui/card";
 
 const CoursePage = () => {
   const params = useParams();
   const [course, setCourse] = useState<Course | null>(null);
   const [loading, setLoading] = useState(true);
+  const [addRating, setAddRating] = useState(false);
 
   useEffect(() => {
     const fetchCourseInfo = async () => {
@@ -31,6 +35,10 @@ const CoursePage = () => {
     fetchCourseInfo();
   }, [params?.code]);
 
+  const addClicked = () => {
+    setAddRating(!addRating);
+  };
+
   if (loading) {
     return <p className="text-black">Ladataan...</p>;
   }
@@ -40,9 +48,11 @@ const CoursePage = () => {
   }
 
   return (
-    <div>
+    <Card className="w-full bg-bw rounded-lg p-4 text-center gap-4 flex flex-col relative">
       <CourseInfo course={course} />
-    </div>
+      <Button onClick={addClicked}>Lisää arvostelu</Button>
+      {addRating && <AddRating setAddRating={setAddRating} />}
+    </Card>
   );
 };
 

@@ -1,3 +1,4 @@
 import CourseInfo from "./courseinfo";
+import AddRating from "./addrating";
 
-export { CourseInfo };
+export { CourseInfo, AddRating };

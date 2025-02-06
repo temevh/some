@@ -49,7 +49,6 @@ export default function Home() {
   };
 
   const addCourseClicked = () => {
-    console.log("aaa");
     setAddNewOpen(!addNewOpen);
   };
 

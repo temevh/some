@@ -74,10 +74,10 @@ const getCourse = async (req, res) => {
       code: courseInfo.code,
       school: courseInfo.school,
       lastUpdate: courseInfo.updatedAt,
-      rating: averageRating?.toFixed(1) || "No ratings yet",
-      teaching: averageTeaching?.toFixed(1) || "No ratings yet",
-      difficulty: averageDifficulty?.toFixed(1) || "No ratings yet",
-      workload: averageWorkload?.toFixed(1) || "No ratings yet",
+      rating: averageRating?.toFixed(1) || "Ei vielä arvosteluja",
+      teaching: averageTeaching?.toFixed(1) || "Ei vielä arvosteluja",
+      difficulty: averageDifficulty?.toFixed(1) || "Ei vielä arvosteluja",
+      workload: averageWorkload?.toFixed(1) || "Ei vielä arvosteluja",
       comments: courseInfo.comments,
     };
 
