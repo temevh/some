@@ -12,7 +12,7 @@ const CoursePage = () => {
   const params = useParams();
   const [course, setCourse] = useState<Course | null>(null);
   const [loading, setLoading] = useState(true);
-  const [addRating, setAddRating] = useState(false);
+  const [addRatingShow, setAddRatingShow] = useState(false);
 
   useEffect(() => {
     const fetchCourseInfo = async () => {
@@ -36,7 +36,7 @@ const CoursePage = () => {
   }, [params?.code]);
 
   const addClicked = () => {
-    setAddRating(!addRating);
+    setAddRatingShow(!addRatingShow);
   };
 
   if (loading) {
@@ -51,7 +51,9 @@ const CoursePage = () => {
     <Card className="w-full bg-bw rounded-lg p-4 text-center gap-4 flex flex-col relative">
       <CourseInfo course={course} />
       <Button onClick={addClicked}>Lisää arvostelu</Button>
-      {addRating && <AddRating setAddRating={setAddRating} />}
+      {addRatingShow && (
+        <AddRating setAddRatingShow={setAddRatingShow} course={course} />
+      )}
     </Card>
   );
 };
