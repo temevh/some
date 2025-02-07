@@ -126,7 +126,7 @@ const addCourse = async (req, res) => {
 
 const addRating = async (req, res) => {
   try {
-    const { courseCode, ratings } = req.body;
+    const { courseCode, ratings, comment } = req.body;
 
     if (!courseCode || !ratings) {
       res.status(400).json({ message: "Virhe arvostelun lisäämisessä" });
@@ -150,6 +150,15 @@ const addRating = async (req, res) => {
         workload: ratings.workload,
       },
     });
+
+    if (comment) {
+      await prisma.comment.create({
+        data: {
+          courseCode,
+          content: comment,
+        },
+      });
+    }
 
     res.status(200).json({ message: "Arvostelu lisätty onnistuneesti!" });
   } catch (err) {

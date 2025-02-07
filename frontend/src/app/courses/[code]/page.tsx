@@ -35,12 +35,13 @@ const CoursePage = () => {
     fetchCourseInfo();
   }, [params?.code]);
 
-  const sendRating = async (ratings) => {
+  const sendRatingClicked = async (ratings: Rating[], comment?: string) => {
     const courseCode = course?.code;
+    console.log("comment:", comment);
     try {
       const response = await axios.post(
         "http://localhost:5000/api/courses/rate",
-        { courseCode, ratings }
+        { courseCode, ratings, comment }
       );
       console.log(response.data);
       if (response.status === 200) {
@@ -73,7 +74,7 @@ const CoursePage = () => {
         <AddRating
           setAddRatingShow={setAddRatingShow}
           course={course}
-          sendRating={sendRating}
+          sendRatingClicked={sendRatingClicked}
         />
       )}
     </Card>

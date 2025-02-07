@@ -7,7 +7,7 @@ const CourseComments = ({ comments }) => {
       {comments.map((comment) => {
         return (
           <Card>
-            <p key={comment.id}>{comment.content}</p>
+            <p key={comment.content}>{comment.content}</p>
           </Card>
         );
       })}

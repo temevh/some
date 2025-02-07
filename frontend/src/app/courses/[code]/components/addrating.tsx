@@ -7,20 +7,25 @@ import {
 } from "../../../components/ui/card";
 import { Label } from "../../../components/ui/label";
 import { Button } from "../../../components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Rating from "@mui/material/Rating";
 import { Textarea } from "@/app/components/ui/textarea";
 
-const AddRating = ({ setAddRatingShow, course, sendRating }) => {
+const AddRating = ({ setAddRatingShow, course, sendRatingClicked }) => {
   const [ratings, setRatings] = useState({
     rating: 0,
     teaching: 0,
     difficulty: 0,
     workload: 0,
   });
+  const [comment, setComment] = useState("");
 
   const handleRatingChange = (key, value) => {
     setRatings((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const handleCommentChange = (event) => {
+    setComment(event.target.value);
   };
 
   return (
@@ -74,7 +79,7 @@ const AddRating = ({ setAddRatingShow, course, sendRating }) => {
               </div>
               <div className="pt-4">
                 <Label htmlFor="workload">Vapaa sana kurssista</Label>
-                <Textarea />
+                <Textarea onChange={(e) => handleCommentChange(e)} />
               </div>
             </div>
           </div>
@@ -84,7 +89,9 @@ const AddRating = ({ setAddRatingShow, course, sendRating }) => {
           <Button variant="reverse" onClick={() => setAddRatingShow(false)}>
             Eiku
           </Button>
-          <Button onClick={() => sendRating(ratings)}>Tallenna</Button>
+          <Button onClick={() => sendRatingClicked(ratings, comment)}>
+            Tallenna
+          </Button>
         </CardFooter>
       </Card>
     </div>
