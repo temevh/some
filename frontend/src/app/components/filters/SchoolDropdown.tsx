@@ -40,7 +40,7 @@ const SchoolDropdown = ({ setSchool, selectedSchool }) => {
           variant="default"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="justify-between"
         >
           {selectedSchool
             ? schools.find((school) => school.value === selectedSchool)?.label
@@ -48,7 +48,7 @@ const SchoolDropdown = ({ setSchool, selectedSchool }) => {
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className=" p-0">
         <Command>
           <CommandInput placeholder="Valite oppilaitos" />
           <CommandList>

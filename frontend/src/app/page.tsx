@@ -6,8 +6,10 @@ import { Coursetable } from "./components";
 import { Input } from "./components/ui";
 import { FindCourseButton, AddCourseButton } from "./components/buttons";
 import { AddCourseModal } from "./components/modals";
+import { useMobile } from "@/context/mobilecontext";
 
 export default function Home() {
+  const isMobile = useMobile();
   const [courses, setCourses] = useState<
     { id: string; code: string; name: string; school: string }[]
   >([]);
@@ -51,6 +53,25 @@ export default function Home() {
   const addCourseClicked = () => {
     setAddNewOpen(!addNewOpen);
   };
+
+  if (isMobile) {
+    return (
+      <div className="w-full flex flex-col gap-4 relative p-2">
+        {addNewOpen && <AddCourseModal setAddNewOpen={setAddNewOpen} />}
+        <div className="flex flex-row gap-4">
+          <Input type="text" placeholder="Kurssin nimi tai koodi" />
+          <SchoolDropdown selectedSchool={school} setSchool={setSchool} />
+        </div>
+        <FindCourseButton fetchCourses={fetchCourses} />
+        <AddCourseButton addCourseClicked={addCourseClicked} />
+        {courses.length ? (
+          <Coursetable courses={courses} />
+        ) : (
+          <p>Ei kursseja</p>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="w-full flex flex-col gap-4 relative">
