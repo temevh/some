@@ -1,6 +1,6 @@
 import CommentCard from "./commentcard";
 
-const MAX_WORDS = 22;
+const MAX_WORDS = 10;
 
 const CourseComments = ({ comments }) => {
   if (comments.length === 0) {
@@ -10,7 +10,7 @@ const CourseComments = ({ comments }) => {
   return (
     <div className="text-center">
       <p className="text-black text-xl mb-4">Mitä ihmiset sanovat kurssista</p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 place-items-center">
+      <div className="grid grid-cols-1 gap-4 place-items-center">
         {comments.map((comment) => (
           <CommentCard
             key={comment.content}
