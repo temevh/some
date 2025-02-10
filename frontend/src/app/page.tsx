@@ -62,8 +62,11 @@ export default function Home() {
           <Input type="text" placeholder="Kurssin nimi tai koodi" />
           <SchoolDropdown selectedSchool={school} setSchool={setSchool} />
         </div>
-        <FindCourseButton fetchCourses={fetchCourses} />
-        <AddCourseButton addCourseClicked={addCourseClicked} />
+        <div className="flex flex-row justify-between">
+          <FindCourseButton fetchCourses={fetchCourses} />
+          <AddCourseButton addCourseClicked={addCourseClicked} />
+        </div>
+
         {courses.length ? (
           <Coursetable courses={courses} />
         ) : (

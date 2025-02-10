@@ -8,6 +8,7 @@ export const MobileProvider = ({ children }) => {
 
   useEffect(() => {
     const checkMobile = () => {
+      console.log("innerWidth", window.innerWidth);
       setIsMobile(window.innerWidth < 768);
     };
 

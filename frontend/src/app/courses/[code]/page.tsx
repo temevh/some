@@ -5,10 +5,12 @@ import { useParams } from "next/navigation";
 import { CourseRating, AddRating, CourseComments } from "./components";
 import { Course } from "./interfaces";
 import { Button } from "@/app/components/ui/button";
+import { useMobile } from "@/context/mobilecontext";
 
 import { Card } from "@/app/components/ui/card";
 
 const CoursePage = () => {
+  const isMobile = useMobile();
   const params = useParams();
   const [course, setCourse] = useState<Course | null>(null);
   const [loading, setLoading] = useState(true);
@@ -63,6 +65,23 @@ const CoursePage = () => {
 
   if (!course) {
     return <p className="text-black">Kurssia ei löytynyt</p>;
+  }
+
+  if (isMobile) {
+    return (
+      <Card className="w-full bg-bw rounded-lg p-4 text-center gap-4 flex flex-col relative">
+        <CourseRating course={course} />
+        <CourseComments comments={course.comments} />
+        <Button onClick={addClicked}>Lisää arvostelu</Button>
+        {addRatingShow && (
+          <AddRating
+            setAddRatingShow={setAddRatingShow}
+            course={course}
+            sendRatingClicked={sendRatingClicked}
+          />
+        )}
+      </Card>
+    );
   }
 
   return (
