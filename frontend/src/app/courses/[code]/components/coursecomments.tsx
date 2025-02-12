@@ -32,6 +32,8 @@ const CourseComments = ({ comments }) => {
   return (
     <div className="text-center">
       <p className="text-black text-xl mb-4">Mitä ihmiset sanovat kurssista</p>
+      <p>Positiiviset kommentit</p>
+      <p>Kriittiset kommentit</p>
       <div className="grid grid-cols-1 gap-4 place-items-center">
         {comments.map((comment) => (
           <CommentCard

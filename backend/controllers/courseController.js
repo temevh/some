@@ -100,15 +100,24 @@ const addCourse = async (req, res) => {
         .json({ message: "Kaikki kentät ovat pakollisia!" });
     }
 
-    const exists = await prisma.course.findFirst({
+    const existingCourse = await prisma.course.findFirst({
       where: {
+        school,
         OR: [{ name }, { code }],
       },
     });
-    if (exists) {
-      return res
-        .status(400)
-        .json({ message: "Kurssi näyttäisi jo löytyvän tietokannasta!" });
+
+    if (existingCourse) {
+      let errorMessage = "Kurssi näyttäisi jo löytyvän kyseisessä koulussa!";
+      if (existingCourse.name === name && existingCourse.code === code) {
+        errorMessage = "Kurssin nimi ja koodi löytyvät jo kyseisessä koulussa!";
+      } else if (existingCourse.name === name) {
+        errorMessage = "Kurssin nimi löytyy jo kyseisessä koulussa!";
+      } else if (existingCourse.code === code) {
+        errorMessage = "Kurssin koodi löytyy jo kyseisessä koulussa!";
+      }
+
+      return res.status(409).json({ message: errorMessage });
     }
 
     const newCourse = await prisma.course.create({

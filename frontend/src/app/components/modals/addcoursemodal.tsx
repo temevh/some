@@ -26,7 +26,6 @@ const AddCourseModal = ({ setAddNewOpen }) => {
 
   const addClicked = async () => {
     if (!course?.name || !course?.code || !course?.school) {
-      console.error("Error: Course data is missing or incomplete");
       toast({
         variant: "destructive",
         title: "Virhe lisättäessä kurssia",
@@ -57,10 +56,10 @@ const AddCourseModal = ({ setAddNewOpen }) => {
 
       if (axios.isAxiosError(error)) {
         if (error.response) {
-          if (error.response.status === 400) {
+          if (error.response.status === 409) {
             toast({
               variant: "destructive",
-              title: "Virhe lisättäessä kurssia",
+              title: "Virhe kurssin lisäämisessä",
               description:
                 error.response.data.message || "Tarkista syöttämäsi tiedot.",
             });
