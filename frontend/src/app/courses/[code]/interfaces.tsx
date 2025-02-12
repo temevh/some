@@ -18,4 +18,11 @@ interface Comment {
   createdAt: string;
 }
 
-export type { Course, Comment };
+interface Rating {
+  rating: string;
+  teaching: string;
+  difficulty: string;
+  workload: string;
+}
+
+export type { Course, Comment, Rating };

@@ -4,7 +4,7 @@ const prisma = require("../prismaClient");
 const getInitialCourses = async (req, res) => {
   try {
     const courses = await prisma.course.findMany({
-      take: 15,
+      take: 20,
       orderBy: { updatedAt: "desc" },
     });
     res.status(200).json(courses);
@@ -26,6 +26,8 @@ const getCourses = async (req, res) => {
         where: {
           school: school,
         },
+        take: 20,
+        orderBy: { updatedAt: "desc" },
       });
     }
     console.log("Got courses:", courses);

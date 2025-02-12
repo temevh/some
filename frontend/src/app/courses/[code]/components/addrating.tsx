@@ -7,11 +7,31 @@ import {
 } from "../../../components/ui/card";
 import { Label } from "../../../components/ui/label";
 import { Button } from "../../../components/ui/button";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Rating from "@mui/material/Rating";
 import { Textarea } from "@/app/components/ui/textarea";
 
-const AddRating = ({ setAddRatingShow, course, sendRatingClicked }) => {
+interface AddRatingProps {
+  setAddRatingShow: (show: boolean) => void;
+  course: { name: string };
+  sendRatingClicked: (
+    ratings: {
+      rating: number;
+      teaching: number;
+      difficulty: number;
+      workload: number;
+    },
+    comment: string
+  ) => void;
+  errorMessage: string;
+}
+
+const AddRating = ({
+  setAddRatingShow,
+  course,
+  sendRatingClicked,
+  errorMessage,
+}: AddRatingProps) => {
   const [ratings, setRatings] = useState({
     rating: 0,
     teaching: 0,
@@ -20,11 +40,11 @@ const AddRating = ({ setAddRatingShow, course, sendRatingClicked }) => {
   });
   const [comment, setComment] = useState("");
 
-  const handleRatingChange = (key, value) => {
+  const handleRatingChange = (key: string, value: number | null) => {
     setRatings((prev) => ({ ...prev, [key]: value }));
   };
 
-  const handleCommentChange = (event) => {
+  const handleCommentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setComment(event.target.value);
   };
 
@@ -38,41 +58,41 @@ const AddRating = ({ setAddRatingShow, course, sendRatingClicked }) => {
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-2">
               <div className="flex flex-row justify-between items-center">
-                <Label htmlFor="rating">Kokonaisarvosana</Label>
+                <Label htmlFor="rating">Kokonaisarvosana *</Label>
                 <Rating
                   name="rating"
                   value={ratings.rating}
-                  onChange={(event, newValue) =>
+                  onChange={(_, newValue) =>
                     handleRatingChange("rating", newValue)
                   }
                 />
               </div>
               <div className="flex flex-row justify-between items-center">
-                <Label htmlFor="teaching">Opetus</Label>
+                <Label htmlFor="teaching">Opetus *</Label>
                 <Rating
                   name="teaching"
                   value={ratings.teaching}
-                  onChange={(event, newValue) =>
+                  onChange={(_, newValue) =>
                     handleRatingChange("teaching", newValue)
                   }
                 />
               </div>
               <div className="flex flex-row justify-between items-center">
-                <Label htmlFor="difficulty">Vaikeus</Label>
+                <Label htmlFor="difficulty">Vaikeus *</Label>
                 <Rating
                   name="difficulty"
                   value={ratings.difficulty}
-                  onChange={(event, newValue) =>
+                  onChange={(_, newValue) =>
                     handleRatingChange("difficulty", newValue)
                   }
                 />
               </div>
               <div className="flex flex-row justify-between items-center">
-                <Label htmlFor="workload">Työmäärä</Label>
+                <Label htmlFor="workload">Työmäärä *</Label>
                 <Rating
                   name="workload"
                   value={ratings.workload}
-                  onChange={(event, newValue) =>
+                  onChange={(_, newValue) =>
                     handleRatingChange("workload", newValue)
                   }
                 />
@@ -83,6 +103,9 @@ const AddRating = ({ setAddRatingShow, course, sendRatingClicked }) => {
               </div>
             </div>
           </div>
+          {errorMessage !== "" && (
+            <p className="text-red-500">{errorMessage}</p>
+          )}
         </CardContent>
 
         <CardFooter className="flex justify-between">

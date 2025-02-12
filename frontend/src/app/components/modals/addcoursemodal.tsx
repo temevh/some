@@ -35,8 +35,6 @@ const AddCourseModal = ({ setAddNewOpen }) => {
     }
 
     try {
-      console.log("Adding course:", course.name);
-
       const response = await axios.post(
         "http://localhost:5000/api/courses/addcourse",
         course
@@ -67,16 +65,11 @@ const AddCourseModal = ({ setAddNewOpen }) => {
             setFailed(true);
             toast({
               variant: "destructive",
-              title: "Palvelinvirhe",
-              description: "Yritä uudelleen myöhemmin.",
+              title: "Tuntematon virhe kurssin lisäämisessä",
+              description:
+                error.response.data.message || "Yritä myöhemmin uudelleen",
             });
           }
-        } else {
-          toast({
-            variant: "destructive",
-            title: "Verkkovirhe",
-            description: "Ei yhteyttä palvelimeen.",
-          });
         }
       }
     }

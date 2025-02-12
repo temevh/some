@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { CourseRating, AddRating, CourseComments } from "./components";
-import { Course } from "./interfaces";
+import { Course, Rating } from "./interfaces";
 import { Button } from "@/app/components/ui/button";
 import { useMobile } from "@/context/mobilecontext";
 
@@ -15,6 +15,8 @@ const CoursePage = () => {
   const [course, setCourse] = useState<Course | null>(null);
   const [loading, setLoading] = useState(true);
   const [addRatingShow, setAddRatingShow] = useState(false);
+  const [ratingsValid, setRatingsValid] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const fetchCourseInfo = async () => {
     if (!params?.code) return;
@@ -37,9 +39,30 @@ const CoursePage = () => {
     fetchCourseInfo();
   }, [params?.code]);
 
+  const checkRatings = (ratings) => {
+    console.log(ratings);
+    for (const [key, value] of Object.entries(ratings)) {
+      if (value < 1 || value > 5) {
+        return false;
+      }
+    }
+    return true;
+  };
+
   const sendRatingClicked = async (ratings: Rating[], comment?: string) => {
     const courseCode = course?.code;
-    console.log("comment:", comment);
+
+    const isValid = checkRatings(ratings);
+    setRatingsValid(isValid);
+
+    if (!isValid) {
+      setErrorMessage("Täytäthän kaikki * merkatut pakolliset kentät!");
+      return;
+    } else {
+      setErrorMessage("");
+    }
+
+    console.log("adding rating");
     try {
       const response = await axios.post(
         "http://localhost:5000/api/courses/rate",
@@ -78,6 +101,7 @@ const CoursePage = () => {
             setAddRatingShow={setAddRatingShow}
             course={course}
             sendRatingClicked={sendRatingClicked}
+            errorMessage={errorMessage}
           />
         )}
       </Card>
@@ -94,6 +118,7 @@ const CoursePage = () => {
           setAddRatingShow={setAddRatingShow}
           course={course}
           sendRatingClicked={sendRatingClicked}
+          errorMessage={errorMessage}
         />
       )}
     </Card>
