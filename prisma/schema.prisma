@@ -39,6 +39,7 @@ model Comment {
   courseCode String
   course     Course @relation(fields: [courseCode], references: [code], onDelete: Cascade)
   content    String
+  sentiment  Int
 
   createdAt DateTime @default(now())
 }
