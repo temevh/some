@@ -1,4 +1,5 @@
 const prisma = require("../prismaClient");
+const { checkSentiment } = require("../middleware/sentiment");
 
 // Fetch latest 15 courses
 const getInitialCourses = async (req, res) => {
@@ -163,10 +164,13 @@ const addRating = async (req, res) => {
     });
 
     if (comment) {
+      const sentiment = await checkSentiment(comment);
+      console.log(sentiment);
       await prisma.comment.create({
         data: {
           courseCode,
           content: comment,
+          sentiment: sentiment,
         },
       });
     }

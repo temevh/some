@@ -7,7 +7,7 @@ async function main() {
     create: {
       code: "COMP.CS.100",
       name: "Ohjelmointi 1: Johdatus ohjelmointiin",
-      school: "Tuni",
+      school: "TUNI",
       comments: { create: [] },
       ratings: { create: [] },
     },
