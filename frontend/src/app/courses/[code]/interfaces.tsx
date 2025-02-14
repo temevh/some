@@ -16,6 +16,7 @@ interface Comment {
   course: Course;
   content: string;
   createdAt: string;
+  sentiment: number;
 }
 
 interface Rating {

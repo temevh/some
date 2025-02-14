@@ -1,9 +1,14 @@
 import CommentCard from "./commentcard";
+import { Comment } from "../interfaces";
 import { useMobile } from "@/context/mobilecontext";
 
 const MAX_WORDS = 10;
 
-const CourseComments = ({ comments }) => {
+interface CourseCommentsProps {
+  comments: Comment[];
+}
+
+const CourseComments = ({ comments }: CourseCommentsProps) => {
   const isMobile = useMobile();
   //Move comment filtering to backend
   const positiveComments = [];
@@ -31,7 +36,7 @@ const CourseComments = ({ comments }) => {
           Mitä ihmiset sanovat kurssista
         </p>
         <div className="grid grid-cols-1 gap-4 place-items-center">
-          {comments.map((comment) => (
+          {comments.map((comment: Comment) => (
             <CommentCard
               key={comment.content}
               comment={comment}
