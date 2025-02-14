@@ -12,7 +12,7 @@ const CommentCard = ({ comment, MAX_WORDS }) => {
     : words.slice(0, MAX_WORDS).join(" ") + (isLong ? "..." : "");
 
   return (
-    <Card className="p-2 flex flex-col justify-between">
+    <Card className="px-2 flex flex-col justify-between">
       <p>{displayedText}</p>
       <div className="flex flex-row justify-between items-center mt-2">
         {isLong && (
