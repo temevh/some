@@ -1,7 +1,7 @@
 const prisma = require("../prismaClient");
 const { checkSentiment } = require("../middleware/sentiment");
 
-// Fetch latest 15 courses
+// Fetch latest 20 courses
 const getInitialCourses = async (req, res) => {
   try {
     const courses = await prisma.course.findMany({
@@ -46,41 +46,27 @@ const getCourse = async (req, res) => {
   try {
     const courseInfo = await prisma.course.findUnique({
       where: { code: code },
-      include: { ratings: true, comments: true },
+      include: {
+        comments: {
+          take: 3,
+          orderBy: { createdAt: "desc" },
+        },
+      },
     });
 
     if (!courseInfo) {
       return res.status(404).json({ error: "Course not found" });
     }
 
-    const ratings = courseInfo.ratings;
-    const totalRatings = ratings.length;
-
-    const averageRating = totalRatings
-      ? ratings.reduce((acc, r) => acc + r.rating, 0) / totalRatings
-      : null;
-
-    const averageTeaching = totalRatings
-      ? ratings.reduce((acc, r) => acc + r.teaching, 0) / totalRatings
-      : null;
-
-    const averageDifficulty = totalRatings
-      ? ratings.reduce((acc, r) => acc + r.difficulty, 0) / totalRatings
-      : null;
-
-    const averageWorkload = totalRatings
-      ? ratings.reduce((acc, r) => acc + r.workload, 0) / totalRatings
-      : null;
-
     const course = {
       name: courseInfo.name,
       code: courseInfo.code,
       school: courseInfo.school,
       lastUpdate: courseInfo.updatedAt,
-      rating: averageRating?.toFixed(1) || "Ei vielä arvosteluja",
-      teaching: averageTeaching?.toFixed(1) || "Ei vielä arvosteluja",
-      difficulty: averageDifficulty?.toFixed(1) || "Ei vielä arvosteluja",
-      workload: averageWorkload?.toFixed(1) || "Ei vielä arvosteluja",
+      rating: courseInfo.rating?.toFixed(1) || "Ei vielä arvosteluja",
+      teaching: courseInfo.teaching?.toFixed(1) || "Ei vielä arvosteluja",
+      difficulty: courseInfo.difficulty?.toFixed(1) || "Ei vielä arvosteluja",
+      workload: courseInfo.workload?.toFixed(1) || "Ei vielä arvosteluja",
       comments: courseInfo.comments,
     };
 
@@ -141,25 +127,50 @@ const addRating = async (req, res) => {
     const { courseCode, ratings, comment } = req.body;
 
     if (!courseCode || !ratings) {
-      res.status(400).json({ message: "Virhe arvostelun lisäämisessä" });
+      return res.status(400).json({ message: "Virhe arvostelun lisäämisessä" });
     }
+
     console.log(courseCode, ratings);
 
     const course = await prisma.course.findUnique({
       where: { code: courseCode },
+      include: { ratings: true },
     });
 
     if (!course) {
-      res.status(404).json({ message: "Kurssia ei löytynyt" });
+      return res.status(404).json({ message: "Kurssia ei löytynyt" });
     }
 
-    await prisma.rating.create({
+    const newRating = await prisma.rating.create({
       data: {
         courseCode,
         rating: ratings.rating,
         teaching: ratings.teaching,
         difficulty: ratings.difficulty,
         workload: ratings.workload,
+      },
+    });
+
+    const allRatings = [...course.ratings, newRating];
+    const totalVotes = allRatings.length;
+
+    const rating =
+      allRatings.reduce((acc, r) => acc + r.rating, 0) / totalVotes;
+    const teaching =
+      allRatings.reduce((acc, r) => acc + r.teaching, 0) / totalVotes;
+    const difficulty =
+      allRatings.reduce((acc, r) => acc + r.difficulty, 0) / totalVotes;
+    const workload =
+      allRatings.reduce((acc, r) => acc + r.workload, 0) / totalVotes;
+
+    await prisma.course.update({
+      where: { code: courseCode },
+      data: {
+        totalVotes,
+        rating,
+        teaching,
+        difficulty,
+        workload,
       },
     });
 

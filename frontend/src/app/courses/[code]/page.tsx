@@ -27,6 +27,7 @@ const CoursePage = () => {
           params: { code: params.code },
         }
       );
+      console.log(response.data);
       setCourse(response.data);
     } catch (err) {
       console.error("Error fetching course:", err);

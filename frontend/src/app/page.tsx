@@ -23,6 +23,7 @@ export default function Home() {
           "http://localhost:5000/api/courses/initial"
         );
         const data = await response.json();
+        console.log(data);
         setCourses(
           data.map((course: any) => ({
             ...course,

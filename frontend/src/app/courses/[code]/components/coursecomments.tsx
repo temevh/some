@@ -7,7 +7,6 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "../../../components/ui/hover-card";
-import { Button } from "../../../components/ui/button";
 
 const MAX_WORDS = 10;
 
@@ -36,6 +35,8 @@ const CourseComments = ({ comments }: CourseCommentsProps) => {
     }
   }
 
+  const loadMoreComments = ({ sentiment }) => {};
+
   if (isMobile) {
     return (
       <div className="text-center">
@@ -57,10 +58,8 @@ const CourseComments = ({ comments }: CourseCommentsProps) => {
 
   return (
     <div className="text-center">
-      <div className="flex flex-row items-center justify-center gap-2">
-        <p className="text-black text-xl mb-2">
-          Mitä ihmiset sanovat kurssista
-        </p>
+      <div className="flex flex-row items-center justify-center gap-2 mb-6">
+        <p className="text-black text-xl">Mitä ihmiset sanovat kurssista</p>
         <HoverCard>
           <HoverCardTrigger asChild>
             <div className="flex items-center justify-center w-6 h-6 border-2 border-gray-400 rounded-full text-gray-600 cursor-pointer">
@@ -89,6 +88,12 @@ const CourseComments = ({ comments }: CourseCommentsProps) => {
               />
             ))}
           </div>
+          <p
+            className="text-sm text-gray-500"
+            onClick={(positive) => loadMoreComments(positive)}
+          >
+            Lisää kommentteja
+          </p>
         </div>
 
         {/* Neutral Comments */}

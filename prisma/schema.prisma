@@ -16,9 +16,14 @@ model Course {
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
 
-  totalVotes Int       @default(0)
-  comments   Comment[]
-  ratings    Rating[]
+  totalVotes Int    @default(0)
+  rating     Float? @default(0)
+  teaching   Float? @default(0)
+  difficulty Float? @default(0)
+  workload   Float? @default(0)
+
+  comments Comment[]
+  ratings  Rating[]
 }
 
 model Rating {
