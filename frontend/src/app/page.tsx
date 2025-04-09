@@ -23,15 +23,27 @@ export default function Home() {
           "http://localhost:5000/api/courses/initial"
         );
         const data = await response.json();
-        console.log(data);
-        setCourses(
-          data.map((course: any) => ({
-            ...course,
-            school: course.school || "Unknown",
-          }))
-        );
+        console.log("API Response:", data);
+        
+        if (response.ok) {
+          if (Array.isArray(data)) {
+            setCourses(
+              data.map((course: any) => ({
+                ...course,
+                school: course.school || "Unknown",
+              }))
+            );
+          } else {
+            console.error("Received data is not an array:", data);
+            setCourses([]);
+          }
+        } else {
+          console.error("API Error:", data.error || "Unknown error");
+          setCourses([]);
+        }
       } catch (error) {
         console.error("Error fetching courses:", error);
+        setCourses([]);
       }
     };
     fetchCoursesInitial();
