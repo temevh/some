@@ -15,7 +15,7 @@ const SchoolSelect = ({
 }) => {
   return (
     <Select onValueChange={updateSchool}>
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="">
         <SelectValue placeholder="Valitse oppilaitos" />
       </SelectTrigger>
       <SelectContent>
