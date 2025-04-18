@@ -30,7 +30,12 @@ const schools = [
   },
 ];
 
-const SchoolDropdown = ({ setSchool, selectedSchool }) => {
+interface SchoolDropdownProps {
+  setSchool: (school: string | null) => void;
+  selectedSchool: string | null;
+}
+
+const SchoolDropdown: React.FC<SchoolDropdownProps> = ({ setSchool, selectedSchool }) => {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -48,29 +53,25 @@ const SchoolDropdown = ({ setSchool, selectedSchool }) => {
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className=" p-0">
+      <PopoverContent className="w-[200px] p-0 z-50">
         <Command>
-          <CommandInput placeholder="Valite oppilaitos" />
+          <CommandInput placeholder="Etsi oppilaitosta..." />
           <CommandList>
-            <CommandEmpty>Oppilaitosta ei löytynyt</CommandEmpty>
+            <CommandEmpty>Ei löytynyt.</CommandEmpty>
             <CommandGroup>
               {schools.map((school) => (
                 <CommandItem
                   key={school.value}
                   value={school.value}
                   onSelect={(currentValue) => {
-                    setSchool(
-                      currentValue === selectedSchool ? "" : currentValue
-                    );
+                    setSchool(currentValue === selectedSchool ? null : currentValue);
                     setOpen(false);
                   }}
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      selectedSchool === school.value
-                        ? "opacity-100"
-                        : "opacity-0"
+                      selectedSchool === school.value ? "opacity-100" : "opacity-0"
                     )}
                   />
                   {school.label}
