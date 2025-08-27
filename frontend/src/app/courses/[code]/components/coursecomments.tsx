@@ -35,8 +35,6 @@ const CourseComments = ({ comments }: CourseCommentsProps) => {
     }
   }
 
-  const loadMoreComments = ({ sentiment }) => {};
-
   if (isMobile) {
     return (
       <div className="text-center">
@@ -88,12 +86,7 @@ const CourseComments = ({ comments }: CourseCommentsProps) => {
               />
             ))}
           </div>
-          <p
-            className="text-sm text-gray-500"
-            onClick={(positive) => loadMoreComments(positive)}
-          >
-            Lisää kommentteja
-          </p>
+          <p className="text-sm text-gray-500">Lisää kommentteja</p>
         </div>
 
         {/* Neutral Comments */}

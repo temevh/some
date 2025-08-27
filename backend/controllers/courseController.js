@@ -17,21 +17,22 @@ const getInitialCourses = async (req, res) => {
 
 // Fetch courses filtered by school
 const getCourses = async (req, res) => {
-  const { school } = req.query;
-  let courses;
+  const { school, searchTerm } = req.query;
   try {
-    if (school === "") {
-      courses = await prisma.course.findMany({});
-    } else {
-      courses = await prisma.course.findMany({
-        where: {
-          school: school,
-        },
-        take: 20,
-        orderBy: { updatedAt: "desc" },
-      });
-    }
-    console.log("Got courses:", courses);
+    const courses = await prisma.course.findMany({
+      where: {
+        school: school || undefined,
+        OR: searchTerm
+          ? [
+              { name: { contains: searchTerm } },
+              { code: { contains: searchTerm } },
+            ]
+          : undefined,
+      },
+      take: 30,
+      orderBy: { updatedAt: "desc" },
+    });
+
     res.status(200).json(courses);
   } catch (error) {
     console.error("Error fetching courses:", error);

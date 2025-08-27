@@ -7,6 +7,7 @@ import { Input } from "./components/ui";
 import { FindCourseButton, AddCourseButton } from "./components/buttons";
 import { AddCourseModal } from "./components/modals";
 import { useMobile } from "@/context/mobilecontext";
+import { Search } from "./components/inputs";
 
 export default function Home() {
   const isMobile = useMobile();
@@ -15,6 +16,7 @@ export default function Home() {
   >([]);
   const [school, setSchool] = useState<string | null>(null);
   const [addNewOpen, setAddNewOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchCoursesInitial = async () => {
@@ -24,7 +26,7 @@ export default function Home() {
         );
         const data = await response.json();
         console.log("API Response:", data);
-        
+
         if (response.ok) {
           if (Array.isArray(data)) {
             setCourses(
@@ -54,7 +56,7 @@ export default function Home() {
       const response = await axios.get(
         "http://localhost:5000/api/courses/filtered",
         {
-          params: { school: school },
+          params: { school: school, searchTerm: searchTerm.toLowerCase() },
         }
       );
       setCourses(response.data);
@@ -94,7 +96,7 @@ export default function Home() {
       {addNewOpen && <AddCourseModal setAddNewOpen={setAddNewOpen} />}
       <div className="flex flex-row gap-4">
         <SchoolDropdown selectedSchool={school} setSchool={setSchool} />
-        <Input type="text" placeholder="Kurssi" />
+        <Search setSearchTerm={setSearchTerm} searchTerm={searchTerm} />
         <AddCourseButton addCourseClicked={addCourseClicked} />
       </div>
       <FindCourseButton fetchCourses={fetchCourses} />
