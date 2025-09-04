@@ -17,23 +17,12 @@ interface CourseCommentsProps {
 const CourseComments = ({ comments }: CourseCommentsProps) => {
   const isMobile = useMobile();
   //Move comment filtering to backend
-  const positiveComments = [];
-  const negativeComments = [];
-  const neutralComments = [];
+  //Initially get 3 
 
   if (comments.length === 0) {
     return <p>Ei kommentteja kurssista</p>;
   }
 
-  for (const comment of comments) {
-    if (comment.sentiment === 1) {
-      positiveComments.push(comment);
-    } else if (comment.sentiment === -1) {
-      negativeComments.push(comment);
-    } else {
-      neutralComments.push(comment);
-    }
-  }
 
   if (isMobile) {
     return (
@@ -42,7 +31,7 @@ const CourseComments = ({ comments }: CourseCommentsProps) => {
           Mitä ihmiset sanovat kurssista
         </p>
         <div className="grid grid-cols-1 gap-4 place-items-center">
-          {comments.map((comment: Comment) => (
+          {comments["positive"].map((comment: Comment) => (
             <CommentCard
               key={comment.content}
               comment={comment}
@@ -78,7 +67,7 @@ const CourseComments = ({ comments }: CourseCommentsProps) => {
             <Smile color="green" size={34} />
           </div>
           <div className="flex flex-col gap-2 w-full">
-            {positiveComments.map((comment) => (
+            {comments["positive"].map((comment) => (
               <CommentCard
                 key={comment.content}
                 comment={comment}
@@ -95,7 +84,7 @@ const CourseComments = ({ comments }: CourseCommentsProps) => {
             <Meh color="gray" size={34} />
           </div>
           <div className="flex flex-col gap-2 w-full">
-            {neutralComments.map((comment) => (
+            {comments["neutral"].map((comment) => (
               <CommentCard
                 key={comment.content}
                 comment={comment}
@@ -103,6 +92,7 @@ const CourseComments = ({ comments }: CourseCommentsProps) => {
               />
             ))}
           </div>
+          <p className="text-sm text-gray-500">Lisää kommentteja</p>
         </div>
 
         {/* Negative Comments */}
@@ -111,7 +101,7 @@ const CourseComments = ({ comments }: CourseCommentsProps) => {
             <Frown color="red" size={34} />
           </div>
           <div className="flex flex-col gap-2 w-full">
-            {negativeComments.map((comment) => (
+            {comments["negative"].map((comment) => (
               <CommentCard
                 key={comment.content}
                 comment={comment}
@@ -119,6 +109,7 @@ const CourseComments = ({ comments }: CourseCommentsProps) => {
               />
             ))}
           </div>
+          <p className="text-sm text-gray-500">Lisää kommentteja</p>
         </div>
       </div>
     </div>
