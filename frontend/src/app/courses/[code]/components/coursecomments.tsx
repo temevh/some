@@ -7,6 +7,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "../../../components/ui/hover-card";
+import axios from "axios";
 
 const MAX_WORDS = 10;
 
@@ -43,6 +44,21 @@ const CourseComments = ({ comments }: CourseCommentsProps) => {
     );
   }
 
+  const getMoreComments = async(sentiment: string) => {
+
+      try{
+        const response = await axios.get(
+        "http://localhost:5000/api/courses/comments",
+        {
+          params: { toSkip: comments[sentiment].length, sentiment: sentiment},
+        }
+      );
+      }catch(err){
+        console.log(err);
+      }
+
+  }
+
   return (
     <div className="text-center">
       <div className="flex flex-row items-center justify-center gap-2 mb-6">
@@ -75,7 +91,7 @@ const CourseComments = ({ comments }: CourseCommentsProps) => {
               />
             ))}
           </div>
-          <p className="text-sm text-gray-500">Lisää kommentteja</p>
+          <button className="text-sm text-gray-500" onClick={() => getMoreComments("positive")}>Lisää kommentteja</button>
         </div>
 
         {/* Neutral Comments */}

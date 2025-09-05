@@ -105,6 +105,11 @@ const getCourse = async (req, res) => {
 
 const getMoreComments = async (req, res) => {
  //TODO
+ const {toSkip, sentiment} = req.query;
+ console.log("Skip:", toSkip,"for ", sentiment);
+ /*try{
+  const comments = await prisma.comment
+ }*/
 }
 
 //Add course (if not already in db)
@@ -229,4 +234,5 @@ module.exports = {
   addCourse,
   getCourse,
   addRating,
+  getMoreComments
 };
