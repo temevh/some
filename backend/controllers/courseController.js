@@ -66,17 +66,17 @@ const getCourse = async (req, res) => {
     // Fetch 3 comments for each sentiment
     const [positive, neutral, negative] = await Promise.all([
       prisma.comment.findMany({
-        where: { courseCode: code, sentiment: 1 },
+        where: { courseCode: code, sentiment: positive },
         take: 3,
         orderBy: { createdAt: "desc" },
       }),
       prisma.comment.findMany({
-        where: { courseCode: code, sentiment: 0 },
+        where: { courseCode: code, sentiment: neutral },
         take: 3,
         orderBy: { createdAt: "desc" },
       }),
       prisma.comment.findMany({
-        where: { courseCode: code, sentiment: -1 },
+        where: { courseCode: code, sentiment: negative },
         take: 3,
         orderBy: { createdAt: "desc" },
       }),
