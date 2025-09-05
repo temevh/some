@@ -1,13 +1,13 @@
-"use client"
+"use client";
 import { useEffect, useState } from "react";
+import axios from "axios";
 import { useParams } from "next/navigation";
 import { CourseRating, AddRating, CourseComments } from "./components";
-import { Course } from "./interfaces";
+import { Course, Rating } from "./interfaces";
 import { Button } from "@/app/components/ui/button";
 import { useMobile } from "@/context/mobilecontext";
-import { Card } from "@/app/components/ui/card";
 
-import { getCourseInfo, sendCourseRating } from "@/lib/api";
+import { Card } from "@/app/components/ui/card";
 
 const CoursePage = () => {
   const isMobile = useMobile();
@@ -20,26 +20,51 @@ const CoursePage = () => {
 
   const fetchCourseInfo = async () => {
     if (!params?.code) return;
-    setLoading(true);
-    const code = Array.isArray(params.code) ? params.code[0] : params.code;
-    const data = await getCourseInfo(code);
-    setCourse(data);
-    setLoading(false);
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/courses/course/",
+        {
+          params: { code: params.code },
+        }
+      );
+      console.log(response.data);
+      setCourse(response.data);
+    } catch (err) {
+      console.error("Error fetching course:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     fetchCourseInfo();
   }, [params?.code]);
 
-  const checkRatings = (ratings: Record<string, number>) => {
-    return Object.values(ratings).every((v) => v >= 1 && v <= 5);
+  const checkRatings = (ratings: {
+    rating: number;
+    teaching: number;
+    difficulty: number;
+    workload: number;
+  }) => {
+    console.log(ratings);
+    for (const [key, value] of Object.entries(ratings)) {
+      if (typeof value === "number" && (value < 1 || value > 5)) {
+        return false;
+      }
+    }
+    return true;
   };
 
   const sendRatingClicked = async (
-    ratings: { rating: number; teaching: number; difficulty: number; workload: number },
+    ratings: {
+      rating: number;
+      teaching: number;
+      difficulty: number;
+      workload: number;
+    },
     comment?: string
   ) => {
-    if (!course) return;
+    const courseCode = course?.code;
 
     const isValid = checkRatings(ratings);
     setRatingsValid(isValid);
@@ -51,17 +76,51 @@ const CoursePage = () => {
       setErrorMessage("");
     }
 
-    const success = await sendCourseRating(course.code, ratings, comment);
-    if (success) {
-      fetchCourseInfo();
-      setAddRatingShow(false);
+    console.log("adding rating");
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/courses/rate",
+        { courseCode, ratings, comment }
+      );
+      console.log(response.data);
+      if (response.status === 200) {
+        fetchCourseInfo();
+        setAddRatingShow(false);
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
-  const addClicked = () => setAddRatingShow(!addRatingShow);
+  const addClicked = () => {
+    setAddRatingShow(!addRatingShow);
+  };
 
-  if (loading) return <p className="text-black">Ladataan...</p>;
-  if (!course) return <p className="text-black">Kurssia ei löytynyt</p>;
+  if (loading) {
+    return <p className="text-black">Ladataan...</p>;
+  }
+
+  if (!course) {
+    return <p className="text-black">Kurssia ei löytynyt</p>;
+  }
+
+  if (isMobile) {
+    return (
+      <Card className="w-full bg-bw rounded-lg p-4 text-center gap-4 flex flex-col relative">
+        <CourseRating course={course} />
+        <CourseComments comments={course.comments} courseCode={course.code} />
+        <Button onClick={addClicked}>Lisää arvostelu</Button>
+        {addRatingShow && (
+          <AddRating
+            setAddRatingShow={setAddRatingShow}
+            course={course}
+            sendRatingClicked={sendRatingClicked}
+            errorMessage={errorMessage}
+          />
+        )}
+      </Card>
+    );
+  }
 
   return (
     <Card className="w-full bg-bw rounded-lg p-4 text-center gap-4 flex flex-col relative">

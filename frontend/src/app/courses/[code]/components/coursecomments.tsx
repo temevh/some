@@ -9,8 +9,6 @@ import {
 } from "../../../components/ui/hover-card";
 import axios from "axios";
 import { useState } from "react";
-import { preconnect } from "react-dom";
-import { getMoreComments } from "@/lib/api";
 
 const MAX_WORDS = 10;
 
@@ -55,29 +53,37 @@ const CourseComments = ({ comments, courseCode }: CourseCommentsProps) => {
     );
   }
 
-  const handleGetMoreComments = async (sentiment: string) => {
-  setLoading((prev) => ({ ...prev, [sentiment]: true }));
+  const getMoreComments = async (sentiment: string) => {
+    setLoading((prev) => ({ ...prev, [sentiment]: true }));
 
-  try {
-    const newComments = await getMoreComments(
-      courseCode,
-      sentiment,
-      allComments[sentiment as keyof typeof allComments].length
-    );
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/courses/comments",
+        {
+          params: {
+            toSkip: allComments[sentiment as keyof typeof allComments].length,
+            sentiment: sentiment,
+            courseCode: courseCode,
+          },
+        }
+      );
 
-    if (newComments.length > 0) {
-      setAllComments((prev) => ({
-        ...prev,
-        [sentiment]: [
-          ...prev[sentiment as keyof typeof prev],
-          ...newComments,
-        ],
-      }));
+      if (response.data && response.data.length > 0) {
+        setAllComments((prev) => ({
+          ...prev,
+          [sentiment]: [
+            ...prev[sentiment as keyof typeof prev],
+            ...response.data,
+          ],
+        }));
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading((prev) => ({ ...prev, [sentiment]: false }));
     }
-  } finally {
-    setLoading((prev) => ({ ...prev, [sentiment]: false }));
-  }
-};
+  };
+
   return (
     <div className="text-center">
       <div className="flex flex-row items-center justify-center gap-2 mb-6">
@@ -112,7 +118,7 @@ const CourseComments = ({ comments, courseCode }: CourseCommentsProps) => {
           </div>
           <button
             className="text-sm text-gray-500 disabled:opacity-50"
-            onClick={() => handleGetMoreComments("positive")}
+            onClick={() => getMoreComments("positive")}
             disabled={loading.positive}
           >
             {loading.positive ? "Ladataan..." : "Lisää kommentteja"}
@@ -135,7 +141,7 @@ const CourseComments = ({ comments, courseCode }: CourseCommentsProps) => {
           </div>
           <button
             className="text-sm text-gray-500 disabled:opacity-50"
-            onClick={() => handleGetMoreComments("neutral")}
+            onClick={() => getMoreComments("neutral")}
             disabled={loading.neutral}
           >
             {loading.neutral ? "Ladataan..." : "Lisää kommentteja"}
@@ -158,7 +164,7 @@ const CourseComments = ({ comments, courseCode }: CourseCommentsProps) => {
           </div>
           <button
             className="text-sm text-gray-500 disabled:opacity-50"
-            onClick={() => handleGetMoreComments("negative")}
+            onClick={() => getMoreComments("negative")}
             disabled={loading.negative}
           >
             {loading.negative ? "Ladataan..." : "Lisää kommentteja"}
