@@ -40,17 +40,30 @@ const CoursePage = () => {
     fetchCourseInfo();
   }, [params?.code]);
 
-  const checkRatings = (ratings) => {
+  const checkRatings = (ratings: {
+    rating: number;
+    teaching: number;
+    difficulty: number;
+    workload: number;
+  }) => {
     console.log(ratings);
     for (const [key, value] of Object.entries(ratings)) {
-      if (value < 1 || value > 5) {
+      if (typeof value === "number" && (value < 1 || value > 5)) {
         return false;
       }
     }
     return true;
   };
 
-  const sendRatingClicked = async (ratings: Rating[], comment?: string) => {
+  const sendRatingClicked = async (
+    ratings: {
+      rating: number;
+      teaching: number;
+      difficulty: number;
+      workload: number;
+    },
+    comment?: string
+  ) => {
     const courseCode = course?.code;
 
     const isValid = checkRatings(ratings);
@@ -95,7 +108,7 @@ const CoursePage = () => {
     return (
       <Card className="w-full bg-bw rounded-lg p-4 text-center gap-4 flex flex-col relative">
         <CourseRating course={course} />
-        <CourseComments comments={course.comments} />
+        <CourseComments comments={course.comments} courseCode={course.code} />
         <Button onClick={addClicked}>Lisää arvostelu</Button>
         {addRatingShow && (
           <AddRating
@@ -112,7 +125,7 @@ const CoursePage = () => {
   return (
     <Card className="w-full bg-bw rounded-lg p-4 text-center gap-4 flex flex-col relative">
       <CourseRating course={course} />
-      <CourseComments comments={course.comments} />
+      <CourseComments comments={course.comments} courseCode={course.code} />
       <Button onClick={addClicked}>Lisää arvostelu</Button>
       {addRatingShow && (
         <AddRating

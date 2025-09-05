@@ -47,11 +47,15 @@ const getCourse = async (req, res) => {
   try {
     const courseInfo = await prisma.course.findUnique({
       where: { code: code },
-      include: {
-        comments: {
-          take: 3,
-          orderBy: { createdAt: "desc" },
-        },
+      select: {
+        code: true,
+        name: true,
+        school: true,
+        updatedAt: true,
+        rating: true,
+        teaching: true,
+        difficulty: true,
+        workload: true,
       },
     });
 
@@ -59,22 +63,65 @@ const getCourse = async (req, res) => {
       return res.status(404).json({ error: "Course not found" });
     }
 
+    // Fetch 3 comments for each sentiment
+    const [positive, neutral, negative] = await Promise.all([
+      prisma.comment.findMany({
+        where: { courseCode: code, sentiment: "positive" },
+        take: 3,
+        orderBy: { createdAt: "desc" },
+      }),
+      prisma.comment.findMany({
+        where: { courseCode: code, sentiment: "neutral" },
+        take: 3,
+        orderBy: { createdAt: "desc" },
+      }),
+      prisma.comment.findMany({
+        where: { courseCode: code, sentiment: "negative" },
+        take: 3,
+        orderBy: { createdAt: "desc" },
+      }),
+    ]);
+
     const course = {
-      name: courseInfo.name,
-      code: courseInfo.code,
-      school: courseInfo.school,
+      ...courseInfo,
       lastUpdate: courseInfo.updatedAt,
       rating: courseInfo.rating?.toFixed(1) || "Ei vielä arvosteluja",
       teaching: courseInfo.teaching?.toFixed(1) || "Ei vielä arvosteluja",
       difficulty: courseInfo.difficulty?.toFixed(1) || "Ei vielä arvosteluja",
       workload: courseInfo.workload?.toFixed(1) || "Ei vielä arvosteluja",
-      comments: courseInfo.comments,
+      comments: {
+        positive,
+        neutral,
+        negative,
+      },
     };
 
     res.status(200).json(course);
   } catch (error) {
     console.error("Error fetching course:", error);
     res.status(500).json({ error: "Failed to fetch course" });
+  }
+};
+
+const getMoreComments = async (req, res) => {
+  const { toSkip, sentiment, courseCode } = req.query;
+  console.log("Skip:", toSkip, "for ", sentiment, "course:", courseCode);
+
+  try {
+    const comments = await prisma.comment.findMany({
+      where: {
+        sentiment: sentiment,
+        courseCode: courseCode,
+      },
+      skip: parseInt(toSkip) || 0,
+      take: 3,
+      orderBy: { createdAt: "desc" },
+    });
+
+    res.status(200).json(comments);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch more comments" });
   }
 };
 
@@ -200,4 +247,5 @@ module.exports = {
   addCourse,
   getCourse,
   addRating,
+  getMoreComments,
 };

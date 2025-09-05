@@ -8,11 +8,25 @@ async function main() {
       code: "COMP.CS.100",
       name: "Ohjelmointi 1: Johdatus ohjelmointiin",
       school: "TUNI",
-      comments: { create: [] },
-      ratings: { create: [] },
+      comments: {
+        create: [
+          { content: "Great introduction to programming!", sentiment: "positive" },
+          { content: "A bit too much workload for beginners.", sentiment: "negative" },
+          { content: "Overall okay, but could be better structured.", sentiment: "neutral" },
+        ],
+      },
+      ratings: {
+        create: [
+          { rating: 4.5, teaching: 5, difficulty: 3, workload: 4 },
+          { rating: 3.2, teaching: 3, difficulty: 4, workload: 3 },
+        ],
+      },
     },
   });
+
+  console.log("Seeded course:", course);
 }
+
 main()
   .then(async () => {
     await prisma.$disconnect();

@@ -7,32 +7,31 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "../../../components/ui/hover-card";
+import axios from "axios";
+import { useState } from "react";
 
 const MAX_WORDS = 10;
 
 interface CourseCommentsProps {
-  comments: Comment[];
+  comments: {
+    positive: Comment[];
+    neutral: Comment[];
+    negative: Comment[];
+  };
+  courseCode: string;
 }
 
-const CourseComments = ({ comments }: CourseCommentsProps) => {
+const CourseComments = ({ comments, courseCode }: CourseCommentsProps) => {
   const isMobile = useMobile();
-  //Move comment filtering to backend
-  const positiveComments = [];
-  const negativeComments = [];
-  const neutralComments = [];
+  const [allComments, setAllComments] = useState(comments);
+  const [loading, setLoading] = useState<{ [key: string]: boolean }>({});
 
-  if (comments.length === 0) {
+  if (
+    allComments.positive.length === 0 &&
+    allComments.neutral.length === 0 &&
+    allComments.negative.length === 0
+  ) {
     return <p>Ei kommentteja kurssista</p>;
-  }
-
-  for (const comment of comments) {
-    if (comment.sentiment === 1) {
-      positiveComments.push(comment);
-    } else if (comment.sentiment === -1) {
-      negativeComments.push(comment);
-    } else {
-      neutralComments.push(comment);
-    }
   }
 
   if (isMobile) {
@@ -42,9 +41,9 @@ const CourseComments = ({ comments }: CourseCommentsProps) => {
           Mitä ihmiset sanovat kurssista
         </p>
         <div className="grid grid-cols-1 gap-4 place-items-center">
-          {comments.map((comment: Comment) => (
+          {allComments.positive.map((comment: Comment) => (
             <CommentCard
-              key={comment.content}
+              key={comment.id}
               comment={comment}
               MAX_WORDS={MAX_WORDS}
             />
@@ -53,6 +52,37 @@ const CourseComments = ({ comments }: CourseCommentsProps) => {
       </div>
     );
   }
+
+  const getMoreComments = async (sentiment: string) => {
+    setLoading((prev) => ({ ...prev, [sentiment]: true }));
+
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/courses/comments",
+        {
+          params: {
+            toSkip: allComments[sentiment as keyof typeof allComments].length,
+            sentiment: sentiment,
+            courseCode: courseCode,
+          },
+        }
+      );
+
+      if (response.data && response.data.length > 0) {
+        setAllComments((prev) => ({
+          ...prev,
+          [sentiment]: [
+            ...prev[sentiment as keyof typeof prev],
+            ...response.data,
+          ],
+        }));
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading((prev) => ({ ...prev, [sentiment]: false }));
+    }
+  };
 
   return (
     <div className="text-center">
@@ -78,15 +108,21 @@ const CourseComments = ({ comments }: CourseCommentsProps) => {
             <Smile color="green" size={34} />
           </div>
           <div className="flex flex-col gap-2 w-full">
-            {positiveComments.map((comment) => (
+            {allComments.positive.map((comment) => (
               <CommentCard
-                key={comment.content}
+                key={comment.id}
                 comment={comment}
                 MAX_WORDS={MAX_WORDS}
               />
             ))}
           </div>
-          <p className="text-sm text-gray-500">Lisää kommentteja</p>
+          <button
+            className="text-sm text-gray-500 disabled:opacity-50"
+            onClick={() => getMoreComments("positive")}
+            disabled={loading.positive}
+          >
+            {loading.positive ? "Ladataan..." : "Lisää kommentteja"}
+          </button>
         </div>
 
         {/* Neutral Comments */}
@@ -95,14 +131,21 @@ const CourseComments = ({ comments }: CourseCommentsProps) => {
             <Meh color="gray" size={34} />
           </div>
           <div className="flex flex-col gap-2 w-full">
-            {neutralComments.map((comment) => (
+            {allComments.neutral.map((comment) => (
               <CommentCard
-                key={comment.content}
+                key={comment.id}
                 comment={comment}
                 MAX_WORDS={MAX_WORDS}
               />
             ))}
           </div>
+          <button
+            className="text-sm text-gray-500 disabled:opacity-50"
+            onClick={() => getMoreComments("neutral")}
+            disabled={loading.neutral}
+          >
+            {loading.neutral ? "Ladataan..." : "Lisää kommentteja"}
+          </button>
         </div>
 
         {/* Negative Comments */}
@@ -111,14 +154,21 @@ const CourseComments = ({ comments }: CourseCommentsProps) => {
             <Frown color="red" size={34} />
           </div>
           <div className="flex flex-col gap-2 w-full">
-            {negativeComments.map((comment) => (
+            {allComments.negative.map((comment) => (
               <CommentCard
-                key={comment.content}
+                key={comment.id}
                 comment={comment}
                 MAX_WORDS={MAX_WORDS}
               />
             ))}
           </div>
+          <button
+            className="text-sm text-gray-500 disabled:opacity-50"
+            onClick={() => getMoreComments("negative")}
+            disabled={loading.negative}
+          >
+            {loading.negative ? "Ladataan..." : "Lisää kommentteja"}
+          </button>
         </div>
       </div>
     </div>
