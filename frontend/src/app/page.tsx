@@ -1,5 +1,4 @@
 "use client";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { SchoolDropdown } from "./components/filters";
 import { Coursetable } from "./components";
@@ -8,6 +7,8 @@ import { FindCourseButton, AddCourseButton } from "./components/buttons";
 import { AddCourseModal } from "./components/modals";
 import { useMobile } from "@/context/mobilecontext";
 import { Search } from "./components/inputs";
+
+import { getInitialCourses, getFilteredCourses } from "@/lib/api";
 
 export default function Home() {
   const isMobile = useMobile();
@@ -19,50 +20,16 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    const fetchCoursesInitial = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:5000/api/courses/initial"
-        );
-        const data = await response.json();
-        console.log("API Response:", data);
-
-        if (response.ok) {
-          if (Array.isArray(data)) {
-            setCourses(
-              data.map((course: any) => ({
-                ...course,
-                school: course.school || "Unknown",
-              }))
-            );
-          } else {
-            console.error("Received data is not an array:", data);
-            setCourses([]);
-          }
-        } else {
-          console.error("API Error:", data.error || "Unknown error");
-          setCourses([]);
-        }
-      } catch (error) {
-        console.error("Error fetching courses:", error);
-        setCourses([]);
-      }
+    const fetchCourses = async () => {
+      const data = await getInitialCourses();
+      setCourses(data);
     };
-    fetchCoursesInitial();
+    fetchCourses();
   }, []);
 
   const fetchCourses = async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:5000/api/courses/filtered",
-        {
-          params: { school: school, searchTerm: searchTerm.toLowerCase() },
-        }
-      );
-      setCourses(response.data);
-    } catch (err) {
-      console.log("Error fetching courses:", err);
-    }
+    const data = await getFilteredCourses(school, searchTerm);
+    setCourses(data);
   };
 
   const addCourseClicked = () => {
@@ -81,7 +48,6 @@ export default function Home() {
           <FindCourseButton fetchCourses={fetchCourses} />
           <AddCourseButton addCourseClicked={addCourseClicked} />
         </div>
-
         {courses.length ? (
           <Coursetable courses={courses} />
         ) : (

@@ -14,6 +14,7 @@ import { Label } from "../ui/label";
 import { SchoolSelect } from "../inputs";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
+import { addCourse } from "@/lib/api";
 
 const AddCourseModal = ({ setAddNewOpen }) => {
   const [course, setCourse] = useState({
@@ -35,16 +36,14 @@ const AddCourseModal = ({ setAddNewOpen }) => {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/courses/addcourse",
-        course
-      );
+
+      const response = await addCourse(course)
 
       console.log("Response:", response);
 
       toast({
         variant: "success",
-        title: response.data.message || "Kurssi lisätty onnistuneesti!",
+        title: response.message || "Kurssi lisätty onnistuneesti!",
         description: "Päivitä sivu tai kurssilistaus nähdäksesi kurssin",
       });
 
