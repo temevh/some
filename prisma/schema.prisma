@@ -40,11 +40,17 @@ model Rating {
 }
 
 model Comment {
-  id         String @id @default(cuid())
+  id         String    @id @default(cuid())
   courseCode String
-  course     Course @relation(fields: [courseCode], references: [code], onDelete: Cascade)
+  course     Course    @relation(fields: [courseCode], references: [code], onDelete: Cascade)
   content    String
-  sentiment  Int
+  sentiment  Sentiment
 
   createdAt DateTime @default(now())
+}
+
+enum Sentiment {
+  positive
+  neutral
+  negative
 }

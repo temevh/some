@@ -31,13 +31,13 @@ async function checkSentiment(comment) {
 
   if (result.sentiment === "positive") {
     console.log("positive sentiment got");
-    return 1;
+    return "positive";
   } else if (result.sentiment === "negative") {
     console.log("negative sentiment got");
-    return -1;
+    return "negative";
   } else {
     console.log("neutral sentiment got");
-    return 0;
+    return "neutral";
   }
 }
 
