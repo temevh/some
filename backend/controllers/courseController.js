@@ -66,17 +66,17 @@ const getCourse = async (req, res) => {
     // Fetch 3 comments for each sentiment
     const [positive, neutral, negative] = await Promise.all([
       prisma.comment.findMany({
-        where: { courseCode: code, sentiment: positive },
+        where: { courseCode: code, sentiment: "positive" },
         take: 3,
         orderBy: { createdAt: "desc" },
       }),
       prisma.comment.findMany({
-        where: { courseCode: code, sentiment: neutral },
+        where: { courseCode: code, sentiment: "neutral" },
         take: 3,
         orderBy: { createdAt: "desc" },
       }),
       prisma.comment.findMany({
-        where: { courseCode: code, sentiment: negative },
+        where: { courseCode: code, sentiment: "negative" },
         take: 3,
         orderBy: { createdAt: "desc" },
       }),
@@ -104,13 +104,26 @@ const getCourse = async (req, res) => {
 };
 
 const getMoreComments = async (req, res) => {
- //TODO
- const {toSkip, sentiment} = req.query;
- console.log("Skip:", toSkip,"for ", sentiment);
- /*try{
-  const comments = await prisma.comment
- }*/
-}
+  const { toSkip, sentiment, courseCode } = req.query;
+  console.log("Skip:", toSkip, "for ", sentiment, "course:", courseCode);
+
+  try {
+    const comments = await prisma.comment.findMany({
+      where: {
+        sentiment: sentiment,
+        courseCode: courseCode,
+      },
+      skip: parseInt(toSkip) || 0,
+      take: 3,
+      orderBy: { createdAt: "desc" },
+    });
+
+    res.status(200).json(comments);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch more comments" });
+  }
+};
 
 //Add course (if not already in db)
 const addCourse = async (req, res) => {
@@ -234,5 +247,5 @@ module.exports = {
   addCourse,
   getCourse,
   addRating,
-  getMoreComments
+  getMoreComments,
 };

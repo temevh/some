@@ -7,7 +7,11 @@ interface Course {
   teaching: string;
   difficulty: string;
   workload: string;
-  comments: Comment[];
+  comments: {
+    positive: Comment[];
+    neutral: Comment[];
+    negative: Comment[];
+  };
 }
 
 interface Comment {
