@@ -17,6 +17,9 @@ const resources = {
       "free-word": "Feedback about the course",
       "cancel-button": "Cancel",
       "save-button": "Save",
+      "more-comments": "Load more comments",
+      "no-comments": "No comments about the course yet",
+      "what-people-say": "What people are saying about the course",
     },
   },
   fi: {
@@ -34,6 +37,9 @@ const resources = {
       "free-word": "Vapaa sana kurssista",
       "cancel-button": "Eiku",
       "save-button": "Tallenna",
+      "more-comments": "Näytä lisää kommentteja",
+      "no-comments": "Kurssista ei ole vielä kommentteja",
+      "what-people-say": "Mitä ihmiset sanovat kurssista",
     },
   },
 };
