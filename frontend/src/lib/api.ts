@@ -53,18 +53,16 @@ export const getMoreComments = async (
   }
 };
 
-export const addCourse = async(
-    course: any
-) => {  
-    try{
-        const response = await axios.post(`${API_BASE}/courses/addcourse`, course);
-        
-        return response.data || null;
-    }catch(err){
-        console.error("Error adding course");
-        return null;
-    }
-}
+export const addCourse = async (course: any) => {
+  try {
+    const response = await axios.post(`${API_BASE}/courses/addcourse`, course);
+
+    return response.data || null;
+  } catch (err) {
+    console.error("Error adding course");
+    return null;
+  }
+};
 
 export const getCourseInfo = async (code: string): Promise<Course | null> => {
   try {
@@ -80,16 +78,22 @@ export const getCourseInfo = async (code: string): Promise<Course | null> => {
 
 export const sendCourseRating = async (
   courseCode: string,
-  ratings: { rating: number; teaching: number; difficulty: number; workload: number },
+  ratings: {
+    rating: number;
+    teaching: number;
+    difficulty: number;
+    workload: number;
+  },
   comment?: string
-): Promise<boolean> => {
+): Promise<any> => {
+  //TODO: change from any to something
   try {
     const response = await axios.post(`${API_BASE}/courses/rate`, {
       courseCode,
       ratings,
       comment,
     });
-    return response.status === 200;
+    return response;
   } catch (err) {
     console.error("Error sending course rating:", err);
     return false;

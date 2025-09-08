@@ -39,6 +39,8 @@ const resources = {
       "add-course-cancel": "Cancel",
       "add-course-submit": "Add course",
       "toast-add-error-title": "Error adding course",
+      "toast-add-review-error-title": "Error adding review",
+      "toast-add-review-success-title": "Review added, thanks! ❤",
       "toast-add-error-description":
         "Please ensure all fields are filled correctly.",
       "toast-add-success-title": "Course added successfully!",
@@ -46,6 +48,8 @@ const resources = {
         "Refresh the page or course list to see it.",
       "toast-add-unknown-title": "Unknown error while adding course",
       "toast-add-unknown-description": "Please try again later.",
+      "comment-ai-info":
+        "The review sorting is done by an AI, the results might be inaccurate",
     },
   },
   fi: {
@@ -86,6 +90,10 @@ const resources = {
       "add-course-cancel": "Peruuta",
       "add-course-submit": "Lisää kurssi",
       "toast-add-error-title": "Virhe lisättäessä kurssia",
+      "toast-add-review-error-title": "Virhe arvostelun lisäämisessä",
+      "toast-add-review-success-title": "Arvostelu lisätty, kiitos! ❤",
+      "toast-add-error-review-description":
+        "Kokeilethan hetken päästä uudelleen",
       "toast-add-error-description":
         "Tarkista, että kaikki kentät on täytetty oikein.",
       "toast-add-success-title": "Kurssi lisätty onnistuneesti!",
@@ -93,6 +101,8 @@ const resources = {
         "Päivitä sivu tai kurssilistaus nähdäksesi kurssin",
       "toast-add-unknown-title": "Tuntematon virhe kurssin lisäämisessä",
       "toast-add-unknown-description": "Yritä myöhemmin uudelleen",
+      "comment-ai-info":
+        "Kommenttien luokittelu perustuu tekoälyyn, virheet ovat siis mahdollisia",
     },
   },
 };

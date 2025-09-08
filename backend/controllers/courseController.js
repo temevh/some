@@ -1,5 +1,5 @@
 const prisma = require("../prismaClient");
-const { checkSentiment } = require("../middleware/sentiment");
+const { checkSentiment, reviewLimiter } = require("../middleware/sentiment");
 
 // Fetch latest 20 courses
 const getInitialCourses = async (req, res) => {

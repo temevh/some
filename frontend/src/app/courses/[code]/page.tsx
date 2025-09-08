@@ -7,10 +7,12 @@ import { Button } from "@/app/components/ui/button";
 import { useMobile } from "@/context/mobilecontext";
 import { Card } from "@/app/components/ui/card";
 import { useTranslation } from "react-i18next";
+import { useToast } from "@/hooks/use-toast";
 
 import { getCourseInfo, sendCourseRating } from "@/lib/api";
 
 const CoursePage = () => {
+  const { toast } = useToast();
   const { t } = useTranslation();
   const isMobile = useMobile();
   const params = useParams();
@@ -44,9 +46,11 @@ const CoursePage = () => {
       difficulty: number;
       workload: number;
     },
-    comment?: string
+    comment?: string,
+    fakeout?: string
   ) => {
     if (!course) return;
+    if (fakeout) return;
 
     const isValid = checkRatings(ratings);
     setRatingsValid(isValid);
@@ -58,10 +62,20 @@ const CoursePage = () => {
       setErrorMessage("");
     }
 
-    const success = await sendCourseRating(course.code, ratings, comment);
-    if (success) {
+    const response = await sendCourseRating(course.code, ratings, comment);
+    if (response.status === 200) {
       fetchCourseInfo();
       setAddRatingShow(false);
+      toast({
+        variant: "success",
+        title: t("toast-add-review-success-title"),
+      });
+    } else {
+      toast({
+        variant: "destructive",
+        title: t("toast-add-review-error-title"),
+        description: t("toast-add-unknown-description"),
+      });
     }
   };
 
