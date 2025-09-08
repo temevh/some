@@ -32,38 +32,8 @@ export default function Navbar() {
           </div>
         </Link>
         <nav className="flex items-center gap-2">
-          <Button
-            variant="default"
-            size="sm"
-            className="border-2 border-black shadow-[3px_3px_0_0_#000]"
-          >
-            <Home className="w-4 h-4 mr-1" />
-            {t("home")}
-          </Button>
-
-          <Button
-            variant="default"
-            size="sm"
-            className="border-2 border-black shadow-[3px_3px_0_0_#000]"
-          >
-            <Search className="w-4 h-4 mr-1" />
-            {t("search")}
-          </Button>
-
           <div className="flex gap-2 p-2">
-            {/* English Flag */}
-
-            <Image
-              src="/flags/gb_flag.svg"
-              alt="English"
-              width={42}
-              height={42}
-              className={flagStyle("en")}
-              onClick={() => changeLanguage("en")}
-            />
-
             {/* Finnish Flag */}
-
             <Image
               onClick={() => changeLanguage("fi")}
               src="/flags/fi_flag.svg"
@@ -71,6 +41,15 @@ export default function Navbar() {
               width={42}
               height={42}
               className={flagStyle("fi")}
+            />
+            {/* English Flag */}
+            <Image
+              src="/flags/gb_flag.svg"
+              alt="English"
+              width={42}
+              height={42}
+              className={flagStyle("en")}
+              onClick={() => changeLanguage("en")}
             />
           </div>
         </nav>
