@@ -7,10 +7,12 @@ import { FindCourseButton, AddCourseButton } from "./components/buttons";
 import { AddCourseModal } from "./components/modals";
 import { useMobile } from "@/context/mobilecontext";
 import { Search } from "./components/inputs";
+import { useTranslation } from "react-i18next";
 
 import { getInitialCourses, getFilteredCourses } from "@/lib/api";
 
 export default function Home() {
+  const { t } = useTranslation();
   const isMobile = useMobile();
   const [courses, setCourses] = useState<
     { id: string; code: string; name: string; school: string }[]
@@ -41,7 +43,7 @@ export default function Home() {
       <div className="w-full flex flex-col gap-4 relative p-2">
         {addNewOpen && <AddCourseModal setAddNewOpen={setAddNewOpen} />}
         <div className="flex flex-row gap-4">
-          <Input type="text" placeholder="Kurssin nimi tai koodi" />
+          <Input type="text" placeholder={t("search-placeholder") as string} />
           <SchoolDropdown selectedSchool={school} setSchool={setSchool} />
         </div>
         <div className="flex flex-row justify-between">
@@ -51,7 +53,7 @@ export default function Home() {
         {courses.length ? (
           <Coursetable courses={courses} />
         ) : (
-          <p>Ei kursseja</p>
+          <p>{t("courses-not-found")}</p>
         )}
       </div>
     );
@@ -66,7 +68,11 @@ export default function Home() {
         <AddCourseButton addCourseClicked={addCourseClicked} />
       </div>
       <FindCourseButton fetchCourses={fetchCourses} />
-      {courses.length ? <Coursetable courses={courses} /> : <p>Ei kursseja</p>}
+      {courses.length ? (
+        <Coursetable courses={courses} />
+      ) : (
+        <p>{t("courses-not-found")}</p>
+      )}
     </div>
   );
 }

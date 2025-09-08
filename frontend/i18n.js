@@ -1,0 +1,108 @@
+import i18next from "i18next";
+import { initReactI18next } from "react-i18next";
+
+const resources = {
+  en: {
+    translation: {
+      "loading-info": "Loading...",
+      loading: "Loading...",
+      "app-name": "Course Grader",
+      home: "Home",
+      search: "Search",
+      "search-button": "Search courses",
+      "search-placeholder": "Course name or code",
+      "school-select": "Select school",
+      "school-search": "Search school...",
+      "school-empty": "No results.",
+      "add-course": "Add course",
+      "add-rating": "Add rating",
+      "courses-not-found": "No courses found",
+      "add-rating-header": "Add rating for course",
+      "overall-label": "Overall",
+      "teaching-label": "Teaching",
+      "difficulty-label": "Difficulty",
+      "workload-label": "Workload",
+      "free-word": "Feedback about the course",
+      "cancel-button": "Cancel",
+      "save-button": "Save",
+      "more-comments": "Load more comments",
+      "no-comments": "No comments about the course yet",
+      "what-people-say": "What people are saying about the course",
+      "course-not-found": "Course not found",
+      "required-fields": "Please fill all required * fields!",
+      "add-course-title": "Add course",
+      "add-course-description": "Didn't find the course? Add it here!",
+      "course-name": "Course name",
+      "course-name-placeholder": "Enter name",
+      "course-code": "Course code",
+      "course-code-placeholder": "Enter code",
+      "add-course-cancel": "Cancel",
+      "add-course-submit": "Add course",
+      "toast-add-error-title": "Error adding course",
+      "toast-add-error-description":
+        "Please ensure all fields are filled correctly.",
+      "toast-add-success-title": "Course added successfully!",
+      "toast-add-success-description":
+        "Refresh the page or course list to see it.",
+      "toast-add-unknown-title": "Unknown error while adding course",
+      "toast-add-unknown-description": "Please try again later.",
+    },
+  },
+  fi: {
+    translation: {
+      "loading-info": "Ladataan...",
+      loading: "Ladataan...",
+      "app-name": "Kurssiarvioija",
+      home: "Etusivu",
+      search: "Haku",
+      "search-button": "Hae kursseja",
+      "search-placeholder": "Kurssin nimi tai koodi",
+      "school-select": "Valitse oppilaitos",
+      "school-search": "Etsi oppilaitosta...",
+      "school-empty": "Ei löytynyt.",
+      "add-course": "Lisää kurssi",
+      "add-rating": "Lisää arvostelu",
+      "courses-not-found": "Kursseja ei löytynyt",
+      "add-rating-header": "Lisää arvostelu kurssille",
+      "overall-label": "Kokonaisarvosana",
+      "teaching-label": "Opetus",
+      "difficulty-label": "Vaikeus",
+      "workload-label": "Työmäärä",
+      "free-word": "Vapaa sana kurssista",
+      "cancel-button": "Peruuta",
+      "save-button": "Tallenna",
+      "more-comments": "Näytä lisää kommentteja",
+      "no-comments": "Kurssista ei ole vielä kommentteja",
+      "what-people-say": "Mitä ihmiset sanovat kurssista",
+      "course-not-found": "Kurssia ei löytynyt",
+      "required-fields": "Täytäthän kaikki * merkatut pakolliset kentät!",
+      "add-course-title": "Lisää kurssi",
+      "add-course-description":
+        "Etkö löytänyt etsimääsi kurssia? Lisää se tästä!",
+      "course-name": "Kurssin nimi",
+      "course-name-placeholder": "Syötä nimi",
+      "course-code": "Kurssin koodi",
+      "course-code-placeholder": "Syötä koodi",
+      "add-course-cancel": "Peruuta",
+      "add-course-submit": "Lisää kurssi",
+      "toast-add-error-title": "Virhe lisättäessä kurssia",
+      "toast-add-error-description":
+        "Tarkista, että kaikki kentät on täytetty oikein.",
+      "toast-add-success-title": "Kurssi lisätty onnistuneesti!",
+      "toast-add-success-description":
+        "Päivitä sivu tai kurssilistaus nähdäksesi kurssin",
+      "toast-add-unknown-title": "Tuntematon virhe kurssin lisäämisessä",
+      "toast-add-unknown-description": "Yritä myöhemmin uudelleen",
+    },
+  },
+};
+
+i18next.use(initReactI18next).init({
+  resources,
+  lng: "fi",
+  interpolation: {
+    escapeValue: false,
+  },
+});
+
+export default i18next;
