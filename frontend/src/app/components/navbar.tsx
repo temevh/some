@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useTranslation } from "react-i18next";
 
 export default function Navbar() {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
@@ -19,7 +19,7 @@ export default function Navbar() {
         <Link href="/" className="no-underline">
           <div className="flex items-center gap-2 select-none">
             <span className="text-xl font-extrabold tracking-tight text-black">
-              Course Grader
+              Kurssari
             </span>
           </div>
         </Link>
@@ -30,7 +30,7 @@ export default function Navbar() {
             className="border-2 border-black shadow-[3px_3px_0_0_#000] rounded-none"
           >
             <Home className="w-4 h-4 mr-1" />
-            Home
+            {t("home")}
           </Button>
 
           <Button
@@ -39,7 +39,7 @@ export default function Navbar() {
             className="border-2 border-black shadow-[3px_3px_0_0_#000] rounded-none"
           >
             <Search className="w-4 h-4 mr-1" />
-            Search
+            {t("search")}
           </Button>
 
           {/* English Flag */}

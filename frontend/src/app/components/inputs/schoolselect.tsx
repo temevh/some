@@ -7,16 +7,18 @@ import {
   SelectValue,
 } from "../ui/select";
 import { schools } from "@/assets/data";
+import { useTranslation } from "react-i18next";
 
 const SchoolSelect = ({
   updateSchool,
 }: {
   updateSchool: (value: string) => void;
 }) => {
+  const { t } = useTranslation();
   return (
     <Select onValueChange={updateSchool}>
       <SelectTrigger className="">
-        <SelectValue placeholder="Valitse oppilaitos" />
+        <SelectValue placeholder={t("school-select") as string} />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>

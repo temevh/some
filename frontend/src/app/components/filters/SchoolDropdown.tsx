@@ -14,6 +14,7 @@ import {
   CommandList,
 } from "../ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { useTranslation } from "react-i18next";
 
 const schools = [
   {
@@ -35,8 +36,12 @@ interface SchoolDropdownProps {
   selectedSchool: string | null;
 }
 
-const SchoolDropdown: React.FC<SchoolDropdownProps> = ({ setSchool, selectedSchool }) => {
+const SchoolDropdown: React.FC<SchoolDropdownProps> = ({
+  setSchool,
+  selectedSchool,
+}) => {
   const [open, setOpen] = React.useState(false);
+  const { t } = useTranslation();
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -49,29 +54,33 @@ const SchoolDropdown: React.FC<SchoolDropdownProps> = ({ setSchool, selectedScho
         >
           {selectedSchool
             ? schools.find((school) => school.value === selectedSchool)?.label
-            : "Valite oppilaitos"}
+            : t("school-select")}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0 z-50">
         <Command>
-          <CommandInput placeholder="Etsi oppilaitosta..." />
+          <CommandInput placeholder={t("school-search") as string} />
           <CommandList>
-            <CommandEmpty>Ei löytynyt.</CommandEmpty>
+            <CommandEmpty>{t("school-empty")}</CommandEmpty>
             <CommandGroup>
               {schools.map((school) => (
                 <CommandItem
                   key={school.value}
                   value={school.value}
                   onSelect={(currentValue) => {
-                    setSchool(currentValue === selectedSchool ? null : currentValue);
+                    setSchool(
+                      currentValue === selectedSchool ? null : currentValue
+                    );
                     setOpen(false);
                   }}
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      selectedSchool === school.value ? "opacity-100" : "opacity-0"
+                      selectedSchool === school.value
+                        ? "opacity-100"
+                        : "opacity-0"
                     )}
                   />
                   {school.label}

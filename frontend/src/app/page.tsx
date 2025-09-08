@@ -43,7 +43,7 @@ export default function Home() {
       <div className="w-full flex flex-col gap-4 relative p-2">
         {addNewOpen && <AddCourseModal setAddNewOpen={setAddNewOpen} />}
         <div className="flex flex-row gap-4">
-          <Input type="text" placeholder="Kurssin nimi tai koodi" />
+          <Input type="text" placeholder={t("search-placeholder") as string} />
           <SchoolDropdown selectedSchool={school} setSchool={setSchool} />
         </div>
         <div className="flex flex-row justify-between">

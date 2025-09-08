@@ -15,6 +15,7 @@ import { SchoolSelect } from "../inputs";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
 import { addCourse } from "@/lib/api";
+import { useTranslation } from "react-i18next";
 
 interface AddCourseModalProps {
   setAddNewOpen: (open: boolean) => void;
@@ -28,27 +29,27 @@ const AddCourseModal = ({ setAddNewOpen }: AddCourseModalProps) => {
   });
   const [failed, setFailed] = useState(false);
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   const addClicked = async () => {
     if (!course?.name || !course?.code || !course?.school) {
       toast({
         variant: "destructive",
-        title: "Virhe lisättäessä kurssia",
-        description: "Tarkista, että kaikki kentät on täytetty oikein.",
+        title: t("toast-add-error-title"),
+        description: t("toast-add-error-description"),
       });
       return;
     }
 
     try {
-
-      const response = await addCourse(course)
+      const response = await addCourse(course);
 
       console.log("Response:", response);
 
       toast({
         variant: "success",
-        title: response.message || "Kurssi lisätty onnistuneesti!",
-        description: "Päivitä sivu tai kurssilistaus nähdäksesi kurssin",
+        title: response.message || (t("toast-add-success-title") as string),
+        description: t("toast-add-success-description"),
       });
 
       setAddNewOpen(false);
@@ -60,17 +61,19 @@ const AddCourseModal = ({ setAddNewOpen }: AddCourseModalProps) => {
           if (error.response.status === 409) {
             toast({
               variant: "destructive",
-              title: "Virhe kurssin lisäämisessä",
+              title: t("toast-add-error-title"),
               description:
-                error.response.data.message || "Tarkista syöttämäsi tiedot.",
+                (error.response.data.message as string) ||
+                (t("toast-add-error-description") as string),
             });
           } else if (error.response.status === 500) {
             setFailed(true);
             toast({
               variant: "destructive",
-              title: "Tuntematon virhe kurssin lisäämisessä",
+              title: t("toast-add-unknown-title"),
               description:
-                error.response.data.message || "Yritä myöhemmin uudelleen",
+                (error.response.data.message as string) ||
+                (t("toast-add-unknown-description") as string),
             });
           }
         }
@@ -96,22 +99,24 @@ const AddCourseModal = ({ setAddNewOpen }: AddCourseModalProps) => {
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <Card className="w-[350px]">
         <CardHeader>
-          <CardTitle>Lisää kurssi</CardTitle>
-          <CardDescription>
-            Etkö löytänyt etsimääsi kurssia? Lisää se tästä!
-          </CardDescription>
+          <CardTitle>{t("add-course-title")}</CardTitle>
+          <CardDescription>{t("add-course-description")}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Kurssin nimi</Label>
-              <Input id="name" placeholder="Syötä nimi" onChange={updateName} />
+              <Label htmlFor="name">{t("course-name")}</Label>
+              <Input
+                id="name"
+                placeholder={t("course-name-placeholder") as string}
+                onChange={updateName}
+              />
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Kurssin koodi</Label>
+              <Label htmlFor="name">{t("course-code")}</Label>
               <Input
                 id="code"
-                placeholder="Syötä koodi"
+                placeholder={t("course-code-placeholder") as string}
                 onChange={updateCode}
               />
             </div>
@@ -122,15 +127,14 @@ const AddCourseModal = ({ setAddNewOpen }: AddCourseModalProps) => {
         </CardContent>
         {failed && (
           <p className="text-center text-red-600 p-2">
-            Virhe kurssin lisäämisessä. Tarkistithan että sitä ei ole vielä
-            lisätty?
+            {t("toast-add-error-title")} {t("toast-add-error-description")}
           </p>
         )}
         <CardFooter className="flex justify-between">
           <Button variant="reverse" onClick={() => setAddNewOpen(false)}>
-            Eiku
+            {t("add-course-cancel")}
           </Button>
-          <Button onClick={addClicked}>Lisää kurssi</Button>
+          <Button onClick={addClicked}>{t("add-course-submit")}</Button>
         </CardFooter>
       </Card>
     </div>
