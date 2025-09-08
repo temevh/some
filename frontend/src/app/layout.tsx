@@ -5,6 +5,7 @@ import { Toaster } from "./components/ui/toaster";
 import { MobileProvider } from "@/context/mobilecontext";
 import i18next from "../../i18n";
 import { I18nextProvider } from "react-i18next";
+import { Navbar } from "./components";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,7 +29,11 @@ export default function RootLayout({
           <body
             className={` pt-4 ${geistSans.variable} ${geistMono.variable} antialiased lg:w-1/3 mx-auto bg-bg`}
           >
-            {children}
+            <nav>
+              <Navbar />
+            </nav>
+
+            <main className="py-6">{children}</main>
             <Toaster />
           </body>
         </I18nextProvider>
