@@ -111,7 +111,7 @@ const CourseComments = ({ comments, courseCode }: CourseCommentsProps) => {
             ))}
           </div>
           <button
-            className="text-sm text-gray-500 disabled:opacity-50"
+            className="text-sm text-gray-500 disabled:opacity-50 pt-2"
             onClick={() => handleGetMoreComments("positive")}
             disabled={loading.positive}
           >
@@ -134,7 +134,7 @@ const CourseComments = ({ comments, courseCode }: CourseCommentsProps) => {
             ))}
           </div>
           <button
-            className="text-sm text-gray-500 disabled:opacity-50"
+            className="text-sm text-gray-500 disabled:opacity-50 pt-2"
             onClick={() => handleGetMoreComments("neutral")}
             disabled={loading.neutral}
           >
@@ -157,7 +157,7 @@ const CourseComments = ({ comments, courseCode }: CourseCommentsProps) => {
             ))}
           </div>
           <button
-            className="text-sm text-gray-500 disabled:opacity-50"
+            className="text-sm text-gray-500 disabled:opacity-50 pt-2"
             onClick={() => handleGetMoreComments("negative")}
             disabled={loading.negative}
           >

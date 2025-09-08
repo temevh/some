@@ -69,7 +69,7 @@ const resources = {
       "difficulty-label": "Vaikeus",
       "workload-label": "Työmäärä",
       "free-word": "Vapaa sana kurssista",
-      "cancel-button": "Peruuta",
+      "cancel-button": "Eiku",
       "save-button": "Tallenna",
       "more-comments": "Näytä lisää kommentteja",
       "no-comments": "Kurssista ei ole vielä kommentteja",

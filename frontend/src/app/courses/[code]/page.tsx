@@ -52,7 +52,7 @@ const CoursePage = () => {
     setRatingsValid(isValid);
 
     if (!isValid) {
-      setErrorMessage("Täytäthän kaikki * merkatut pakolliset kentät!");
+      setErrorMessage(t("required-fields"));
       return;
     } else {
       setErrorMessage("");

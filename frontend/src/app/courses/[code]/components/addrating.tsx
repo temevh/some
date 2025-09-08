@@ -56,8 +56,7 @@ const AddRating = ({
         <CardHeader>
           <CardTitle>
             {" "}
-            {t("add-rating-header")}
-            {course.name}
+            {t("add-rating-header")} {course.name}
           </CardTitle>
         </CardHeader>
         <CardContent>

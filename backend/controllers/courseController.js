@@ -223,6 +223,7 @@ const addRating = async (req, res) => {
     });
 
     if (comment) {
+      //Check for flagging
       const sentiment = await checkSentiment(comment);
       console.log(sentiment);
       await prisma.comment.create({
