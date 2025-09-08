@@ -16,7 +16,11 @@ import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
 import { addCourse } from "@/lib/api";
 
-const AddCourseModal = ({ setAddNewOpen }) => {
+interface AddCourseModalProps {
+  setAddNewOpen: (open: boolean) => void;
+}
+
+const AddCourseModal = ({ setAddNewOpen }: AddCourseModalProps) => {
   const [course, setCourse] = useState({
     name: "",
     code: "",
