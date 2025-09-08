@@ -39,6 +39,8 @@ const resources = {
       "add-course-cancel": "Cancel",
       "add-course-submit": "Add course",
       "toast-add-error-title": "Error adding course",
+      "toast-add-review-error-title": "Error adding review",
+      "toast-add-review-success-title": "Review added, thanks! ❤",
       "toast-add-error-description":
         "Please ensure all fields are filled correctly.",
       "toast-add-success-title": "Course added successfully!",
@@ -86,6 +88,10 @@ const resources = {
       "add-course-cancel": "Peruuta",
       "add-course-submit": "Lisää kurssi",
       "toast-add-error-title": "Virhe lisättäessä kurssia",
+      "toast-add-review-error-title": "Virhe arvostelun lisäämisessä",
+      "toast-add-review-success-title": "Arvostelu lisätty, kiitos! ❤",
+      "toast-add-error-review-description":
+        "Kokeilethan hetken päästä uudelleen",
       "toast-add-error-description":
         "Tarkista, että kaikki kentät on täytetty oikein.",
       "toast-add-success-title": "Kurssi lisätty onnistuneesti!",
