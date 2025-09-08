@@ -44,9 +44,11 @@ const CoursePage = () => {
       difficulty: number;
       workload: number;
     },
-    comment?: string
+    comment?: string,
+    fakeout?: string
   ) => {
     if (!course) return;
+    if (fakeout) return;
 
     const isValid = checkRatings(ratings);
     setRatingsValid(isValid);

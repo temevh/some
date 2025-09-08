@@ -22,7 +22,8 @@ interface AddRatingProps {
       difficulty: number;
       workload: number;
     },
-    comment: string
+    comment: string,
+    fakeout: string
   ) => void;
   errorMessage: string;
 }
@@ -41,6 +42,7 @@ const AddRating = ({
     workload: 0,
   });
   const [comment, setComment] = useState("");
+  const [fakeout, setFakeout] = useState("");
 
   const handleRatingChange = (key: string, value: number | null) => {
     setRatings((prev) => ({ ...prev, [key]: value }));
@@ -106,6 +108,11 @@ const AddRating = ({
                 <Label htmlFor="workload">{t("free-word")}</Label>
                 <Textarea onChange={(e) => handleCommentChange(e)} />
               </div>
+              <input
+                style={{ display: "none" }}
+                type="text"
+                onChange={(e) => setFakeout(e.target.value)}
+              ></input>
             </div>
           </div>
           {errorMessage !== "" && (
@@ -117,7 +124,7 @@ const AddRating = ({
           <Button variant="reverse" onClick={() => setAddRatingShow(false)}>
             {t("cancel-button")}
           </Button>
-          <Button onClick={() => sendRatingClicked(ratings, comment)}>
+          <Button onClick={() => sendRatingClicked(ratings, comment, fakeout)}>
             {t("save-button")}
           </Button>
         </CardFooter>
