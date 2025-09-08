@@ -88,10 +88,7 @@ const CourseComments = ({ comments, courseCode }: CourseCommentsProps) => {
               ?
             </div>
           </HoverCardTrigger>
-          <HoverCardContent>
-            Kommenttien luokittelu perustuu tekoälyyn, virheet ovat siis
-            mahdollisia
-          </HoverCardContent>
+          <HoverCardContent>{t("comment-ai-info")}</HoverCardContent>
         </HoverCard>
       </div>
 

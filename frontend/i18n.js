@@ -48,6 +48,8 @@ const resources = {
         "Refresh the page or course list to see it.",
       "toast-add-unknown-title": "Unknown error while adding course",
       "toast-add-unknown-description": "Please try again later.",
+      "comment-ai-info":
+        "The review sorting is done by an AI, the results might be inaccurate",
     },
   },
   fi: {
@@ -99,6 +101,8 @@ const resources = {
         "Päivitä sivu tai kurssilistaus nähdäksesi kurssin",
       "toast-add-unknown-title": "Tuntematon virhe kurssin lisäämisessä",
       "toast-add-unknown-description": "Yritä myöhemmin uudelleen",
+      "comment-ai-info":
+        "Kommenttien luokittelu perustuu tekoälyyn, virheet ovat siis mahdollisia",
     },
   },
 };
