@@ -1,6 +1,6 @@
 const prisma = require("../prismaClient");
 const { checkSentiment, reviewLimiter } = require("../middleware/sentiment");
-
+const verifyToken = require("../middleware/verifyToken");
 // Fetch latest 20 courses
 const getInitialCourses = async (req, res) => {
   try {
@@ -172,7 +172,14 @@ const addCourse = async (req, res) => {
 
 const addRating = async (req, res) => {
   try {
-    const { courseCode, ratings, comment } = req.body;
+    const { courseCode, ratings, token, comment } = req.body;
+
+    const recaptchaRes = await verifyToken(token);
+    console.log(recaptchaRes);
+
+    if (!recaptchaRes.success || recaptchaRes.score < 0.5) {
+      return res.status(403).json({ message: "Bot detection not passed" });
+    }
 
     if (!courseCode || !ratings) {
       return res.status(400).json({ message: "Virhe arvostelun lisäämisessä" });

@@ -6,6 +6,7 @@ import { MobileProvider } from "@/context/mobilecontext";
 import i18next from "../../i18n";
 import { I18nextProvider } from "react-i18next";
 import { Navbar } from "./components";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,6 +27,12 @@ export default function RootLayout({
     <html lang="en">
       <MobileProvider>
         <I18nextProvider i18n={i18next}>
+          <head>
+            <Script
+              src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+              strategy="afterInteractive"
+            />
+          </head>
           <body
             className={`pt-4 ${geistSans.variable} ${geistMono.variable} antialiased mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 bg-gray-100`}
             style={{

@@ -84,6 +84,7 @@ export const sendCourseRating = async (
     difficulty: number;
     workload: number;
   },
+  token: string,
   comment?: string
 ): Promise<any> => {
   //TODO: change from any to something
@@ -91,6 +92,7 @@ export const sendCourseRating = async (
     const response = await axios.post(`${API_BASE}/courses/rate`, {
       courseCode,
       ratings,
+      token,
       comment,
     });
     return response;

@@ -10,6 +10,8 @@ import { useTranslation } from "react-i18next";
 import { useToast } from "@/hooks/use-toast";
 
 import { getCourseInfo, sendCourseRating } from "@/lib/api";
+import { resolve } from "path";
+import { rejects } from "assert";
 
 const CoursePage = () => {
   const { toast } = useToast();
@@ -62,7 +64,27 @@ const CoursePage = () => {
       setErrorMessage("");
     }
 
-    const response = await sendCourseRating(course.code, ratings, comment);
+    const token = await new Promise<string>((resolve, reject) => {
+      if (!grecaptcha) {
+        reject("reCAPTCHA not loaded");
+        return;
+      }
+      grecaptcha.ready(() => {
+        grecaptcha
+          .execute(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string, {
+            action: "submit_review",
+          })
+          .then(resolve)
+          .catch(reject);
+      });
+    });
+
+    const response = await sendCourseRating(
+      course.code,
+      ratings,
+      token,
+      comment
+    );
     if (response.status === 200) {
       fetchCourseInfo();
       setAddRatingShow(false);
