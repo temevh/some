@@ -11,6 +11,8 @@ import { ChangeEvent, useState } from "react";
 import Rating from "@mui/material/Rating";
 import { Textarea } from "@/app/components/ui/textarea";
 import { useTranslation } from "react-i18next";
+import ReCAPTCHA from "react-google-recaptcha";
+import { useRef } from "react";
 
 interface AddRatingProps {
   setAddRatingShow: (show: boolean) => void;
@@ -22,9 +24,10 @@ interface AddRatingProps {
       difficulty: number;
       workload: number;
     },
-    comment: string,
-    fakeout: string
-  ) => void;
+    comment?: string,
+    fakeout?: string,
+    recaptchaToken?: string
+  ) => void | Promise<void>;
   errorMessage: string;
 }
 
@@ -43,6 +46,9 @@ const AddRating = ({
   });
   const [comment, setComment] = useState("");
   const [fakeout, setFakeout] = useState("");
+
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
 
   const handleRatingChange = (key: string, value: number | null) => {
     setRatings((prev) => ({ ...prev, [key]: value }));
@@ -113,6 +119,12 @@ const AddRating = ({
                 type="text"
                 onChange={(e) => setFakeout(e.target.value)}
               ></input>
+              <ReCAPTCHA
+                ref={recaptchaRef}
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+                onChange={setRecaptchaToken}
+                className="mt-4"
+              ></ReCAPTCHA>
             </div>
           </div>
           {errorMessage !== "" && (
@@ -124,7 +136,17 @@ const AddRating = ({
           <Button variant="reverse" onClick={() => setAddRatingShow(false)}>
             {t("cancel-button")}
           </Button>
-          <Button onClick={() => sendRatingClicked(ratings, comment, fakeout)}>
+          <Button
+            onClick={() =>
+              sendRatingClicked(
+                ratings,
+                comment,
+                fakeout,
+                recaptchaToken === null ? undefined : recaptchaToken
+              )
+            }
+            disabled={!recaptchaToken}
+          >
             {t("save-button")}
           </Button>
         </CardFooter>

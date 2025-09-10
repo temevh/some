@@ -84,7 +84,8 @@ export const sendCourseRating = async (
     difficulty: number;
     workload: number;
   },
-  comment?: string
+  comment?: string,
+  recaptchaToken?: string
 ): Promise<any> => {
   //TODO: change from any to something
   try {
@@ -92,6 +93,7 @@ export const sendCourseRating = async (
       courseCode,
       ratings,
       comment,
+      recaptchaToken,
     });
     return response;
   } catch (err) {
