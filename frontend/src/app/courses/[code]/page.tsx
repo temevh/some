@@ -47,7 +47,8 @@ const CoursePage = () => {
       workload: number;
     },
     comment?: string,
-    fakeout?: string
+    fakeout?: string,
+    recaptchaToken?: string
   ) => {
     if (!course) return;
     if (fakeout) return;
@@ -62,7 +63,17 @@ const CoursePage = () => {
       setErrorMessage("");
     }
 
-    const response = await sendCourseRating(course.code, ratings, comment);
+    if (!recaptchaToken) {
+      setErrorMessage("Please complete the reCAPTCHA.");
+      return;
+    }
+
+    const response = await sendCourseRating(
+      course.code,
+      ratings,
+      comment,
+      recaptchaToken
+    );
     if (response.status === 200) {
       fetchCourseInfo();
       setAddRatingShow(false);

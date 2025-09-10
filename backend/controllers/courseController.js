@@ -172,13 +172,25 @@ const addCourse = async (req, res) => {
 
 const addRating = async (req, res) => {
   try {
-    const { courseCode, ratings, comment } = req.body;
+    const { courseCode, ratings, comment, recaptchaToken } = req.body;
 
     if (!courseCode || !ratings) {
       return res.status(400).json({ message: "Virhe arvostelun lisäämisessä" });
     }
 
+    if (!recaptchaToken) {
+      return res.status(400).json({ message: "reCAPTCHA validation failed" });
+    }
+
     console.log(courseCode, ratings);
+    const secret = process.env.RECAPTCHA_SECRET_KEY;
+    const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${recaptchaToken}`;
+    const fetchResponse = await fetch(verifyUrl, { method: "POST" });
+    const data = await fetchResponse.json();
+
+    if (!data.success) {
+      return res.status(400).json({ message: "Recaptcha validation failed" });
+    }
 
     const course = await prisma.course.findUnique({
       where: { code: courseCode },
