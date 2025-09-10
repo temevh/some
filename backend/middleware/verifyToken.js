@@ -1,23 +1,25 @@
 const verifyToken = async (token) => {
   const secret = process.env.RECAPTCHA_SECRET_KEY;
-  const url = "https://www.google.com/recaptcha/api/siteverify";
+  console.log("secret", secret);
+  console.log("Verifying token:", token.substring(0, 20) + "...");
 
-  const res = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: new URLSearchParams({
-      secret,
-      response: token,
-    }),
-  });
+  const response = await fetch(
+    "https://www.google.com/recaptcha/api/siteverify",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        secret,
+        response: token,
+      }),
+    }
+  );
 
-  if (!res.ok) {
-    throw new Error(`reCAPTCHA verification failed: ${res.statusText}`);
-  }
+  const data = await response.json();
+  console.log("Recaptcha response:", data);
 
-  const data = await res.json();
   return data;
 };
 

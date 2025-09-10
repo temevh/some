@@ -175,7 +175,6 @@ const addRating = async (req, res) => {
     const { courseCode, ratings, token, comment } = req.body;
 
     const recaptchaRes = await verifyToken(token);
-    console.log(recaptchaRes);
 
     if (!recaptchaRes.success || recaptchaRes.score < 0.5) {
       return res.status(403).json({ message: "Bot detection not passed" });
