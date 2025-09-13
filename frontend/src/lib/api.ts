@@ -12,7 +12,7 @@ export const getInitialCourses = async () => {
       throw new Error("Invalid data format");
     }
 
-    return data.map((course: any) => ({
+    return data.map((course: Course) => ({
       ...course,
       school: course.school || "Unknown",
     }));
@@ -53,7 +53,7 @@ export const getMoreComments = async (
   }
 };
 
-export const addCourse = async (course: any) => {
+export const addCourse = async (course: Course) => {
   try {
     const response = await axios.post(`${API_BASE}/courses/addcourse`, course);
 
@@ -86,7 +86,10 @@ export const sendCourseRating = async (
   },
   comment?: string,
   recaptchaToken?: string
-): Promise<any> => {
+): Promise<
+  | boolean
+  | { courseCode: String; ratings: []; comment: String; recaptchaToken: String }
+> => {
   //TODO: change from any to something
   try {
     const response = await axios.post(`${API_BASE}/courses/rate`, {
@@ -95,7 +98,7 @@ export const sendCourseRating = async (
       comment,
       recaptchaToken,
     });
-    return response;
+    return response.data;
   } catch (err) {
     console.error("Error sending course rating:", err);
     return false;
