@@ -90,7 +90,6 @@ export const sendCourseRating = async (
   | boolean
   | { courseCode: String; ratings: []; comment: String; recaptchaToken: String }
 > => {
-  //TODO: change from any to something
   try {
     const response = await axios.post(`${API_BASE}/courses/rate`, {
       courseCode,

@@ -16,6 +16,7 @@ import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
 import { addCourse } from "@/lib/api";
 import { useTranslation } from "react-i18next";
+import { Course } from "@/app/courses/[code]/interfaces";
 
 interface AddCourseModalProps {
   setAddNewOpen: (open: boolean) => void;
