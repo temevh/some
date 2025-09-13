@@ -7,7 +7,10 @@ const {
   addRating,
   getMoreComments,
 } = require("../controllers/courseController");
-const reviewLimiter = require("../middleware/ratelimit");
+const {
+  reviewLimiter,
+  reviewLimiterCourseAdding,
+} = require("../middleware/ratelimit");
 const router = express.Router();
 
 router.get("/initial", getInitialCourses);
@@ -16,6 +19,6 @@ router.get("/course", getCourse);
 router.get("/comments", getMoreComments);
 
 router.post("/rate", reviewLimiter, addRating);
-router.post("/addcourse", reviewLimiter, addCourse);
+router.post("/addcourse", reviewLimiterCourseAdding, addCourse);
 
 module.exports = router;

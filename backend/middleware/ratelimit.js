@@ -9,4 +9,12 @@ const reviewLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-module.exports = reviewLimiter;
+const reviewLimiterCourseAdding = rateLimit({
+  windowMs: 24 * 60 * 60 * 1000,
+  max: 3, //max 3 reviews in 24 hours
+  message: "Please wait a moment before adding more courses",
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+module.exports = { reviewLimiter, reviewLimiterCourseAdding };
