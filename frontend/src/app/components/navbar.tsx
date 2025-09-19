@@ -1,14 +1,12 @@
 "use client";
 
-import { Button } from "./ui";
-import { Home, Search } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 
 export default function Navbar() {
-  const { i18n, t } = useTranslation();
+  const { i18n } = useTranslation();
   const [selectedLanguage, setSelectedLanguage] = useState("fi");
 
   const changeLanguage = (lang: string) => {

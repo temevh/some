@@ -14,12 +14,10 @@ import { getCourseInfo, sendCourseRating } from "@/lib/api";
 const CoursePage = () => {
   const { toast } = useToast();
   const { t } = useTranslation();
-  const isMobile = useMobile();
   const params = useParams();
   const [course, setCourse] = useState<Course | null>(null);
   const [loading, setLoading] = useState(true);
   const [addRatingShow, setAddRatingShow] = useState(false);
-  const [ratingsValid, setRatingsValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
   const fetchCourseInfo = async () => {
@@ -33,7 +31,7 @@ const CoursePage = () => {
 
   useEffect(() => {
     fetchCourseInfo();
-  }, [params?.code]);
+  }, []);
 
   const checkRatings = (ratings: Record<string, number>) => {
     return Object.values(ratings).every((v) => v >= 1 && v <= 5);
@@ -54,7 +52,6 @@ const CoursePage = () => {
     if (fakeout) return;
 
     const isValid = checkRatings(ratings);
-    setRatingsValid(isValid);
 
     if (!isValid) {
       setErrorMessage(t("required-fields"));
