@@ -86,10 +86,7 @@ export const sendCourseRating = async (
   },
   comment?: string,
   recaptchaToken?: string
-): Promise<
-  | boolean
-  | { courseCode: String; ratings: []; comment: String; recaptchaToken: String }
-> => {
+): Promise<{ message: string } | false> => {
   try {
     const response = await axios.post(`${API_BASE}/courses/rate`, {
       courseCode,
@@ -98,7 +95,10 @@ export const sendCourseRating = async (
       recaptchaToken,
     });
     return response.data;
-  } catch (err) {
+  } catch (err: any) {
+    if (err.response && err.response.data && err.response.data.message) {
+      return { message: err.response.data.message };
+    }
     console.error("Error sending course rating:", err);
     return false;
   }

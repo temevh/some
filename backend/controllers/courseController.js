@@ -169,7 +169,6 @@ const addCourse = async (req, res) => {
     res.status(500).json({ message: "Virhe kurssin lisäämisessä :(" });
   }
 };
-
 const addRating = async (req, res) => {
   try {
     const { courseCode, ratings, comment, recaptchaToken } = req.body;
@@ -182,7 +181,6 @@ const addRating = async (req, res) => {
       return res.status(400).json({ message: "reCAPTCHA validation failed" });
     }
 
-    console.log(courseCode, ratings);
     const secret = process.env.RECAPTCHA_SECRET_KEY;
     const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${recaptchaToken}`;
     const fetchResponse = await fetch(verifyUrl, { method: "POST" });
@@ -235,9 +233,7 @@ const addRating = async (req, res) => {
     });
 
     if (comment) {
-      //Check for flagging
       const sentiment = await checkSentiment(comment);
-      console.log(sentiment);
       await prisma.comment.create({
         data: {
           courseCode,
@@ -247,13 +243,15 @@ const addRating = async (req, res) => {
       });
     }
 
-    res.status(200).json({ message: "Arvostelu lisätty onnistuneesti!" });
+    return res
+      .status(200)
+      .json({ message: "Arvostelu lisätty onnistuneesti!" });
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Virhe arvostelun lisäämisessä :(" });
+    return res
+      .status(500)
+      .json({ message: "Virhe arvostelun lisäämisessä :(" });
   }
 };
-
 module.exports = {
   getInitialCourses,
   getCourses,

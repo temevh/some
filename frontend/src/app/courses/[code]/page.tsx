@@ -74,12 +74,29 @@ const CoursePage = () => {
       comment,
       recaptchaToken
     );
-    if (response.status === 200) {
+    console.log(response);
+
+    if (
+      response &&
+      typeof response === "object" &&
+      "message" in response &&
+      response.message === "Arvostelu lisätty onnistuneesti!"
+    ) {
       fetchCourseInfo();
       setAddRatingShow(false);
       toast({
         variant: "success",
         title: t("toast-add-review-success-title"),
+      });
+    } else if (
+      response &&
+      typeof response === "object" &&
+      "message" in response
+    ) {
+      toast({
+        variant: "destructive",
+        title: t("toast-add-review-error-title"),
+        description: response.message,
       });
     } else {
       toast({
@@ -89,7 +106,6 @@ const CoursePage = () => {
       });
     }
   };
-
   const addClicked = () => setAddRatingShow(!addRatingShow);
 
   if (loading) return <p className="text-black">{t("loading")}</p>;
