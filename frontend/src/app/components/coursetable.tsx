@@ -7,6 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table";
+import { useTranslation } from "react-i18next";
 
 interface Course {
   id: string;
@@ -21,14 +22,15 @@ interface CoursetableProps {
 
 const Coursetable: React.FC<CoursetableProps> = ({ courses }) => {
   const router = useRouter();
+  const { t } = useTranslation();
 
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[100px]">Koodi</TableHead>
-          <TableHead>Nimi</TableHead>
-          <TableHead>Oppilaitos</TableHead>
+          <TableHead className="w-[100px]">{t("course-code")}</TableHead>
+          <TableHead>{t("course-name")}</TableHead>
+          <TableHead>{t("course-school")}</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>

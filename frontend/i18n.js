@@ -50,6 +50,9 @@ const resources = {
       "toast-add-unknown-description": "Please try again later.",
       "comment-ai-info":
         "The review sorting is done by an AI, the results might be inaccurate",
+      "course-code": "Code",
+      "course-name": "Name",
+      "course-school": "Institution",
     },
   },
   fi: {
@@ -103,6 +106,9 @@ const resources = {
       "toast-add-unknown-description": "Yritä myöhemmin uudelleen",
       "comment-ai-info":
         "Kommenttien luokittelu perustuu tekoälyyn, virheet ovat siis mahdollisia",
+      "course-code": "Koodi",
+      "course-name": "Nimi",
+      "course-school": "Oppilaitos",
     },
   },
 };

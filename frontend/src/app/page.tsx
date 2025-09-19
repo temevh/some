@@ -40,16 +40,14 @@ export default function Home() {
 
   if (isMobile) {
     return (
-      <div className="w-full flex flex-col gap-4 relative p-2">
+      <div className="w-full flex flex-col gap-4 relative">
         {addNewOpen && <AddCourseModal setAddNewOpen={setAddNewOpen} />}
+        <Input type="text" placeholder={t("search-placeholder") as string} />
         <div className="flex flex-row gap-4">
-          <Input type="text" placeholder={t("search-placeholder") as string} />
           <SchoolDropdown selectedSchool={school} setSchool={setSchool} />
-        </div>
-        <div className="flex flex-row justify-between">
-          <FindCourseButton fetchCourses={fetchCourses} />
           <AddCourseButton addCourseClicked={addCourseClicked} />
         </div>
+        <FindCourseButton fetchCourses={fetchCourses} />
         {courses.length ? (
           <Coursetable courses={courses} />
         ) : (
