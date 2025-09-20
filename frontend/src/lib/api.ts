@@ -4,6 +4,7 @@ import axios from "axios";
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 
 export const getInitialCourses = async () => {
+  console.log(API_BASE);
   try {
     const response = await axios.get(`${API_BASE}/courses/initial`);
     const data = response.data;

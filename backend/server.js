@@ -3,13 +3,12 @@ const cors = require("cors");
 const courseRoutes = require("./routes/courses");
 
 const app = express();
-const port = 5000;
+const PORT = process.env.PORT || 4000;
 
 app.use(cors());
 app.use(express.json());
 
+app.get("/", (req, res) => res.send("OK"));
 app.use("/api/courses", courseRoutes);
 
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
-});
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
