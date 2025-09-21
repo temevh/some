@@ -2,7 +2,17 @@ import { useState } from "react";
 import { Button } from "@/app/components/ui/button";
 import { Card } from "@/app/components/ui/card";
 
-const CommentCard = ({ comment, MAX_WORDS }) => {
+type Comment = {
+  content: string;
+  createdAt: string | number | Date;
+};
+
+interface CommentCardProps {
+  comment: Comment;
+  MAX_WORDS: number;
+}
+
+const CommentCard = ({ comment, MAX_WORDS }: CommentCardProps) => {
   const [expanded, setExpanded] = useState(false);
   const words = comment.content.split(" ");
 
@@ -17,7 +27,6 @@ const CommentCard = ({ comment, MAX_WORDS }) => {
       <div className="flex flex-row justify-between items-center mt-2">
         {isLong && (
           <Button
-            variant="link"
             className="text-blue-500 p-0"
             onClick={() => setExpanded(!expanded)}
           >

@@ -16,19 +16,19 @@ const CourseRating: FC<CourseInfoProps> = ({ course }) => {
       <div className="flex flex-col space-y-2 items-center mt-4">
         <div className="flex flex-row items-center space-x-2">
           <p className="text-black text-xl">{t("overall-label")}</p>
-          <Rating value={course.rating} precision={0.1} readOnly />
+          <Rating value={Number(course.rating)} precision={0.1} readOnly />
         </div>
         <div className="flex flex-row items-center space-x-2">
           <p className="text-black text-xl">{t("teaching-label")}</p>
-          <Rating value={course.teaching} precision={0.1} readOnly />
+          <Rating value={Number(course.teaching)} precision={0.1} readOnly />
         </div>
         <div className="flex flex-row items-center space-x-2">
           <p className="text-black text-xl">{t("workload-label")}</p>
-          <Rating value={course.workload} precision={0.1} readOnly />
+          <Rating value={Number(course.workload)} precision={0.1} readOnly />
         </div>
         <div className="flex flex-row items-center space-x-2">
           <p className="text-black text-xl">{t("difficulty-label")}</p>
-          <Rating value={course.difficulty} precision={0.1} readOnly />
+          <Rating value={Number(course.difficulty)} precision={0.1} readOnly />
         </div>
       </div>
     </div>

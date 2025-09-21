@@ -54,7 +54,7 @@ export const getMoreComments = async (
   }
 };
 
-export const addCourse = async (course: Course) => {
+export const addCourse = async (course: any) => {
   try {
     const response = await axios.post(`${API_BASE}/courses/addcourse`, course);
 
