@@ -14,6 +14,8 @@ interface Course {
   };
 }
 
+interface CourseAdd {}
+
 interface Comment {
   id: string;
   courseCode: string;

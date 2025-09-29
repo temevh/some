@@ -7,7 +7,6 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "../../../components/ui/hover-card";
-import axios from "axios";
 import { useState } from "react";
 import { getMoreComments } from "@/lib/api";
 import { useTranslation } from "react-i18next";

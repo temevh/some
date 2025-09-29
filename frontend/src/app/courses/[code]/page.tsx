@@ -1,10 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { CourseRating, AddRating, CourseComments } from "./components";
 import { Course } from "./interfaces";
 import { Button } from "@/app/components/ui/button";
-import { useMobile } from "@/context/mobilecontext";
 import { Card } from "@/app/components/ui/card";
 import { useTranslation } from "react-i18next";
 import { useToast } from "@/hooks/use-toast";
@@ -20,18 +19,18 @@ const CoursePage = () => {
   const [addRatingShow, setAddRatingShow] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const fetchCourseInfo = async () => {
+  const fetchCourseInfo = useCallback(async () => {
     const code = Array.isArray(params?.code) ? params.code[0] : params?.code;
     if (!code) return;
     setLoading(true);
     const data = await getCourseInfo(code);
     setCourse(data);
     setLoading(false);
-  };
+  }, [params, getCourseInfo]);
 
   useEffect(() => {
     fetchCourseInfo();
-  }, []);
+  }, [fetchCourseInfo]);
 
   const checkRatings = (ratings: Record<string, number>) => {
     return Object.values(ratings).every((v) => v >= 1 && v <= 5);

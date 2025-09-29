@@ -1,4 +1,4 @@
-import { Course } from "@/app/courses/[code]/interfaces";
+import { Course, CourseAdd } from "@/app/courses/[code]/interfaces";
 import axios from "axios";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
@@ -54,13 +54,13 @@ export const getMoreComments = async (
   }
 };
 
-export const addCourse = async (course: any) => {
+export const addCourse = async (course: CourseAdd) => {
   try {
     const response = await axios.post(`${API_BASE}/courses/addcourse`, course);
 
     return response.data || null;
   } catch (err) {
-    console.error("Error adding course");
+    console.error("Error adding course", err);
     return null;
   }
 };
