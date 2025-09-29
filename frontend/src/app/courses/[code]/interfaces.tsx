@@ -32,4 +32,4 @@ interface Rating {
   workload: string;
 }
 
-export type { Course, Comment, Rating };
+export type { Course, Comment, Rating, CourseAdd };
