@@ -99,22 +99,26 @@ const CourseComments = ({ comments, courseCode }: CourseCommentsProps) => {
           <div className="flex justify-center mb-2">
             <Smile color="green" size={28} />
           </div>
-          <div className="flex flex-col gap-2 w-full">
-            {allComments.positive.map((comment) => (
-              <CommentCard
-                key={comment.id}
-                comment={comment}
-                MAX_WORDS={MAX_WORDS}
-              />
-            ))}
-          </div>
-          <button
-            className="text-sm text-gray-600 hover:text-gray-800 disabled:opacity-50 pt-2"
-            onClick={() => handleGetMoreComments("positive")}
-            disabled={loading.positive}
-          >
-            {loading.positive ? t("loading-info") : t("more-comments")}
-          </button>
+          {allComments.positive.length > 0 ? (
+            <div className="flex flex-col gap-2 w-full">
+              {allComments.positive.map((comment) => (
+                <CommentCard
+                  key={comment.id}
+                  comment={comment}
+                  MAX_WORDS={MAX_WORDS}
+                />
+              ))}
+              <button
+                className="text-sm text-gray-600 hover:text-gray-800 disabled:opacity-50 pt-2"
+                onClick={() => handleGetMoreComments("positive")}
+                disabled={loading.positive}
+              >
+                {loading.positive ? t("loading-info") : t("more-comments")}
+              </button>
+            </div>
+          ) : (
+            <p>Ei positiivisia kommentteja</p>
+          )}
         </div>
 
         {/* Neutral Comments */}
@@ -122,22 +126,26 @@ const CourseComments = ({ comments, courseCode }: CourseCommentsProps) => {
           <div className="flex justify-center mb-2">
             <Meh color="gray" size={28} />
           </div>
-          <div className="flex flex-col gap-2 w-full">
-            {allComments.neutral.map((comment) => (
-              <CommentCard
-                key={comment.id}
-                comment={comment}
-                MAX_WORDS={MAX_WORDS}
-              />
-            ))}
-          </div>
-          <button
-            className="text-sm text-gray-600 hover:text-gray-800 disabled:opacity-50 pt-2"
-            onClick={() => handleGetMoreComments("neutral")}
-            disabled={loading.neutral}
-          >
-            {loading.neutral ? t("loading-info") : t("more-comments")}
-          </button>
+          {allComments.neutral.length > 0 ? (
+            <div className="flex flex-col gap-2 w-full">
+              {allComments.neutral.map((comment) => (
+                <CommentCard
+                  key={comment.id}
+                  comment={comment}
+                  MAX_WORDS={MAX_WORDS}
+                />
+              ))}
+              <button
+                className="text-sm text-gray-600 hover:text-gray-800 disabled:opacity-50 pt-2"
+                onClick={() => handleGetMoreComments("neutral")}
+                disabled={loading.neutral}
+              >
+                {loading.neutral ? t("loading-info") : t("more-comments")}
+              </button>
+            </div>
+          ) : (
+            <p>Ei neutraaleja kommentteja</p>
+          )}
         </div>
 
         {/* Negative Comments */}
@@ -145,22 +153,26 @@ const CourseComments = ({ comments, courseCode }: CourseCommentsProps) => {
           <div className="flex justify-center mb-2">
             <Frown color="red" size={28} />
           </div>
-          <div className="flex flex-col gap-2 w-full">
-            {allComments.negative.map((comment) => (
-              <CommentCard
-                key={comment.id}
-                comment={comment}
-                MAX_WORDS={MAX_WORDS}
-              />
-            ))}
-          </div>
-          <button
-            className="text-sm text-gray-600 hover:text-gray-800 disabled:opacity-50 pt-2"
-            onClick={() => handleGetMoreComments("negative")}
-            disabled={loading.negative}
-          >
-            {loading.negative ? t("loading-info") : t("more-comments")}
-          </button>
+          {allComments.negative.length > 0 ? (
+            <div className="flex flex-col gap-2 w-full">
+              {allComments.negative.map((comment) => (
+                <CommentCard
+                  key={comment.id}
+                  comment={comment}
+                  MAX_WORDS={MAX_WORDS}
+                />
+              ))}
+              <button
+                className="text-sm text-gray-600 hover:text-gray-800 disabled:opacity-50 pt-2"
+                onClick={() => handleGetMoreComments("negative")}
+                disabled={loading.negative}
+              >
+                {loading.negative ? t("loading-info") : t("more-comments")}
+              </button>
+            </div>
+          ) : (
+            <p>Ei negatiivisia kommentteja</p>
+          )}
         </div>
       </div>
     </div>
