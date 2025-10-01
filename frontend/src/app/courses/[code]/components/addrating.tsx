@@ -60,9 +60,9 @@ const AddRating = ({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50 p-4">
-      <Card className="w-full max-w-md bg-white rounded-xl shadow-lg">
-        <CardHeader>
-          <CardTitle>
+      <Card className="w-full max-w-md bg-white rounded-xl shadow-lg border border-blue-100">
+        <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-t-xl border-b">
+          <CardTitle className="text-blue-900">
             {t("add-rating-header")} {course.name}
           </CardTitle>
         </CardHeader>

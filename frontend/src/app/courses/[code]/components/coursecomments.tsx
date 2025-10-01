@@ -95,7 +95,7 @@ const CourseComments = ({ comments, courseCode }: CourseCommentsProps) => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full">
         {/* Positive Comments */}
-        <div className="w-full flex flex-col items-center">
+        <div className="w-full flex flex-col items-center bg-green-50/60 rounded-lg p-3 border border-green-100">
           <div className="flex justify-center mb-2">
             <Smile color="green" size={28} />
           </div>
@@ -118,7 +118,7 @@ const CourseComments = ({ comments, courseCode }: CourseCommentsProps) => {
         </div>
 
         {/* Neutral Comments */}
-        <div className="w-full flex flex-col items-center">
+        <div className="w-full flex flex-col items-center bg-gray-50 rounded-lg p-3 border border-gray-100">
           <div className="flex justify-center mb-2">
             <Meh color="gray" size={28} />
           </div>
@@ -141,7 +141,7 @@ const CourseComments = ({ comments, courseCode }: CourseCommentsProps) => {
         </div>
 
         {/* Negative Comments */}
-        <div className="w-full flex flex-col items-center">
+        <div className="w-full flex flex-col items-center bg-red-50/70 rounded-lg p-3 border border-red-100">
           <div className="flex justify-center mb-2">
             <Frown color="red" size={28} />
           </div>

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Button } from "@/app/components/ui/button";
-import { Card } from "@/app/components/ui/card";
 
 type Comment = {
   content: string;
@@ -22,11 +21,11 @@ const CommentCard = ({ comment, MAX_WORDS }: CommentCardProps) => {
     : words.slice(0, MAX_WORDS).join(" ") + (isLong ? "..." : "");
 
   return (
-    <Card className="p-2 flex flex-col justify-between bg-white border">
+    <div className="p-1 flex flex-col  bg-white border-black border-2 rounded-lg ">
       <p className="text-gray-800 leading-relaxed text-center">
         {displayedText}
       </p>
-      <div className="flex flex-row justify-between items-center mt-3">
+      <div className="flex flex-row justify-center items-center mt-1">
         {isLong && (
           <Button
             className="p-0 h-auto text-blue-600 hover:text-blue-700"
@@ -40,7 +39,7 @@ const CommentCard = ({ comment, MAX_WORDS }: CommentCardProps) => {
           {new Date(comment.createdAt).toLocaleDateString("fi-FI")}
         </p>
       </div>
-    </Card>
+    </div>
   );
 };
 

@@ -14,14 +14,15 @@ const CourseRating: FC<CourseInfoProps> = ({ course }) => {
       key={course.code}
       className="text-center flex flex-col items-center gap-2 md:gap-3"
     >
-      <h1 className="text-black text-2xl md:text-3xl font-semibold tracking-tight">
+      <h1 className="text-black text-2xl md:text-3xl font-semibold tracking-tight relative">
         {course.name}
+        <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-24 bg-blue-300 rounded-full" />
       </h1>
       <div className="flex items-center gap-2">
-        <span className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-xs md:text-sm text-gray-700 border">
+        <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs md:text-sm text-blue-700 border border-blue-200">
           {course.school}
         </span>
-        <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs md:text-sm text-blue-700 border border-blue-200">
+        <span className="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-xs md:text-sm text-indigo-700 border border-indigo-200">
           {course.code}
         </span>
       </div>

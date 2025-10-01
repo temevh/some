@@ -141,7 +141,7 @@ const CoursePage = () => {
   if (!course) return <p className="text-black">Kurssia ei löytynyt</p>;
 
   return (
-    <Card className="w-full max-w-4xl mx-auto bg-white rounded-xl md:rounded-2xl p-4 md:p-8 text-center gap-6 flex flex-col relative shadow-sm border">
+    <Card className="w-full max-w-4xl mx-auto bg-gradient-to-b from-blue-50 to-white rounded-xl md:rounded-2xl p-4 md:p-8 text-center gap-6 flex flex-col relative shadow-sm border border-blue-100">
       <CourseRating course={course} />
       <div className="border-t border-gray-200" />
       <CourseComments comments={course.comments} courseCode={course.code} />
