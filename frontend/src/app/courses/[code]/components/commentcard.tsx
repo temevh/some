@@ -22,18 +22,21 @@ const CommentCard = ({ comment, MAX_WORDS }: CommentCardProps) => {
     : words.slice(0, MAX_WORDS).join(" ") + (isLong ? "..." : "");
 
   return (
-    <Card className="px-2 flex flex-col justify-between">
-      <p>{displayedText}</p>
-      <div className="flex flex-row justify-between items-center mt-2">
+    <Card className="p-2 flex flex-col justify-between bg-white border">
+      <p className="text-gray-800 leading-relaxed text-center">
+        {displayedText}
+      </p>
+      <div className="flex flex-row justify-between items-center mt-3">
         {isLong && (
           <Button
-            className="text-blue-500 p-0"
+            className="p-0 h-auto text-blue-600 hover:text-blue-700"
+            variant="reverse"
             onClick={() => setExpanded(!expanded)}
           >
             {expanded ? "Näytä vähemmän" : "Näytä lisää"}
           </Button>
         )}
-        <p className="text-gray-500 text-sm">
+        <p className="text-gray-500 text-xs">
           {new Date(comment.createdAt).toLocaleDateString("fi-FI")}
         </p>
       </div>

@@ -10,24 +10,44 @@ interface CourseInfoProps {
 const CourseRating: FC<CourseInfoProps> = ({ course }) => {
   const { t } = useTranslation();
   return (
-    <div key={course.code} className="text-center flex flex-col items-center">
-      <p className="text-black text-3xl">{course.name}</p>
-      <p className="text-black text-xl">{course.school}</p>
-      <div className="flex flex-col space-y-2 items-center mt-4">
-        <div className="flex flex-row items-center space-x-2">
-          <p className="text-black text-xl">{t("overall-label")}</p>
+    <div
+      key={course.code}
+      className="text-center flex flex-col items-center gap-2 md:gap-3"
+    >
+      <h1 className="text-black text-2xl md:text-3xl font-semibold tracking-tight">
+        {course.name}
+      </h1>
+      <div className="flex items-center gap-2">
+        <span className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-xs md:text-sm text-gray-700 border">
+          {course.school}
+        </span>
+        <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs md:text-sm text-blue-700 border border-blue-200">
+          {course.code}
+        </span>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 items-center mt-4 w-full max-w-xl">
+        <div className="flex flex-row items-center justify-center gap-2">
+          <p className="text-black text-base md:text-lg">
+            {t("overall-label")}
+          </p>
           <Rating value={Number(course.rating)} precision={0.1} readOnly />
         </div>
-        <div className="flex flex-row items-center space-x-2">
-          <p className="text-black text-xl">{t("teaching-label")}</p>
+        <div className="flex flex-row items-center justify-center gap-2">
+          <p className="text-black text-base md:text-lg">
+            {t("teaching-label")}
+          </p>
           <Rating value={Number(course.teaching)} precision={0.1} readOnly />
         </div>
-        <div className="flex flex-row items-center space-x-2">
-          <p className="text-black text-xl">{t("workload-label")}</p>
+        <div className="flex flex-row items-center justify-center gap-2">
+          <p className="text-black text-base md:text-lg">
+            {t("workload-label")}
+          </p>
           <Rating value={Number(course.workload)} precision={0.1} readOnly />
         </div>
-        <div className="flex flex-row items-center space-x-2">
-          <p className="text-black text-xl">{t("difficulty-label")}</p>
+        <div className="flex flex-row items-center justify-center gap-2">
+          <p className="text-black text-base md:text-lg">
+            {t("difficulty-label")}
+          </p>
           <Rating value={Number(course.difficulty)} precision={0.1} readOnly />
         </div>
       </div>

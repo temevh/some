@@ -59,17 +59,16 @@ const AddRating = ({
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <Card className="w-[350px] bg-white">
+    <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50 p-4">
+      <Card className="w-full max-w-md bg-white rounded-xl shadow-lg">
         <CardHeader>
           <CardTitle>
-            {" "}
             {t("add-rating-header")} {course.name}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-2">
+            <div className="flex flex-col space-y-3">
               <div className="flex flex-row justify-between items-center">
                 <Label htmlFor="rating">{t("overall-label")} *</Label>
                 <Rating
@@ -110,9 +109,12 @@ const AddRating = ({
                   }
                 />
               </div>
-              <div className="pt-4">
+              <div className="pt-2">
                 <Label htmlFor="workload">{t("free-word")}</Label>
-                <Textarea onChange={(e) => handleCommentChange(e)} />
+                <Textarea
+                  onChange={(e) => handleCommentChange(e)}
+                  placeholder={t("free-word") || ""}
+                />
               </div>
               <input
                 style={{ display: "none" }}
@@ -123,16 +125,16 @@ const AddRating = ({
                 ref={recaptchaRef}
                 sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
                 onChange={setRecaptchaToken}
-                className="mt-4"
+                className="mt-2"
               ></ReCAPTCHA>
             </div>
           </div>
           {errorMessage !== "" && (
-            <p className="text-red-500">{errorMessage}</p>
+            <p className="text-red-500 text-sm mt-3">{errorMessage}</p>
           )}
         </CardContent>
 
-        <CardFooter className="flex justify-between">
+        <CardFooter className="flex justify-end gap-3">
           <Button variant="reverse" onClick={() => setAddRatingShow(false)}>
             {t("cancel-button")}
           </Button>

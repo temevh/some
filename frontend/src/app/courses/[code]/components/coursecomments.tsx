@@ -40,7 +40,7 @@ const CourseComments = ({ comments, courseCode }: CourseCommentsProps) => {
     return (
       <div className="text-center">
         <p className="text-black text-lg mb-4">{t("what-people-say")}</p>
-        <div className="grid grid-cols-1 gap-4 place-items-center">
+        <div className="grid grid-cols-1 gap-3 place-items-stretch w-full">
           {allComments.positive.map((comment: Comment) => (
             <CommentCard
               key={comment.id}
@@ -79,23 +79,25 @@ const CourseComments = ({ comments, courseCode }: CourseCommentsProps) => {
 
   return (
     <div className="text-center">
-      <div className="flex flex-row items-center justify-center gap-2 mb-6">
+      <div className="flex flex-row items-center justify-center gap-2 mb-4 md:mb-6">
         <p className="text-black text-xl">{t("what-people-say")}</p>
         <HoverCard>
           <HoverCardTrigger asChild>
-            <div className="flex items-center justify-center w-6 h-6 border-2 border-gray-400 rounded-full text-gray-600 cursor-pointer">
+            <div className="flex items-center justify-center w-6 h-6 border-2 border-gray-300 rounded-full text-gray-600 cursor-pointer bg-white">
               ?
             </div>
           </HoverCardTrigger>
-          <HoverCardContent>{t("comment-ai-info")}</HoverCardContent>
+          <HoverCardContent className="max-w-sm text-left">
+            {t("comment-ai-info")}
+          </HoverCardContent>
         </HoverCard>
       </div>
 
-      <div className="grid grid-cols-3 gap-6 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full">
         {/* Positive Comments */}
         <div className="w-full flex flex-col items-center">
           <div className="flex justify-center mb-2">
-            <Smile color="green" size={34} />
+            <Smile color="green" size={28} />
           </div>
           <div className="flex flex-col gap-2 w-full">
             {allComments.positive.map((comment) => (
@@ -107,7 +109,7 @@ const CourseComments = ({ comments, courseCode }: CourseCommentsProps) => {
             ))}
           </div>
           <button
-            className="text-sm text-gray-500 disabled:opacity-50 pt-2"
+            className="text-sm text-gray-600 hover:text-gray-800 disabled:opacity-50 pt-2"
             onClick={() => handleGetMoreComments("positive")}
             disabled={loading.positive}
           >
@@ -118,7 +120,7 @@ const CourseComments = ({ comments, courseCode }: CourseCommentsProps) => {
         {/* Neutral Comments */}
         <div className="w-full flex flex-col items-center">
           <div className="flex justify-center mb-2">
-            <Meh color="gray" size={34} />
+            <Meh color="gray" size={28} />
           </div>
           <div className="flex flex-col gap-2 w-full">
             {allComments.neutral.map((comment) => (
@@ -130,7 +132,7 @@ const CourseComments = ({ comments, courseCode }: CourseCommentsProps) => {
             ))}
           </div>
           <button
-            className="text-sm text-gray-500 disabled:opacity-50 pt-2"
+            className="text-sm text-gray-600 hover:text-gray-800 disabled:opacity-50 pt-2"
             onClick={() => handleGetMoreComments("neutral")}
             disabled={loading.neutral}
           >
@@ -141,7 +143,7 @@ const CourseComments = ({ comments, courseCode }: CourseCommentsProps) => {
         {/* Negative Comments */}
         <div className="w-full flex flex-col items-center">
           <div className="flex justify-center mb-2">
-            <Frown color="red" size={34} />
+            <Frown color="red" size={28} />
           </div>
           <div className="flex flex-col gap-2 w-full">
             {allComments.negative.map((comment) => (
@@ -153,7 +155,7 @@ const CourseComments = ({ comments, courseCode }: CourseCommentsProps) => {
             ))}
           </div>
           <button
-            className="text-sm text-gray-500 disabled:opacity-50 pt-2"
+            className="text-sm text-gray-600 hover:text-gray-800 disabled:opacity-50 pt-2"
             onClick={() => handleGetMoreComments("negative")}
             disabled={loading.negative}
           >
