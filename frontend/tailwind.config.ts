@@ -20,6 +20,9 @@ export default {
         border: "var(--border)",
         ring: "var(--ring)",
         ringOffset: "var(--ring-offset)",
+        surfaceDark: "var(--surface-dark)",
+        surfaceDarkText: "var(--surface-dark-text)",
+        muted: "var(--muted)",
 
         secondaryBlack: "#212121",
       },
