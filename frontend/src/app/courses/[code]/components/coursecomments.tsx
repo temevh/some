@@ -117,7 +117,7 @@ const CourseComments = ({ comments, courseCode }: CourseCommentsProps) => {
               </button>
             </div>
           ) : (
-            <p>Ei positiivisia kommentteja</p>
+            <p>{t("no-positive-comments")}</p>
           )}
         </div>
 
@@ -144,7 +144,7 @@ const CourseComments = ({ comments, courseCode }: CourseCommentsProps) => {
               </button>
             </div>
           ) : (
-            <p>Ei neutraaleja kommentteja</p>
+            <p>{t("no-neutral-comments")}</p>
           )}
         </div>
 
@@ -171,7 +171,7 @@ const CourseComments = ({ comments, courseCode }: CourseCommentsProps) => {
               </button>
             </div>
           ) : (
-            <p>Ei negatiivisia kommentteja</p>
+            <p>{t("no-negative-comments")}</p>
           )}
         </div>
       </div>

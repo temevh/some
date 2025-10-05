@@ -53,6 +53,9 @@ const resources = {
       "course-code": "Code",
       "course-name": "Name",
       "course-school": "Institution",
+      "no-negative-comments": "No negative comments",
+      "no-neutral-comments": "No neutral comments",
+      "no-positive-comments": "No positive comments",
     },
   },
   fi: {
@@ -109,6 +112,9 @@ const resources = {
       "course-code": "Koodi",
       "course-name": "Nimi",
       "course-school": "Oppilaitos",
+      "no-negative-comments": "Ei negatiivisia kommenteja",
+      "no-neutral-comments": "Ei neutraaleja kommenteja",
+      "no-positive-comments": "Ei positiivisia kommenteja",
     },
   },
 };
