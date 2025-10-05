@@ -28,7 +28,7 @@ const Coursetable: React.FC<CoursetableProps> = ({ courses }) => {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[100px]">{t("course-code")}</TableHead>
+          <TableHead className="w-[120px]">{t("course-code")}</TableHead>
           <TableHead>{t("course-name")}</TableHead>
           <TableHead>{t("course-school")}</TableHead>
         </TableRow>
@@ -38,7 +38,7 @@ const Coursetable: React.FC<CoursetableProps> = ({ courses }) => {
           <TableRow
             key={course.code}
             onClick={() => router.push(`/courses/${course.code}`)}
-            className="cursor-pointer hover:bg-gray-100 transition-colors"
+            className="cursor-pointer transition-colors"
           >
             <TableCell className="font-base">{course.code}</TableCell>
             <TableCell>{course.name}</TableCell>

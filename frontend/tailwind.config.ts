@@ -24,20 +24,21 @@ export default {
         secondaryBlack: "#212121",
       },
       borderRadius: {
-        base: "10px",
+        base: "var(--border-radius)",
       },
       boxShadow: {
         shadow: "var(--shadow)",
+        soft: "0 10px 30px -12px rgba(2,6,23,0.2)",
       },
       translate: {
-        boxShadowX: "6px",
-        boxShadowY: "4px",
-        reverseBoxShadowX: "-6px",
-        reverseBoxShadowY: "-4px",
+        boxShadowX: "var(--box-shadow-x)",
+        boxShadowY: "var(--box-shadow-y)",
+        reverseBoxShadowX: "var(--reverse-box-shadow-x)",
+        reverseBoxShadowY: "var(--reverse-box-shadow-y)",
       },
       fontWeight: {
-        base: "600",
-        heading: "900",
+        base: "var(--base-font-weight)",
+        heading: "var(--heading-font-weight)",
       },
     },
   },

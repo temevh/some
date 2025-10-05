@@ -21,16 +21,16 @@ export default function Navbar() {
 
   return (
     <header className="w-full">
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex items-center justify-between gap-3 py-2">
         <Link href="/" className="no-underline">
           <div className="flex items-center gap-2 select-none">
-            <span className="text-xl font-extrabold tracking-tight text-black">
+            <span className="text-xl font-extrabold tracking-tight text-text">
               Kurssari
             </span>
           </div>
         </Link>
         <nav className="flex items-center gap-2">
-          <div className="flex gap-2 p-2">
+          <div className="flex gap-2 p-2 rounded-base border border-border/10 bg-bw/60 backdrop-blur">
             {/* Finnish Flag */}
             <Image
               onClick={() => changeLanguage("fi")}

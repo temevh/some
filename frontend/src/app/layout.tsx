@@ -27,7 +27,7 @@ export default function RootLayout({
       <MobileProvider>
         <I18nextProvider i18n={i18next}>
           <body
-            className={`pt-4 ${geistSans.variable} ${geistMono.variable} antialiased mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 bg-gray-100`}
+            className={`pt-6 ${geistSans.variable} ${geistMono.variable} antialiased mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 bg-bg text-text`}
             style={{
               backgroundImage: 'url("/tausta.png")',
               backgroundRepeat: "repeat",
@@ -36,7 +36,7 @@ export default function RootLayout({
             }}
           >
             <div className="w-full flex justify-center">
-              <div className="mx-auto max-w-6xl w-full bg-gray-200 shadow-lg rounded-lg px-4 py-6 sm:px-6 lg:px-8 min-h-[calc(100vh-2rem)]">
+              <div className="mx-auto max-w-6xl w-full bg-bw shadow-soft rounded-base px-4 py-6 sm:px-6 lg:px-8 min-h-[calc(100vh-3rem)] border border-border/10">
                 <nav>
                   <Navbar />
                 </nav>
