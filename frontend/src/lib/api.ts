@@ -96,8 +96,8 @@ export const sendCourseRating = async (
       recaptchaToken,
     });
     return response.data;
-  } catch (err: any) {
-    if (err.response && err.response.data && err.response.data.message) {
+  } catch (err) {
+    if (axios.isAxiosError(err) && err.response?.data?.message) {
       return { message: err.response.data.message };
     }
     console.error("Error sending course rating:", err);

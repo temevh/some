@@ -26,7 +26,7 @@ const CoursePage = () => {
     const data = await getCourseInfo(code);
     setCourse(data);
     setLoading(false);
-  }, [params, getCourseInfo]);
+  }, [params]);
 
   useEffect(() => {
     fetchCourseInfo();
