@@ -1,6 +1,8 @@
-const prisma = require("../backend/prismaClient");
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
 
 async function main() {
+  console.log(process.env.DATABASE_URL);
   const course = await prisma.course.upsert({
     where: { code: "COMP.CS.100" },
     update: {},
@@ -10,9 +12,18 @@ async function main() {
       school: "TUNI",
       comments: {
         create: [
-          { content: "Great introduction to programming!", sentiment: "positive" },
-          { content: "A bit too much workload for beginners.", sentiment: "negative" },
-          { content: "Overall okay, but could be better structured.", sentiment: "neutral" },
+          {
+            content: "Great introduction to programming!",
+            sentiment: "positive",
+          },
+          {
+            content: "A bit too much workload for beginners.",
+            sentiment: "negative",
+          },
+          {
+            content: "Overall okay, but could be better structured.",
+            sentiment: "neutral",
+          },
         ],
       },
       ratings: {
