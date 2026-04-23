@@ -1,8 +1,8 @@
 -- CreateEnum
-CREATE TYPE "public"."Sentiment" AS ENUM ('positive', 'neutral', 'negative');
+CREATE TYPE "Sentiment" AS ENUM ('positive', 'neutral', 'negative');
 
 -- CreateTable
-CREATE TABLE "public"."Course" (
+CREATE TABLE "Course" (
     "code" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "school" TEXT NOT NULL DEFAULT 'TUNI',
@@ -18,7 +18,7 @@ CREATE TABLE "public"."Course" (
 );
 
 -- CreateTable
-CREATE TABLE "public"."Rating" (
+CREATE TABLE "Rating" (
     "id" TEXT NOT NULL,
     "courseCode" TEXT NOT NULL,
     "rating" DOUBLE PRECISION NOT NULL DEFAULT 0,
@@ -31,21 +31,21 @@ CREATE TABLE "public"."Rating" (
 );
 
 -- CreateTable
-CREATE TABLE "public"."Comment" (
+CREATE TABLE "Comment" (
     "id" TEXT NOT NULL,
     "courseCode" TEXT NOT NULL,
     "content" TEXT NOT NULL,
-    "sentiment" "public"."Sentiment" NOT NULL,
+    "sentiment" "Sentiment" NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Comment_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Course_code_key" ON "public"."Course"("code");
+CREATE UNIQUE INDEX "Course_code_key" ON "Course"("code");
 
 -- AddForeignKey
-ALTER TABLE "public"."Rating" ADD CONSTRAINT "Rating_courseCode_fkey" FOREIGN KEY ("courseCode") REFERENCES "public"."Course"("code") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Rating" ADD CONSTRAINT "Rating_courseCode_fkey" FOREIGN KEY ("courseCode") REFERENCES "Course"("code") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "public"."Comment" ADD CONSTRAINT "Comment_courseCode_fkey" FOREIGN KEY ("courseCode") REFERENCES "public"."Course"("code") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Comment" ADD CONSTRAINT "Comment_courseCode_fkey" FOREIGN KEY ("courseCode") REFERENCES "Course"("code") ON DELETE CASCADE ON UPDATE CASCADE;
