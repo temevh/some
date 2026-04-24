@@ -5,6 +5,7 @@ import { Toaster } from "./components/ui/toaster";
 import { MobileProvider } from "@/context/mobilecontext";
 import i18next from "../../i18n";
 import { I18nextProvider } from "react-i18next";
+import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { Navbar } from "./components";
 
 const geistSans = Geist({
@@ -26,26 +27,30 @@ export default function RootLayout({
     <html lang="en">
       <MobileProvider>
         <I18nextProvider i18n={i18next}>
-          <body
-            className={`pt-6 ${geistSans.variable} ${geistMono.variable} antialiased mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 bg-bg text-text`}
-            style={{
-              backgroundImage: 'url("/tausta.png")',
-              backgroundRepeat: "repeat",
-              backgroundSize: "auto",
-              backgroundPosition: "top left",
-            }}
+          <GoogleReCaptchaProvider
+            reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
           >
-            <div className="w-full flex justify-center">
-              <div className="mx-auto max-w-6xl w-full bg-bw shadow-soft rounded-base px-4 py-6 sm:px-6 lg:px-8 min-h-[calc(100vh-3rem)] border border-border/10">
-                <nav>
-                  <Navbar />
-                </nav>
+            <body
+              className={`pt-6 ${geistSans.variable} ${geistMono.variable} antialiased mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 bg-bg text-text`}
+              style={{
+                backgroundImage: 'url("/tausta.png")',
+                backgroundRepeat: "repeat",
+                backgroundSize: "auto",
+                backgroundPosition: "top left",
+              }}
+            >
+              <div className="w-full flex justify-center">
+                <div className="mx-auto max-w-6xl w-full bg-bw shadow-soft rounded-base px-4 py-6 sm:px-6 lg:px-8 min-h-[calc(100vh-3rem)] border border-border/10">
+                  <nav>
+                    <Navbar />
+                  </nav>
 
-                <main className="py-6">{children}</main>
-                <Toaster />
+                  <main className="py-6">{children}</main>
+                  <Toaster />
+                </div>
               </div>
-            </div>
-          </body>
+            </body>
+          </GoogleReCaptchaProvider>
         </I18nextProvider>
       </MobileProvider>
     </html>

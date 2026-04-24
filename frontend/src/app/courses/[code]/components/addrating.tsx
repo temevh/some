@@ -7,12 +7,11 @@ import {
 } from "../../../components/ui/card";
 import { Label } from "../../../components/ui/label";
 import { Button } from "../../../components/ui/button";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 import Rating from "@mui/material/Rating";
 import { Textarea } from "@/app/components/ui/textarea";
 import { useTranslation } from "react-i18next";
-import ReCAPTCHA from "react-google-recaptcha";
-import { useRef } from "react";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 interface AddRatingProps {
   setAddRatingShow: (show: boolean) => void;
@@ -46,9 +45,9 @@ const AddRating = ({
   });
   const [comment, setComment] = useState("");
   const [fakeout, setFakeout] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
-  const recaptchaRef = useRef<ReCAPTCHA>(null);
-  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const handleRatingChange = (key: string, value: number | null) => {
     setRatings((prev) => ({ ...prev, [key]: value }));
@@ -57,6 +56,20 @@ const AddRating = ({
   const handleCommentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setComment(event.target.value);
   };
+
+  const handleSubmit = useCallback(async () => {
+    if (!executeRecaptcha) {
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const token = await executeRecaptcha("submit_rating");
+      await sendRatingClicked(ratings, comment, fakeout, token);
+    } finally {
+      setSubmitting(false);
+    }
+  }, [executeRecaptcha, ratings, comment, fakeout, sendRatingClicked]);
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50 p-4">
@@ -121,12 +134,6 @@ const AddRating = ({
                 type="text"
                 onChange={(e) => setFakeout(e.target.value)}
               ></input>
-              <ReCAPTCHA
-                ref={recaptchaRef}
-                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
-                onChange={setRecaptchaToken}
-                className="mt-2"
-              ></ReCAPTCHA>
             </div>
           </div>
           {errorMessage !== "" && (
@@ -139,17 +146,10 @@ const AddRating = ({
             {t("cancel-button")}
           </Button>
           <Button
-            onClick={() =>
-              sendRatingClicked(
-                ratings,
-                comment,
-                fakeout,
-                recaptchaToken === null ? undefined : recaptchaToken
-              )
-            }
-            disabled={!recaptchaToken}
+            onClick={handleSubmit}
+            disabled={submitting || !executeRecaptcha}
           >
-            {t("save-button")}
+            {submitting ? t("save-button") + "..." : t("save-button")}
           </Button>
         </CardFooter>
       </Card>

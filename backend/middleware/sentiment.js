@@ -17,11 +17,12 @@ if (!key || !endpoint) {
 
 const client = new TextAnalyticsClient(
   endpoint.toString(),
-  new AzureKeyCredential(key.toString())
+  new AzureKeyCredential(key.toString()),
 );
 
 async function checkSentiment(comment) {
   console.log("checking sentiment");
+  console.log("flag 2");
   const [result] = await client.analyzeSentiment([comment]);
 
   if (result.error) {
