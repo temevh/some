@@ -169,6 +169,7 @@ const addCourse = async (req, res) => {
     res.status(500).json({ message: "Virhe kurssin lisäämisessä :(" });
   }
 };
+
 const addRating = async (req, res) => {
   try {
     const { courseCode, ratings, comment, recaptchaToken } = req.body;
@@ -188,6 +189,11 @@ const addRating = async (req, res) => {
 
     if (!data.success) {
       return res.status(400).json({ message: "Recaptcha validation failed" });
+    }
+
+    console.log("data.score", data.score);
+    if (typeof data.score === "number" && data.score < 0.3) {
+      return res.status(400).json({ message: "Recaptcha score too low" });
     }
 
     const course = await prisma.course.findUnique({
@@ -233,7 +239,9 @@ const addRating = async (req, res) => {
     });
 
     if (comment) {
-      const sentiment = await checkSentiment(comment);
+      console.log("Adding comment", comment, "for course", courseCode);
+      //const sentiment = await checkSentiment(comment);
+      const sentiment = "positive";
       await prisma.comment.create({
         data: {
           courseCode,

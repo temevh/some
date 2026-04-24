@@ -60,7 +60,7 @@ const CoursePage = () => {
     }
 
     if (!recaptchaToken) {
-      setErrorMessage("Please complete the reCAPTCHA.");
+      setErrorMessage("reCAPTCHA verification failed. Please try again.");
       return;
     }
 
