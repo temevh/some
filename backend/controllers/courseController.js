@@ -240,8 +240,8 @@ const addRating = async (req, res) => {
 
     if (comment) {
       console.log("Adding comment", comment, "for course", courseCode);
-      //const sentiment = await checkSentiment(comment);
-      const sentiment = "positive";
+      const sentiment = await checkSentiment(comment);
+
       await prisma.comment.create({
         data: {
           courseCode,
